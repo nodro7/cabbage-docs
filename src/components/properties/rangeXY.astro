@@ -1,0 +1,20 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Defines the ranges for both X and Y axes of the xyPad. Each axis has its own independent range with the following parameters:</p>
+<ul>
+<li><strong>min</strong>: Minimum value (required)</li>
+<li><strong>max</strong>: Maximum value (required)</li>
+<li><strong>defaultValue</strong>: Initial value (optional, defaults to min)</li>
+<li><strong>skew</strong>: Skew factor for non-linear scaling (optional, default is 1 for linear). A value of 0.5 creates exponential scaling</li>
+<li><strong>increment</strong>: Step size for value changes (optional, default is 0.001)</li>
+</ul>
+
+<blockquote><p><code>range()</code> cannot be updated or modified once a widget has been declared.</p></blockquote>`;
+---
+<div class="property-section">
+  <Code code={`"range": {
+    "x": {"min": 0, "max": 100, "defaultValue": 50, "skew": 1, "increment": 0.1},
+    "y": {"min": 0, "max": 100, "defaultValue": 50, "skew": 1, "increment": 0.1}
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

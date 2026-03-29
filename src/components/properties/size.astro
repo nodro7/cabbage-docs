@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>integer values denoted the width and height of the form.</p>`;
+---
+<div class="property-section">
+  <Code code={`"size": {"width":100, "height":100}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Enables right-clicking of webview context menu. When this is disabled users will not be able to inspect your UI or access any of the browser dev tools. This is enabled by default.</p>`;
+---
+<div class="property-section">
+  <Code code={`"enableDevTools": true`} lang="json" />
+  <Fragment set:html={description} />
+</div>

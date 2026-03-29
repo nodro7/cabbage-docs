@@ -1,0 +1,15 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>This property sets a film strip file to be displayed by the rotary slider widget. Fow now, only PNG images are supported. Images can be horizontal or vertical.</p>`;
+---
+<div class="property-section">
+  <Code code={`"filmStrip": {
+"file": "",
+"frames": {
+    "count": 64,
+    "width": 64,
+    "height": 64
+}
+},`} lang="json" />
+  <Fragment set:html={description} />
+</div>

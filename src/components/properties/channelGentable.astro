@@ -1,0 +1,19 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>The <code>genTable</code> has two default channels that provide information about the current selection. Note these channels are only valid if <code>selectableRegions</code> is set to <code>true</code>.</p>`;
+---
+<div class="property-section">
+  <Code code={`"channels": [
+                {
+                    "id": "gentableStart",
+                    "event": "valueChanged",
+                    "range": { "min": 0, "max": -1 }
+                },
+                {
+                    "id": "gentableLength",
+                    "event": "valueChanged",
+                    "range": { "min": 0, "max": -1 }
+                }
+            ]`} lang="json" />
+  <Fragment set:html={description} />
+</div>

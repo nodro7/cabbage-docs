@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>A value between 0 and 1 will set the alpha blend value for the entire component. Can be useful if you need to fade widgets in and out.</p>`;
+---
+<div class="property-section">
+  <Code code={`"alpha": 1`} lang="json" />
+  <Fragment set:html={description} />
+</div>

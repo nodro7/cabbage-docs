@@ -1,0 +1,13 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Sets the font size, family, colour and font alignment of the widget, where applicable.</p>`;
+---
+<div class="property-section">
+  <Code code={`"font": {
+    "family": "Verdana",
+    "size": 0,
+    "align": "centre",
+    "colour":"#ff0000"
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

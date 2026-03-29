@@ -1,0 +1,116 @@
+---
+title: "Label"
+---
+
+import Active from "../../../../components/properties/active.astro";
+import Automatable from "../../../../components/properties/automatable.astro";
+import Bounds from "../../../../components/properties/bounds.astro";
+import Channel from "../../../../components/properties/channel.astro";
+import Id from "../../../../components/properties/id.astro";
+import Label from "../../../../components/properties/label.astro";
+import Persistence from "../../../../components/properties/persistence.astro";
+import StyleLabel from "../../../../components/properties/label.style.astro";
+import Visible from "../../../../components/properties/visible.astro";
+import ZIndex from "../../../../components/properties/zindex.astro";
+
+# Label
+
+`label` creates a simple on-screen text label. Users can interact with the label via mouse down events if a channel name has been assigned.
+
+## Properties (alphabetical)
+
+Below is the full, alphabetical list of top-level widget properties for `label`.
+
+<a id="active" class="anchor-target"></a>
+### Active
+<Active />
+
+<a id="automatable" class="anchor-target"></a>
+### Automatable
+<Automatable />
+
+<a id="bounds" class="anchor-target"></a>
+### Bounds
+<Bounds />
+
+<a id="channel" class="anchor-target"></a>
+### Channel
+<Channel />
+
+<a id="id" class="anchor-target"></a>
+### Id
+<Id />
+
+<a id="label" class="anchor-target"></a>
+### Label
+<Label />
+
+<a id="persistence" class="anchor-target"></a>
+### Persistence
+<Persistence />
+
+<a id="visible" class="anchor-target"></a>
+### Visible
+<Visible />
+
+<a id="zindex" class="anchor-target"></a>
+### ZIndex
+<ZIndex />
+
+<a id="style" class="anchor-target"></a>
+### Style
+<StyleLabel />
+
+## Example
+
+
+```csound
+<Cabbage>
+{
+    "widgets": [
+        { "type": "form", "caption": "Label Example", "size": {"width": 580, "height": 500}, "pluginId": "def1" },
+        {
+            "type"       : "label",
+            "channels"   : [
+                { "id": "label2", "event": "mousePressed", "range": {"min": 0, "max": 1, "defaultValue": 0, "skew": 1, "increment": 0.01} }
+            ],
+            "bounds"     : {"left": 158, "top": 37, "width": 228, "height": 21},
+            "label"      : {"text": "Don't label me!!"},
+            "channelType": "number",
+            "automatable": 1
+        }
+    ]
+}
+
+</Cabbage>
+<CsoundSynthesizer>
+<CsOptions>
+-n -d -+rtmidi=NULL -M0 -m0d --midi-key=4 --midi-velocity-amp=5
+</CsOptions>e
+<CsInstruments>
+; Initialize the global variables.
+ksmps = 32
+nchnls = 2
+0dbfs = 1
+
+
+; Rory Walsh 2021
+;
+; License: CC0 1.0 Universal
+; You can copy, modify, and distribute this file,
+; even for co mmercial purposes, all without asking permission.
+
+instr 1
+    kLabel  = cabbageGetValue:k("label2")
+    printk2(kLabel)
+endin
+
+
+</CsInstruments>
+<CsScore>
+;causes Csound to run for about 7000 years...
+i1 0 z
+</CsScore>
+</CsoundSynthesizer>
+```
+

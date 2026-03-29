@@ -1,0 +1,16 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<ul>
+<li>When <code>file</code> is set, the image is rendered and <code>backgroundColor</code> is not visible; otherwise a filled rectangle is shown.</li>
+<li>Colors accept named CSS colors, hex (e.g., #RRGGBB or #RRGGBBAA), or rgb/rgba strings.</li></ul>`;
+---
+<div class="property-section">
+  <Code code={`"style": {
+  "opacity": 1,
+  "borderRadius": 4,
+  "borderWidth": 1,
+  "borderColor": "#dddddd",
+  "backgroundColor": "#0295cf"
+},`} lang="json" />
+  <Fragment set:html={description} />
+</div>

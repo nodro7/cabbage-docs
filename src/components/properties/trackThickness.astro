@@ -1,0 +1,17 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Sets the thickness of the rotary slider track. Use a number (pixels) or <code>"auto"</code> to have it scale with the widget size.</p>
+
+<ul>
+<li>Type: number | "auto"</li>
+<li>Default: "auto"</li>
+<li>Applies to: rotarySlider (and other sliders that expose <code>style.track.thickness</code>)</li></ul>`;
+---
+<div class="property-section">
+  <Code code={`"style": {
+  "track": {
+    "thickness": "auto"
+  }
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

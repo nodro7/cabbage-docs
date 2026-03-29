@@ -1,0 +1,7 @@
+---
+title: Cabbage v3 Documentation
+---
+
+# Cabbage v3 Documentation
+
+Welcome to the Cabbage 3 documentation. Here you’ll find everything you need to get started and make the most of the platform, including guides on downloading and installing the software, an overview of what’s new, and instructions for using the VS Code extension for seamless integration. You’ll also find detailed reference pages for all supported widgets and opcodes, a short guide to developing custom user interfaces, and an overview of the Cabbage 3 JavaScript API.

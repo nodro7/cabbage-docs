@@ -1,0 +1,11 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>This property sets the file to be displayed by the image widget. The following image formats should be supported on most systems: PNG, JPEG, GIF</p>
+<p>BMP, SVG (Scalable Vector Graphics).</p>
+
+<blockquote><p>Note: SVG files might not load if they contains scripts or other features that violate security policies (like CORS - Cross-Origin Resource Sharing).</p></blockquote>`;
+---
+<div class="property-section">
+  <Code code={`"file": "filename"`} lang="json" />
+  <Fragment set:html={description} />
+</div>

@@ -1,0 +1,15 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Defines the channel configuration for the xyPad widget:</p>
+<ul>
+<li><strong>id</strong>: Unique identifier for the xyPad widget itself. Use this channel with <code>cabbageSet</code> to update any of the xyPad's attributes.</li>
+<li><strong>x</strong>: Channel name for the X-axis value (used with <code>cabbageGetValue</code> to retrieve the horizontal position)</li>
+<li><strong>y</strong>: Channel name for the Y-axis value (used with <code>cabbageGetValue</code> to retrieve the vertical position)</li>
+</ul>
+
+<p>Both X and Y channels can be read independently in your Csound code using <code>cabbageGetValue</code>.</p>`;
+---
+<div class="property-section">
+  <Code code={`"channel": {"id": "xyPad1", "x": "channelX", "y": "channelY"}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

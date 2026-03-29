@@ -1,0 +1,18 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<ul>
+<li>For labels, typography is part of the <code>style</code> object.</li>
+<li>The background <code>backgroundColor</code> defaults to transparent.</li></ul>`;
+---
+<div class="property-section">
+  <Code code={`"style": {
+  "opacity": 1,
+  "borderRadius": 4,
+  "backgroundColor": "#00000000",
+  "fontFamily": "Verdana",
+  "fontSize": "auto",
+  "fontColor": "#444444",
+  "textAlign": "center"
+},`} lang="json" />
+  <Fragment set:html={description} />
+</div>

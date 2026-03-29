@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Value sets the initial state of the widget. In the case of a <code>keyboard</code> widget, it sets the leftmost key to appear.</p>`;
+---
+<div class="property-section">
+  <Code code={`"value":0`} lang="json" />
+  <Fragment set:html={description} />
+</div>

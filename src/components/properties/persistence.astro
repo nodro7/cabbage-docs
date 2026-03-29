@@ -1,0 +1,18 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Controls whether a widget's state is saved in DAW presets and Csound session files. Both properties default to <code>true</code>.</p>
+
+<ul>
+<li><strong><code>preset</code></strong>: When <code>true</code>, the widget's current value/state is included when using Csound's <code>cabbageSaveState</code> opcode to save preset data. Set to <code>false</code> for widgets that should not persist in Csound preset files (e.g., widgets that load presets).</li>
+<li><strong><code>session</code></strong>: When <code>true</code>, the widget's state is included when the DAW saves a preset. Set to <code>false</code> for widgets that should not have their values loaded/saved when a DAW session loads (e.g., widgets that load presets).</li>
+</ul>
+
+<p><strong>Auto-cascade behavior</strong>: If you set <code>preset</code> to <code>false</code> without explicitly setting <code>session</code>, the system automatically sets <code>session</code> to <code>false</code> as well. This prevents state from being saved anywhere unless explicitly requested.</p>`;
+---
+<div class="property-section">
+  <Code code={`"persistence": {
+  "preset": true,
+  "session": true
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

@@ -1,0 +1,11 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<ul>
+<li>Keyboard visuals (white/black keys, keydown color) are configured under the <code>color.*</code> object on the widget, not in <code>style</code>.</li></ul>`;
+---
+<div class="property-section">
+  <Code code={`"style": {
+  "opacity": 1
+},`} lang="json" />
+  <Fragment set:html={description} />
+</div>

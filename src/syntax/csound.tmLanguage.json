@@ -1,0 +1,141 @@
+{
+  "name": "csound",
+  "scopeName": "source.csound",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#preprocessor" },
+    { "include": "#tags" },
+    { "include": "#strings" },
+    { "include": "#numbers" },
+    { "include": "#keywords" },
+    { "include": "#constants" },
+    { "include": "#widgets" },
+    { "include": "#opcodes" },
+    { "include": "#variables" },
+    { "include": "#macros" },
+    { "include": "#operators" },
+    { "include": "#punctuation" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.csound",
+          "begin": "/\\*",
+          "end": "\\*/"
+        },
+        {
+          "name": "comment.line.semicolon.csound",
+          "match": ";.*$"
+        },
+        {
+          "name": "comment.line.double-slash.csound",
+          "match": "//.*$"
+        }
+      ]
+    },
+    "preprocessor": {
+      "patterns": [
+        {
+          "name": "meta.preprocessor.csound",
+          "match": "^\\s*#[A-Za-z_]+.*$"
+        }
+      ]
+    },
+    "tags": {
+      "patterns": [
+        {
+          "name": "keyword.control.tag.csound",
+          "match": "</?[A-Za-z][A-Za-z0-9]*>"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.csound",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.csound",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.csound",
+          "match": "\\b(?:\\d+[Ee][+-]?\\d+|\\d+\\.\\d*|\\d*\\.\\d+|\\d+)\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.csound",
+          "match": "\\b(?:instr|endin|opcode|endop|if|then|elseif|else|endif|until|while|do|od|goto|igoto|kgoto|turnoff|turnoff2|return|xin|xout|reinit|rireturn|event|event_i|schedule|schedulek|chnget|chnset|prints|printks|printf|scoreline|scoreline_i)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.csound",
+          "match": "\\b(?:sr|kr|ksmps|nchnls|nchnls_i|0dbfs|A4|massign|pgmassign)\\b"
+        }
+      ]
+    },
+    "widgets": {
+      "patterns": [
+        {
+          "name": "entity.name.type.csound",
+          "match": "\\b(?:button|checkbox|combobox|encoder|hrange|hslider|numberbox|rslider|vrange|vslider|xypad|csoundoutput|filebutton|form|gentable|groupbox|image|infobutton|keyboard|label|line|loadbutton|soundfiler|source|stepper|textbox|texteditor|table|transport)\\b"
+        }
+      ]
+    },
+    "opcodes": {
+      "patterns": [
+        {
+          "name": "entity.name.function.csound",
+          "match": "REPLACED_AT_BUILD_TIME"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.csound",
+          "match": "\\b(?:[gikafSwV]|[A-Z])[A-Za-z_][A-Za-z0-9_]*(?:\\[\\])?\\b"
+        }
+      ]
+    },
+    "macros": {
+      "patterns": [
+        {
+          "name": "variable.other.macro.csound",
+          "match": "\\$[A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.csound",
+          "match": "[-+*/%=!<>|&^]=?|\\?|:"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.csound",
+          "match": "[{}\\[\\];(),.]"
+        }
+      ]
+    }
+  }
+}

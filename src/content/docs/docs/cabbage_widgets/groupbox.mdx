@@ -1,0 +1,144 @@
+---
+title: "GroupBox"
+---
+
+import Active from "../../../../components/properties/active.astro";
+import Bounds from "../../../../components/properties/bounds.astro";
+import Channel from "../../../../components/properties/channel.astro";
+import Id from "../../../../components/properties/id.astro";
+import Label from "../../../../components/properties/label.astro";
+import Persistence from "../../../../components/properties/persistence.astro";
+import Sample from "../../../../components/properties/sample.astro";
+import StyleGroupBox from "../../../../components/properties/groupbox.style.astro";
+import TableNumber from "../../../../components/properties/tableNumber.astro";
+import Visible from "../../../../components/properties/visible.astro";
+import ZIndex from "../../../../components/properties/zindex.astro";
+
+# Groupbox
+
+`groupBox` creates a simple on-screen grouping box, i.e., a bounding rectangle that you can use to organise widgets within.
+
+## Example
+
+
+```csound
+<Cabbage>
+{
+    "widgets": [
+        { "type": "form", "caption": "Label Example", "size": {"width": 580, "height": 500}, "pluginId": "def1" },
+        {
+            "type"    : "groupBox",
+            "channels": [ {"id": "groupbox1"} ],
+            "bounds"  : {"left": 10, "top": 10, "width": 500, "height": 480},
+            "label"   : {"text": "I'm a groupbox"}
+        }
+    ]
+}
+
+</Cabbage>
+<CsoundSynthesizer>
+<CsOptions>
+-n -d -+rtmidi=NULL -M0 -m0d --midi-key=4 --midi-velocity-amp=5
+</CsOptions>
+<CsInstruments>
+; Initialize the global variables.
+ksmps = 32
+nchnls = 2
+0dbfs = 1
+
+instr 1
+
+endin
+
+
+</CsInstruments>
+<CsScore>
+;causes Csound to run for about 7000 years...
+i1 0 z
+</CsScore>
+</CsoundSynthesizer>
+```
+
+<Active />
+
+<a id="bounds" class="anchor-target"></a>
+### Bounds
+<Bounds />
+
+<a id="channel" class="anchor-target"></a>
+### Channel
+<Channel />
+
+<a id="id" class="anchor-target"></a>
+### Id
+<Id />
+
+<a id="label" class="anchor-target"></a>
+### Label
+<Label />
+
+<a id="persistence" class="anchor-target"></a>
+### Persistence
+<Persistence />
+
+<a id="sample" class="anchor-target"></a>
+### Sample
+<Sample />
+
+<a id="table-number" class="anchor-target"></a>
+### Table Number
+<TableNumber />
+
+<a id="visible" class="anchor-target"></a>
+### Visible
+<Visible />
+
+<a id="zindex" class="anchor-target"></a>
+### ZIndex
+<ZIndex />
+
+<a id="style" class="anchor-target"></a>
+### Style
+<StyleGroupBox />
+
+## Example
+
+
+```csound
+<Cabbage>
+{
+    "widgets": [
+        { "type": "form", "caption": "Label Example", "size": {"width": 580, "height": 500}, "pluginId": "def1" },
+        {
+            "type"    : "groupBox",
+            "channels": [ {"id": "groupbox1"} ],
+            "bounds"  : {"left": 10, "top": 10, "width": 500, "height": 480},
+            "label"   : {"text": "I'm a groupbox"}
+        }
+    ]
+}
+
+</Cabbage>
+<CsoundSynthesizer>
+<CsOptions>
+-n -d -+rtmidi=NULL -M0 -m0d --midi-key=4 --midi-velocity-amp=5
+</CsOptions>
+<CsInstruments>
+; Initialize the global variables.
+ksmps = 32
+nchnls = 2
+0dbfs = 1
+
+instr 1
+
+endin
+
+
+</CsInstruments>
+<CsScore>
+;causes Csound to run for about 7000 years...
+i1 0 z
+</CsScore>
+</CsoundSynthesizer>
+```
+

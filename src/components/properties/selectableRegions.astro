@@ -1,0 +1,16 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>When enabled, users can click and drag on the waveform to select a region of samples. The selected region is highlighted with a semi-transparent overlay.</p>
+<p><strong>Behavior:</strong></p>
+<ul>
+<li><strong>Click and drag</strong>: Select a region by clicking on the waveform and dragging to define the selection boundaries</li>
+<li><strong>Click without drag</strong>: Clicking without dragging (less than 3 pixels of movement) clears the current selection</li>
+<li><strong>Visual feedback</strong>: Selected regions are shown with a semi-transparent overlay</li>
+<li><strong>Channel output</strong>: When a region is selected, the start and end sample indices are automatically sent to Csound via the configured channels (see <code>channelGentable</code>)</li>
+</ul>
+<p>This feature is useful for selecting portions of audio for processing, looping, or analysis.</p>`;
+---
+<div class="property-section">
+  <Code code={`"selectableRegions": true`} lang="json" />
+  <Fragment set:html={description} />
+</div>

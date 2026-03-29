@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>One string for on and one for off.</p>`;
+---
+<div class="property-section">
+  <Code code={`"text":{ "on":"string", "off":"string" }`} lang="json" />
+  <Fragment set:html={description} />
+</div>

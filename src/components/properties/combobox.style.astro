@@ -1,0 +1,17 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<ul>
+<li>Colors accept named CSS colors, hex (e.g., #RRGGBB or #RRGGBBAA), or rgb/rgba strings.</li>
+<li>Label typography is configured under <code>label.*</code>.</li>
+<li>The dropdown inherits border and fill colors from the style object.</li></ul>`;
+---
+<div class="property-section">
+  <Code code={`"style": {
+  "opacity": 1,
+  "borderRadius": 2,
+  "borderWidth": 1,
+  "borderColor": "#222222",
+  "fill": "#0295cf"
+},`} lang="json" />
+  <Fragment set:html={description} />
+</div>

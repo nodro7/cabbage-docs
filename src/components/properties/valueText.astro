@@ -1,0 +1,22 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Controls the numeric value display area inside the slider.</p>
+
+<ul>
+<li>visible: boolean — show/hide the value input box.</li>
+<li>width: number | "auto" — width of the value box; auto scales from bounds.</li>
+<li>prefix: string — optional text before the value (e.g., "Hz ").</li>
+<li>postfix: string — optional text after the value (e.g., " dB").</li>
+</ul>
+
+<p>When visible is true you can double-click to enter precise values; press Enter to commit.</p>`;
+---
+<div class="property-section">
+  <Code code={`"valueText": {
+  "visible": true,
+  "width": "auto",
+  "prefix": "",
+  "postfix": ""
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

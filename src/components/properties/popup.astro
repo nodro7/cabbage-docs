@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>This property will set whether a slider's popup value box will appear. It's enabled by default.</p>`;
+---
+<div class="property-section">
+  <Code code={`"popup": 1`} lang="json" />
+  <Fragment set:html={description} />
+</div>

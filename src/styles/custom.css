@@ -1,0 +1,38 @@
+/* Cabbage Audio – Starlight custom theme overrides */
+
+/* Dark mode is the Starlight default (:root) */
+:root {
+  --sl-color-accent-low: #0e3a56;
+  --sl-color-accent: #4aa8e8;
+  --sl-color-accent-high: #c8e6f8;
+
+  --sl-font: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Light mode overrides */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #a6d4f0;
+  --sl-color-accent: #3091D1;
+  --sl-color-accent-high: #0a3d5c;
+}
+
+/* Property section styling (used in widget docs) */
+.property-section {
+  margin-bottom: 1.5rem;
+}
+
+.property-section pre {
+  margin: 0.5rem 0;
+}
+
+.property-section blockquote {
+  border-left: 3px solid var(--sl-color-accent);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  color: var(--sl-color-gray-3);
+}
+
+.property-section ul {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}

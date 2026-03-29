@@ -1,0 +1,9 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>this unique string must be four characters long. It is the ID given to your plugin when loaded by plugin hosts.</p>
+<blockquote><p>Every plugin must have a unique plugin ID. If you experience problems loading two different plugins, it could be because they use the same plugin ID. The plugin ID seems to be more relevant when working with OSX than on Linux or Windows.</p></blockquote>`;
+---
+<div class="property-section">
+  <Code code={`"pluginId": "plug"`} lang="json" />
+  <Fragment set:html={description} />
+</div>

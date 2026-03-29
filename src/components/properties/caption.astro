@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>The string passed to caption will be the string that appears on the main application window.</p>`;
+---
+<div class="property-section">
+  <Code code={`"caption": "string"`} lang="json" />
+  <Fragment set:html={description} />
+</div>

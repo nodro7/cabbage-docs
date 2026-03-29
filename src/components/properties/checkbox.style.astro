@@ -1,0 +1,37 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p><strong>Notes</strong></p>
+<ul>
+<li>fontSize: "auto" scales with the widget height; set a number (px) to fix it.</li>
+<li>textAlign: "left" shows the box first and text to the right; use "right" to flip.</li>
+<li>Colors accept CSS strings (e.g., "#93d200", "rgba(0,0,0,0)") or RGB arrays [r,g,b].</li>
+<li>The text color shown is controlled by the current state's textColor (on/off).</li></ul>`;
+---
+<div class="property-section">
+  <Code code={`{
+  "style": {
+    "opacity": 1,
+    "borderRadius": 2,
+    "fontFamily": "Verdana",
+    "fontSize": "auto",
+    "fontColor": "#dddddd",
+    "textAlign": "left",
+    "on": {
+      "backgroundColor": "#93d200",
+      "borderColor": "#dddddd",
+      "borderWidth": 2,
+      "textColor": "#dddddd"
+    },
+    "off": {
+      "backgroundColor": "#00000000",
+      "borderColor": "#dddddd",
+      "borderWidth": 2,
+      "textColor": "#000000"
+    }
+  },
+  "label": {
+    "text": "On/Off"
+  }
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

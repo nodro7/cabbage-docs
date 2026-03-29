@@ -1,0 +1,29 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p><strong>Notes</strong></p>
+<ul>
+<li>fill controls the background colour of the slider block.</li>
+<li>label.fontSize: "auto" scales with height; set a number (px) to fix it.</li>
+<li>label.textAlign: left | center | right.</li>
+<li>Colours accept CSS strings or RGB arrays [r,g,b].</li></ul>`;
+---
+<div class="property-section">
+  <Code code={`{
+  "style": {
+    "opacity": 1,
+    "borderRadius": 4,
+    "fill": "#0295cf"
+  },
+  "label": {
+    "text": "",
+    "offsetY": 0,
+    "fontFamily": "Verdana",
+    "fontSize": "auto",
+    "color": "#dddddd",
+    "textAlign": "center"
+  },
+  "valuePrefix": "",
+  "valuePostfix": ""
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

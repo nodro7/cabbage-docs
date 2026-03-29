@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Sets the function table to be displayed by the <code>genTable</code> widget.</p>`;
+---
+<div class="property-section">
+  <Code code={`"tableNumber": 1`} lang="json" />
+  <Fragment set:html={description} />
+</div>
