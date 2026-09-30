@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import csoundGrammar from './src/syntax/csound-grammar.mjs';
 import { redirects } from './src/data/redirects.mjs';
 
 // https://astro.build/config
@@ -9,11 +8,6 @@ export default defineConfig({
 	site: 'https://cabbageaudio.com',
 	// Old URLs keep working: Astro writes a small redirect page for each entry.
 	redirects,
-	markdown: {
-		shikiConfig: {
-			langs: [csoundGrammar],
-		},
-	},
 	integrations: [
 		starlight({
 			title: 'Cabbage',
@@ -22,9 +16,11 @@ export default defineConfig({
 			components: {
 				Head: './src/components/starlight/Head.astro',
 				Header: './src/components/starlight/Header.astro',
+				PageTitle: './src/components/starlight/PageTitle.astro',
 				Footer: './src/components/starlight/Footer.astro',
 				MobileMenuFooter: './src/components/starlight/MobileMenuFooter.astro',
 			},
+			// Code block options (themes, grammar, line numbers) live in ec.config.mjs.
 			customCss: [
 				'@fontsource-variable/instrument-sans/wdth.css',
 				'@fontsource-variable/jetbrains-mono/index.css',

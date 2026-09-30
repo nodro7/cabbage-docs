@@ -1,5 +1,33 @@
 ---
-title: "Cabbage v3 Documentation"
+title: "Cabbage 3 documentation"
+description: "Documentation for Cabbage 3: the VS Code extension, the built-in widgets, custom interfaces and the Cabbage opcodes."
 ---
 
-Welcome to the Cabbage 3 documentation. Here you’ll find everything you need to get started and make the most of the platform, including guides on downloading and installing the software, an overview of what’s new, and instructions for using the VS Code extension for seamless integration. You’ll also find detailed reference pages for all supported widgets and opcodes, a short guide to developing custom user interfaces, and an overview of the Cabbage 3 JavaScript API.
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Cabbage 3 is a framework for audio software development. You write an instrument in Csound 7, give it an interface with the built-in widgets or with your own HTML, CSS and JavaScript, and export it as a plugin from VS Code.
+
+New here? [Install Cabbage 3](/download/) first, then start with [Using Cabbage 3](/docs/using/overview/). Coming from Cabbage 2? Read [what is new in v3](/docs/whats-new/).
+
+<CardGrid>
+	<LinkCard
+		title="Using Cabbage 3"
+		description="Run the extension, work with instruments and export plugins."
+		href="/docs/using/overview/"
+	/>
+	<LinkCard
+		title="Widgets"
+		description="The JSON format and reference pages for the built-in widgets."
+		href="/docs/widgets/overview/"
+	/>
+	<LinkCard
+		title="Custom interfaces"
+		description="Build your own interface with web technologies and the Cabbage JS API."
+		href="/docs/custom-ui/custom-interfaces/"
+	/>
+	<LinkCard
+		title="Opcodes"
+		description="The Csound opcodes that read and update widgets from your instrument."
+		href="/docs/opcodes/overview/"
+	/>
+</CardGrid>

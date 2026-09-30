@@ -1,0 +1,13 @@
+---
+// Starlight PageTitle override: the page title, with the name of its
+// sidebar group above it ("Widgets" over "RotarySlider").
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const { sidebar } = Astro.locals.starlightRoute;
+const group = sidebar.find(
+  (entry) => entry.type === 'group' && entry.entries.some((item) => item.type === 'link' && item.isCurrent)
+);
+---
+
+{group && <p class="cb-eyebrow">{group.label}</p>}
+<Default />
