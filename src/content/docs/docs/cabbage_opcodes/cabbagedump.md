@@ -2,8 +2,6 @@
 title: "cabbageDump"
 ---
 
-# cabbageDump
-
 This opcode will print the JSON representation of a widget to the Csound console. This can be useful for debugging widgets.
 
 ## Syntax

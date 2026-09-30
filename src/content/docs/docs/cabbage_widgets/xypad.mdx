@@ -2,21 +2,20 @@
 title: "XY Pad"
 ---
 
-import Active from "../../../../components/properties/active.astro";
-import Automatable from "../../../../components/properties/automatable.astro";
-import BallSize from "../../../../components/properties/ballSize.astro";
-import Bounds from "../../../../components/properties/bounds.astro";
 import ChannelXY from "../../../../components/properties/channelXY.astro";
-import Id from "../../../../components/properties/id.astro";
-import Label from "../../../../components/properties/label.astro";
-import Persistence from "../../../../components/properties/persistence.astro";
-import Popup from "../../../../components/properties/popup.astro";
-import RangeXY from "../../../../components/properties/rangeXY.astro";
-import StyleXyPad from "../../../../components/properties/xyPad.style.astro";
+import Automatable from "../../../../components/properties/automatable.astro";
+import Bounds from "../../../../components/properties/bounds.astro";
 import Visible from "../../../../components/properties/visible.astro";
+import Active from "../../../../components/properties/active.astro";
+import Id from "../../../../components/properties/id.astro";
+import Persistence from "../../../../components/properties/persistence.astro";
+import RangeXY from "../../../../components/properties/rangeXY.astro";
+import BallSize from "../../../../components/properties/ballSize.astro";
+import Popup from "../../../../components/properties/popup.astro";
+import Label from "../../../../components/properties/label.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleXyPad from "../../../../components/properties/xyPad.style.astro";
 
-# XY Pad
 
 `xyPad` creates a 2-dimensional X-Y pad controller that allows simultaneous control of two parameters. A draggable ball represents the current position, with independent channels for X and Y axes.
 
@@ -78,12 +77,14 @@ Below is the full, alphabetical list of top-level widget properties for `xyPad`.
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "XyPad Test", "size": {"width": 400, "height": 400}, "guiMode": "queue", "pluginId": "test" },
+    "pluginId"      : "test",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "XyPad Test", "size": {"width": 400, "height": 400}, "guiMode": "queue" },
         {
             "type"   : "xyPad",
             "bounds" : {"left": 20, "top": 20, "width": 350, "height": 350},
@@ -112,8 +113,7 @@ instr 1
     kFreq chnget "cf"
     kBW chnget "bw"
 
-    printks "Freq: %f, BW: %f
-", 0.5, kFreq, kBW
+    printks "Freq: %f, BW: %f\n", 0.5, kFreq, kBW
 
     aOut oscili 0.2, kFreq
     outs aOut, aOut
@@ -125,13 +125,14 @@ i1 0 [60*60*24*7]
 </CsScore>
 </CsoundSynthesizer>
 ```
-
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "XyPad Test", "size": {"width": 400, "height": 400}, "guiMode": "queue", "pluginId": "test" },
+    "pluginId"      : "test",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "XyPad Test", "size": {"width": 400, "height": 400}, "guiMode": "queue" },
         {
             "type"   : "xyPad",
             "bounds" : {"left": 20, "top": 20, "width": 350, "height": 350},
@@ -160,8 +161,7 @@ instr 1
     kFreq chnget "cf"
     kBW chnget "bw"
 
-    printks "Freq: %f, BW: %f
-", 0.5, kFreq, kBW
+    printks "Freq: %f, BW: %f\n", 0.5, kFreq, kBW
 
     aOut oscili 0.2, kFreq
     outs aOut, aOut
@@ -173,4 +173,3 @@ i1 0 [60*60*24*7]
 </CsScore>
 </CsoundSynthesizer>
 ```
-

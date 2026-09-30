@@ -1,5 +1,6 @@
 ---
 title: "Exporting Instruments"
+description: "How to export instruments"
 ---
 
 Once you are satisfied that your plugin is ready for testing in a DAW, you can export it using the `Export as...` command. A list of plugin export options, specific to your current operating system, will be displayed. After selecting an export option, a file browser window will appear, allowing you to choose the target destination for your plugin binary.

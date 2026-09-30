@@ -1,7 +1,6 @@
 ---
 import { Code } from '@astrojs/starlight/components';
 const description = `<p>Sets the minimum time (in milliseconds) to wait before sending a new parameter update. This helps prevent redundant updates by ensuring only one update is sent per interval, even if multiple changes occur quickly. The default is 50ms.</p>
-
 <blockquote><p>This setting does not affect the rate of plugin parameter updates from a DAW, or through user interaction. It only slows down the frequency of data sent to the UI.</p></blockquote>`;
 ---
 <div class="property-section">

@@ -2,22 +2,21 @@
 title: "GenTable"
 ---
 
-import Active from "../../../../components/properties/active.astro";
-import Bounds from "../../../../components/properties/bounds.astro";
-import Channel from "../../../../components/properties/channelGentable.astro";
-import File from "../../../../components/properties/file.astro";
 import Id from "../../../../components/properties/id.astro";
-import Label from "../../../../components/properties/label.astro";
-import Persistence from "../../../../components/properties/persistence.astro";
-import Range from "../../../../components/properties/rangeGenTable.astro";
-import Sample from "../../../../components/properties/sampleRange.astro";
-import SelectableRegions from "../../../../components/properties/selectableRegions.astro";
-import StyleGenTable from "../../../../components/properties/gentable.style.astro";
-import TableNumber from "../../../../components/properties/tableNumber.astro";
+import Channel from "../../../../components/properties/channelGentable.astro";
+import Bounds from "../../../../components/properties/bounds.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import Active from "../../../../components/properties/active.astro";
+import Sample from "../../../../components/properties/sampleRange.astro";
+import File from "../../../../components/properties/file.astro";
+import Persistence from "../../../../components/properties/persistence.astro";
+import Range from "../../../../components/properties/rangeGenTable.astro";
+import TableNumber from "../../../../components/properties/tableNumber.astro";
+import SelectableRegions from "../../../../components/properties/selectableRegions.astro";
+import Label from "../../../../components/properties/label.astro";
+import StyleGenTable from "../../../../components/properties/gentable.style.astro";
 
-# GenTable
 
 `genTable` creates a table widget on screen that can be used to display the contents of a function table or the contents of a file. When `selectableRegions` is enabled, users can interactively select portions of the waveform by clicking and dragging.
 
@@ -83,12 +82,14 @@ Below is the full, alphabetical list of top-level widget properties for `genTabl
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Gentable Example", "size": {"width": 400, "height": 650}, "guiMode": "queue", "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Gentable Example", "size": {"width": 400, "height": 650}, "guiMode": "queue" },
         { "type": "genTable", "bounds": {"left": 10, "top": 7, "width": 380, "height": 200}, "id": "gentable1", "tableNumber": 1 },
         {
             "type"    : "horizontalSlider",
@@ -205,4 +206,3 @@ i1 0 [3600*24*7]
 </CsScore>
 </CsoundSynthesizer>
 ```
-

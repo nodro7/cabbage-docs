@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>SelectedIndex tracks which item is currently selected in list-based widgets like listBox. -1 indicates no selection.</p>`;
+---
+<div class="property-section">
+  <Code code={`"selectedIndex": -1`} lang="json" />
+  <Fragment set:html={description} />
+</div>

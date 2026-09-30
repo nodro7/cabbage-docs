@@ -1,12 +1,13 @@
 ---
-title: Cabbage JS API
+title: "Cabbage JS API"
+description: "Cabbage API"
 ---
 
 # Cabbage JavaScript API Reference
 
 The Cabbage JavaScript API provides the communication layer between webview UIs and the Cabbage backend. This API enables bidirectional communication for plugin development.
 
-📃 **Note:** A `<Cabbage>{...}</Cabbage>` JSON structure is still required to define parameters for use in a host application. Objects declared in this structure are accessible through the API via a custom event handler (see below). These objects are sent at load time and can be updated at runtime using the [`cabbageSet`](/docs/cabbage_opcodes/cabbageset/) and [`cabbageSetValue`](/docs/cabbage_opcodes/cabbagesetvalue/) opcodes.
+📃 **Note:** A `<Cabbage>{...}</Cabbage>` JSON structure is still required to define parameters for use in a host application. Objects declared in this structure are accessible through the API via a custom event handler (see below). These objects are sent at load time and can be updated at runtime using the [`cabbageSet`](../cabbage_opcodes/cabbageset) and [`cabbageSetValue`](../cabbage_opcodes/cabbagesetvalue) opcodes.
 
 ## Architecture Overview
 
@@ -37,8 +38,8 @@ Register a listener for incoming messages from the Cabbage backend. This is the 
 | `command` | Fields | Sent by |
 |-----------|--------|---------|
 | `parameterChange` | `paramIdx`, `value` (may be top-level or nested in `data`) | DAW automation / backend |
-| `widgetUpdate` | `id`, `value` | [`cabbageSetValue`](/docs/cabbage_opcodes/cabbagesetvalue/) opcode |
-| `widgetUpdate` | `id`, `widgetJson` | [`cabbageSet`](/docs/cabbage_opcodes/cabbageset/) opcode |
+| `widgetUpdate` | `id`, `value` | [`cabbageSetValue`](../cabbage_opcodes/cabbagesetvalue) opcode |
+| `widgetUpdate` | `id`, `widgetJson` | [`cabbageSet`](../cabbage_opcodes/cabbageset) opcode |
 | `channelDataUpdate` | `channel`, `value` | Csound channel data |
 | `resizeResponse` | `accepted`, `width`, `height` | Response to `requestResize()` |
 
@@ -98,11 +99,15 @@ Send widget value changes to the Cabbage backend. This is the primary API for us
 - Automatically routes based on channel automatable status
 - Thread-safe: Asynchronous, doesn't block audio thread
 - Values sent in natural ranges, backend handles normalization
+- **String values**: on a non-automatable channel, a string value is stored as the channel's `stringValue` (and into the matching Csound string channel). String state is included in session/preset saves and re-pushed in the launch dumps — see [Persisting Custom UI State](./persisting_ui_state). The channel must be declared with `"type": "string"`, e.g. `"channels": [{ "id": "myState", "type": "string" }]`.
 
 **Examples:**
 ```csound
 // Basic usage
 Cabbage.sendControlData({ channel: "frequency", value: 1000 }, null);
+
+// String state (persists across UI reloads via session save)
+Cabbage.sendControlData({ channel: "myState", value: JSON.stringify(myState) }, null);
 
 // With gesture for DAW automation recording
 Cabbage.sendControlData({ channel: "volume", value: 0.8, gesture: "begin" }, null);
@@ -158,13 +163,12 @@ Handle incoming MIDI messages from the backend (callback function).
 
 ---
 
-#### `Cabbage.isReadyToLoad(vscode, additionalData)`
+#### `Cabbage.isReadyToLoad(vscode)`
 
-Signal that the UI is ready to load and initialize.
+Signal that the UI is ready to load and initialize. This must be called in order to notify the backend that the front has completed it's initial load.
 
 **Parameters:**
 - `vscode` (Object|null): VS Code API instance
-- `additionalData` (Object, optional): Additional initialization data
 
 ### Utility Functions
 
@@ -240,18 +244,14 @@ Request a resize of the plugin GUI window (plugin mode only).
 - Backend sends a `resizeResponse` message indicating acceptance and final dimensions
 
 
-### Private Functions
+#### `Cabbage.sendCustomCommand(command, vscode, data)`
 
-⚠️ **Important:** These functions are used internally and are not for general use.
-
-#### `Cabbage.sendCustomCommand(command, vscode, additionalData)`
-
-Send custom commands to the backend for specialized operations.
+Send a custom command to the backend for specialized operations.
 
 **Parameters:**
 - `command` (string): Command name
 - `vscode` (Object|null): VS Code API instance
-- `additionalData` (Object, optional): Additional data to send
+- `data` (Object, optional): Additional data to send
 
 **Example:**
 ```csound
@@ -259,6 +259,10 @@ Cabbage.sendCustomCommand('cabbageIsReadyToLoad', null);
 ```
 
 ---
+
+### Internal Functions
+
+⚠️ **Important:** These functions are used internally and are not for general use.
 
 #### `Cabbage.sendWidgetUpdate(widget, vscode)`
 

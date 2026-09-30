@@ -1,0 +1,15 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Thumb defines the appearance of slider handles. radius sets circular thumb size, width sets rectangular thumb width, fill sets the color, borderColor and borderWidth control the border, and corners sets border radius.</p>`;
+---
+<div class="property-section">
+  <Code code={`"thumb": {
+    "radius": "auto",
+    "width": 8,
+    "fill": "#0295cf",
+    "borderColor": "#525252",
+    "borderWidth": 2,
+    "corners": 4
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

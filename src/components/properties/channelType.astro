@@ -1,0 +1,15 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Each entry in a widget's <code>channels</code> array accepts a <code>type</code> key specifying the channel's data type. Can be <code>&quot;number&quot;</code> (the default) for numeric values or <code>&quot;string&quot;</code> for text values.</p>
+<p>String channels are first-class state in the backend:</p>
+<ul>
+<li>Values sent from the UI with <code>sendControlData()</code> are stored on the channel (and into the matching Csound string channel, readable with the string variant of <code>cabbageGetValue</code>).</li>
+<li>String values are included in session and preset saves, and re-pushed to the UI in the launch widget dumps — which makes string channels the mechanism for persisting custom interface state across UI reloads. See [Persisting Custom UI State](/docs/custom_interfaces/persisting_ui_state).</li>
+<li>String channels are excluded from DAW automation (automation requires numeric channels).</li>
+</ul>
+<p>📃 <strong>Note:</strong> The operative key is the per-channel <code>type</code> inside <code>channels[]</code>, not a widget-level property.</p>`;
+---
+<div class="property-section">
+  <Code code={`"channels": [{ "id": "myChannel", "type": "string" }]`} lang="json" />
+  <Fragment set:html={description} />
+</div>

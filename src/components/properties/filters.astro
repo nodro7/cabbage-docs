@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Filters specifies file type filters for file browsing dialogs. Use &quot;*&quot; for all files, or patterns like &quot;*.wav;*.aif&quot; for specific types.</p>`;
+---
+<div class="property-section">
+  <Code code={`"filters": "*"`} lang="json" />
+  <Fragment set:html={description} />
+</div>

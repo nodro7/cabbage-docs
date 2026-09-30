@@ -1,179 +1,280 @@
 ---
 title: "ARA Support"
+description: "Using ARA (Audio Random Access) with Cabbage 3"
 ---
 
-ARA (Audio Random Access) is an extension to the standard audio plugin format that gives a plugin direct, offline access to a host's audio material — without having to process it in real time. Cabbage supports ARA through a companion `.ara.csd` file that runs a Csound processor offline and feeds the results back into the main instrument. To maximize throughput, the offline processor runs asynchronously. It pushes audio data into Csound IO buffers in a continuous loop, bypassing real-time constraints for efficient, non-blocking sample processing.
+**Audio Random Access (ARA)** is an extension to the standard audio plugin format that gives a plugin direct, offline access to a host's audio material—without having to process it in real time. **Cabbage 3** supports ARA through a consolidated opcode API that provides access to the host's audio tracks. 
+   
+In an ARA document, you'll find references to several key entities:
+
+* **Audio Sources (`AudioSource`):** Provide the low-level PCM data and properties for any audio asset loaded into a DAW session. 📃 **Note:** AudioSource's have their own playbackRegions, don't confuse these with the higer level PlaybackRegions listed below. 
+* **Playback Regions (`PlaybackRegion`):** Represent how an audio source is mapped onto the DAW timeline as a clip. It contains information about the region's duration, its start time on the DAW timeline, and its internal start time/offset relative to the raw audio file. Cropping the start or end of an audio clip in the DAW will modify this `PlaybackRegion` structure. Note that duplicating an audio source across multiple tracks will increase the number of regions, but not the number of audio sources. 
+* **Region Sequences (`RegionSequence`):** Represent a collection of playback regions grouped together, typically mapping to tracks, lanes, or channels in the host. Each region sequence belongs to a musical context.
+* **Musical Contexts (`MusicalContext`):** Describe the rhythmic and harmonic structure of the music, including tempo, bar signatures, key signatures, and tuning.
+* **Audio Modifications (`AudioModification`):** Contain the edits applied to an audio source. Each modification belongs to an audio source and can contain multiple playback regions.
+* **View Selection (`ViewSelection`):** Provides real-time information about the host's current user selection, which can include specific playback regions, region sequences, and/or a distinct time range.
+
 
 ### Exporting an ARA plugin
 
-ARA support is only available in dedicated ARA build targets (see below for details on developing ARA instrument outside a DAW). When exporting your plugin from the Cabbage extension, you must choose one of the ARA-specific export commands:
+ARA support is only available in dedicated ARA build targets. When exporting your plugin from the Cabbage extension, you must choose one of the ARA-specific export commands:
 
 - **Export as VST3 Effect (ARA)**
 - **Export as VST3 Synth (ARA)**
 
-These commands are available from the VS Code Command Palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Windows/Linux). Exporting with a standard VST3 or CLAP target will produce a plugin that does not include ARA support, even if a companion `.ara.csd` file is present.
+These commands are available from the VS Code Command Palette (`Cmd+Shift+P` on macOS, `Ctrl+Shift+P` on Windows/Linux). Exporting with a standard VST3 or CLAP target will produce a plugin that does not include ARA support.
 
 ### How it works
 
-When Cabbage loads a plugin, it looks for a companion file alongside your main `.csd`:
+When an ARA-capable host loads a Cabbage plugin, it grants the plugin direct access to the audio material on each track. Cabbage reads this audio data directly from the host, stores it in an internal data pool, and makes it available to your Csound instrument through the `cabbageAraGet` opcode.
+
+All Cabbage ARA plugin instances in a project share one document model. That model can contain many audio sources (for example, across multiple tracks). Cabbage provides opcodes to query source metadata, read audio samples, and detect when the model is updated.
+
+### Querying source metadata
+
+Use `cabbageAraGet` to query information about the available audio sources. Top-level properties (like `currentIndex` and `audioSourceCount`) are queried without an index. Per-source metadata (like `audioSource.name`, `audioSource.channels`, and `audioSource.duration`) takes a source index argument.
 
 ```csound
-MyInstrument.csd          ← main instrument
-MyInstrument.ara.csd      ← ARA analysis script (optional)
-```
-
-If the companion file is found, Cabbage reads the `<CabbageARA>` section to discover which Csound channels the offline processor will write to. After the host grants sample access, Cabbage runs the `.ara.csd` offline, feeding the audio data in block by block. It then writes the resulting channel values back into the main Csound instance.
-
-In ARA, all plugin instances in a project share one ARA document model. That model can contain many audio sources (for example, across multiple tracks). To support this, Cabbage forwards analysis results as arrays in the main instrument: each source occupies one array index.
-
-### The `<CabbageARA>` section
-
-Add a `<CabbageARA>` block to your `.ara.csd` file to declare the output channels your offline processor produces. The `<CabbageARA>` object supports:
-
-- `channels` (required): array of channel definitions produced by the offline processor.
-- `testFile` (optional): local audio file path used by VS Code extension for standalone ARA testing.
-
-Each item in `channels` has two fields:
-
-| Field  | Values            | Description                                      |
-|--------|-------------------|--------------------------------------------------|
-| `id`   | any string        | The Csound channel name written by the offline processor  |
-| `type` | `number`, `string`| The channel type; string values may contain JSON |
-
-Example including `testFile`:
-
-```csound
-<CabbageARA>
-{
-  "channels": [
-    { "id": "ara_tempo", "type": "number" }
-  ],
-  "testFile": "/path/to/your/audio.wav"
-}
-</CabbageARA>
-```
-
-### Writing offline data
-
-Inside the `<CsInstruments>` instrument section of your `.ara.csd`, write values to the declared channels during performance:
-
-```csound
-<CabbageARA>
-{
-  "channels": [
-    { "id": "lufs", "type": "number" }
-  ],
-  "testFile": "/path/to/your/audio.wav"
-}
-</CabbageARA>
-<CsInstruments>
-sr     = 44100
-ksmps  = 512
-nchnls = 2
-0dbfs  = 1
-
 instr 1
-  ; These channels are set automatically by Cabbage before performance:
-  ; ARA_SOURCE_NAME      — source file name (string)
-  ; ARA_SOURCE_SAMPLES   — total sample count
-  ; ARA_SOURCE_SR        — sample rate
-  ; ARA_SOURCE_CHANNELS  — channel count
-  ; ARA_SOURCE_DURATION  — duration in seconds
+  idx:i = cabbageAraGet("currentIndex")
+  count:i = cabbageAraGet("audioSourceCount")
+  name:S = cabbageAraGet("audioSource.name", idx)
+  channels:i = cabbageAraGet("audioSource.channels", idx)
+  numSamples:i = cabbageAraGet("audioSource.sampleCount", idx)
+  sampleRate:i = cabbageAraGet("audioSource.sampleRate", idx)
+  duration:i = cabbageAraGet("audioSource.duration", idx)
 
-  in1:a, in2:a  = ins()
-  mom:k, int:k, short:k = lufs(0, in1, in2)
-  ; ARA_ENDED is set to 1 on the final k-cycle — write final k-rate results here.
-  kEnded = chnget:k("ARA_ENDED")
-  if kEnded == 1 then
-    //set final data here
-  endif
+  prints("Source '%s': %d ch, %d samples, %d Hz, %.2f sec\n", name, channels, numSamples, sampleRate, duration)
 endin
-</CsInstruments>
 ```
 
-📃 **Note:** The `ARA_ENDED` channel will be set to 1 after all samples have been processed. While you can write data continuously to named channels during processing, it is often more efficient to compute the data and write it once at the end of the performance.
+📃 **Note:** Property names use dot notation to express the data hierarchy. For example, `audioSource.region.start` queries the crop start position of the audio source. Properties ending in `InSamples` are in samples at the source's sample rate; without the suffix, they're in seconds.
 
-After the offline processor pass completes, any declared channels are forwarded to the main Csound. They can be queried using `chnget` and `chnset`.
 
-In the main instrument, each declared channel is exposed as a array channel. Although 64 slots are allocated internally, the number of valid entries is given by `ARA_SOURCE_COUNT`.
+### Reading audio data
 
-Source metadata is also exposed as arrays using plural names:
-
-- `ARA_SOURCE_NAMES`:  all source file names (string)
-- `ARA_SOURCE_SAMPLES`: total sample count across all sources
-- `ARA_SOURCE_SRS`: sample rates for all sources
-- `ARA_SOURCE_CHANNELS`: channel counts for all sources
-- `ARA_SOURCE_DURATIONS`: duration in seconds for all sources
-
-### Reading results in the main instrument
-
-Once offline processing is complete, read declared channels as arrays, then index with `ARA_CURRENT_SOURCE_INDEX`. 
-
-```csound
-count:i = chnget("ARA_SOURCE_COUNT")
-index:i = chnget("ARA_CURRENT_SOURCE_INDEX")
-sources:S[] = chnget:S[]("ARA_SOURCE_NAMES")
-LUFS:i[]   chnget "lufs"
-
-prints("LUFS Value for %s is %d", sources[index], LUFS[index])
-```
-
-`ARA_CURRENT_SOURCE_INDEX` points to the source associated with the current plugin instance/track. This is subject to change depending on DAW events that are taking place across a session, but it will always give the index of the source associated with the track a plugin is attached to. See note below about how best to handle this changing data. 
-
-`ARA_SOURCE_COUNT` tells you how many source entries are valid.
-
-`ARA_UPDATE` is incremented at k-rate whenever the ARA model data is refreshed.
-
-For robust instrument design, use `ARA_UPDATE` as a trigger to launch an instrument that reads the array data at i-time. This avoids timing ambiguity and keeps update handling deterministic. 
-
-Example trigger pattern:
+Use `cabbageAraGetSourceSamples` to read raw PCM data from a source. It supports audio-rate, k-rate, and array output. To read the contents of the track the plugin is currently loaded onto, do this:
 
 ```csound
 instr 1
-  update:k = chnget:k("ARA_UPDATE")
-  trig:k = changed:k("update")
-  if trig == 1 then
-    event( "i", "ReadAraData", 0, 0.001 )
-  endif
+    ; Query the pool index for this instance's source
+    idx:i = cabbageAraGet("currentIndex")
+
+    ; Query structural asset parameters via the consolidated opcode
+    name:S       = cabbageAraGet("audioSource.name", idx)
+    sampleRate:i = cabbageAraGet("audioSource.sampleRate", idx)
+    channels:i   = cabbageAraGet("audioSource.channels", idx)
+    updateCounter:k = cabbageAraGetUpdate()
+
+    ; Detect new ARA lifecycle events
+    if changed(updateCounter) == 1 then
+        ; Query region properties (crop position within source file)
+        regionStart:i = cabbageAraGet("audioSource.region.startInSamples", idx)
+        regionDuration:i = cabbageAraGet("audioSource.region.durationInSamples", idx)
+        printf("Asset: %s [SR: %d, Chans: %d]\n", updateCounter, name, sampleRate, channels)
+    endif
+
+    ; Read raw audio samples at audio-rate position
+    ; audioSignal:a = cabbageAraGetSourceSamples(position, 0, idx)
+    ; Apply normalization: gain:k = targetLevel / peak
+    ; normalizedSignal:a = audioSignal * gain
+endin
+```
+
+### Detecting updates
+
+`cabbageAraGetUpdate` returns a k-rate counter that increments whenever the ARA model data changes. Use it as a trigger to re-read source metadata. This fires whenever changes are made to the session — timeline edits, new clips added, clips resized, tracks hidden, etc.
+
+```csound
+instr 1
+    updated:k = cabbageAraGetUpdate()
+    if changed:k(updated) == 1 then
+        event "i", "ReadAraData", 0, 3600
+    endif
 endin
 
 instr ReadAraData
-  count:i = chnget("ARA_SOURCE_COUNT")
-  index:i = chnget("ARA_CURRENT_SOURCE_INDEX")
-  sources:S[] = chnget:S[]("ARA_SOURCE_NAMES")
-  LUFS:i[]   chnget "lufs"
+  iIdx cabbageAraGet "currentIndex"
+  iCnt cabbageAraGet "audioSourceCount"
+  SLast cabbageAraGet "lastEvent"
+  prints("Update [%s]: source %d of %d\n", SLast, iIdx, iCnt)
 endin
 ```
 
-### Reserved channels
+### AudioSource Playback regions
 
-Cabbage automatically sets the following read-only channels in the `.ara.csd` before the performance loop starts:
+ARA hosts define audio source playback regions that specify which portion of a source is active. Use the region properties to query these:
 
-| Channel               | Type   | Description                                         |
-|-----------------------|--------|-----------------------------------------------------|
-| `ARA_SOURCE_NAME`     | string | Name of the audio source                            |
-| `ARA_SOURCE_SAMPLES`  | number | Total number of samples                             |
-| `ARA_SOURCE_SR`       | number | Sample rate                                         |
-| `ARA_SOURCE_CHANNELS` | number | Number of audio channels                            |
-| `ARA_SOURCE_DURATION` | number | Duration in seconds                                 |
-| `ARA_ENDED`           | number | Set to `1` on the final k-cycle of the offline processor pass — use this to trigger any end-of-performance writes |
+```csound
+instr 1
+  iIdx    cabbageAraGet "currentIndex"
+  iStart  cabbageAraGet "audioSource.region.startInSamples", iIdx
+  iCount  cabbageAraGet "audioSource.region.durationInSamples", iIdx
+  iDur    cabbageAraGet "audioSource.duration", iIdx
 
-In the main instrument, Cabbage also provides:
+  prints("Region: sample %d, %d samples (%.2f sec)\n", iStart, iCount, iDur)
+endin
+```
 
-| Channel                    | Type   | Description |
-|----------------------------|--------|-------------|
-| `ARA_SOURCE_NAMES`         | string | Per-source array of source names |
-| `ARA_SOURCE_SAMPLES`       | number | Per-source array of sample counts |
-| `ARA_SOURCE_SRS`           | number | Per-source array of sample rates |
-| `ARA_SOURCE_CHANNELS`      | number | Per-source array of channel counts |
-| `ARA_SOURCE_DURATIONS`     | number | Per-source array of durations in seconds |
-| `ARA_SOURCE_COUNT`         | number | Number of valid source entries currently present in the shared ARA model |
-| `ARA_CURRENT_SOURCE_INDEX` | number | Index of the source associated with this plugin instance/track |
-| `ARA_CURRENT_SOURCE_NAME`  | string | Convenience scalar name for the currently indexed source |
-| `ARA_UPDATE`               | number | Monotonic update counter incremented when forwarded ARA data changes |
+### All playback regions in the session
+
+List all clips in the document (not just the selected ones), using the `playbackRegionCount` property and per-index `playbackRegion.*` properties. This gives you access to every clip on the timeline, including its crop offset within the source and its arrangement position:
+
+```csound
+instr 1
+  kTrig cabbageAraGetUpdate
+  if kTrig == 1 then
+    event "i", "ShowAllClips", 0, 1
+  endif
+endin
+
+instr ShowAllClips
+  iCnt cabbageAraGet "playbackRegionCount"
+  prints("%d clips in session:\n", iCnt)
+  idx = 0
+  while idx < iCnt do
+    SName cabbageAraGet "playbackRegion.name", idx
+    STrack cabbageAraGet "playbackRegion.sequenceName", idx
+    iStart cabbageAraGet "playbackRegion.startInSamples", idx
+    iDur   cabbageAraGet "playbackRegion.durationInSamples", idx
+    iPbStart cabbageAraGet "playbackRegion.start", idx
+    iPbDur   cabbageAraGet "playbackRegion.duration", idx
+    iSrcIdx  cabbageAraGet "playbackRegion.sourceIndex", idx
+    prints("  [%d] '%s' on '%s': src#%d crop=%d-%d pb=%.3f-%.3f\n",
+           idx, SName, STrack, iSrcIdx, iStart, iStart+iDur, iPbStart, iPbStart+iPbDur)
+    idx += 1
+  od
+endin
+```
+
+The playback region array is automatically maintained via ARA lifecycle callbacks — clips are added when `playbackRegionAddedToRegionSequence` fires and removed when `playbackRegionRemovedFromRegionSequence` or `playbackRegionWillDestroy` fires. 
+> The difference an audio source region, and a playbackRegion is that a single audio source will only have a single playback region. While a single audio source may have multiple playback regions if it is placed across several tracks. 
+
+### EditorView selection
+
+When the user selects tracks or regions in the host, the plugin is notified via the EditorView. Selection data is accessible through indexed properties — use `editorView.selectedPlaybackRegionCount` to get the number of selected playback regions (clips), then query each by index:
+
+```csound
+instr 1
+  kTrig cabbageAraGetUpdate
+  if kTrig == 1 then
+    event "i", "ShowSelection", 0, 1
+  endif
+endin
+
+instr ShowSelection
+  iCnt    cabbageAraGet "editorView.selectedPlaybackRegionCount"
+  iHidden cabbageAraGet "editorView.hiddenSequenceCount"
+  prints("%d regions selected (%d tracks hidden):\n", iCnt, iHidden)
+  idx = 0
+  while idx < iCnt do
+    SName  cabbageAraGet "editorView.selectedRegion.name", idx
+    iStart cabbageAraGet "editorView.selectedRegion.startInSamples", idx
+    iDurSec cabbageAraGet "editorView.selectedRegion.duration", idx
+    iDurSamp cabbageAraGet "editorView.selectedRegion.durationInSamples", idx
+    prints("  [%d] '%s' start=%d dur=%.3fs (%d samples)\n", idx, SName, iStart, iDurSec, iDurSamp)
+    idx += 1
+  od
+endin
+```
+
+The `"lastEvent"` property will be `"notifySelection"` when the selection changes, or `"notifyHideRegionSequences"` when tracks are hidden or shown. Selection index is separate from source pool index — the first selected region is always index 0 regardless of which source it belongs to.
+
+### Musical contexts and region sequences
+
+Musical contexts describe the rhythmic and harmonic structure of the music. Region sequences represent tracks or lanes in the host. Use the `musicalContextCount` and `regionSequenceCount` properties to iterate over these entities:
+
+```csound
+instr 1
+  kTrig cabbageAraGetUpdate
+  if kTrig == 1 then
+    event "i", "ShowTracks", 0, 1
+  endif
+endin
+
+instr ShowTracks
+  ; Show musical contexts
+  iMcCnt cabbageAraGet "musicalContextCount"
+  prints("%d musical contexts:\n", iMcCnt)
+  idx = 0
+  while idx < iMcCnt do
+    SName cabbageAraGet "musicalContext.name", idx
+    iOrder cabbageAraGet "musicalContext.orderIndex", idx
+    iColR cabbageAraGet "musicalContext.color.r", idx
+    iColG cabbageAraGet "musicalContext.color.g", idx
+    iColB cabbageAraGet "musicalContext.color.b", idx
+    prints("  [%d] '%s' order=%d colour=(%.2f, %.2f, %.2f)\n",
+           idx, SName, iOrder, iColR, iColG, iColB)
+    idx += 1
+  od
+
+  ; Show region sequences (tracks)
+  iRsCnt cabbageAraGet "regionSequenceCount"
+  prints("%d region sequences:\n", iRsCnt)
+  idx = 0
+  while idx < iRsCnt do
+    SName cabbageAraGet "regionSequence.name", idx
+    iOrder cabbageAraGet "regionSequence.orderIndex", idx
+    iMcIdx cabbageAraGet "regionSequence.musicalContextIndex", idx
+    iColR cabbageAraGet "regionSequence.color.r", idx
+    iColG cabbageAraGet "regionSequence.color.g", idx
+    iColB cabbageAraGet "regionSequence.color.b", idx
+    prints("  [%d] '%s' order=%d context=#%d colour=(%.2f, %.2f, %.2f)\n",
+           idx, SName, iOrder, iMcIdx, iColR, iColG, iColB)
+    idx += 1
+  od
+endin
+```
+
+### Audio modifications
+
+Audio modifications represent edits applied to an audio source. Each modification has a name and a persistent ID used for archiving:
+
+```csound
+instr ShowModifications
+  iCnt cabbageAraGet "audioModificationCount"
+  prints("%d audio modifications:\n", iCnt)
+  idx = 0
+  while idx < iCnt do
+    SName cabbageAraGet "audioModification.name", idx
+    SId   cabbageAraGet "audioModification.persistentId", idx
+    prints("  [%d] '%s' id='%s'\n", idx, SName, SId)
+    idx += 1
+  od
+endin
+```
 
 ### Testing without a DAW (CabbageApp)
 
-During development, you can use the optional `testFile` attribute in `<CabbageARA>` (shown above) to test ARA offline processors without an ARA-capable host.
+During development, you can test ARA instruments without an ARA-capable host by using CabbageApp's standalone mode. There are two ways to provide audio files for testing:
 
-When the VS-Code extension detects a `.ara.csd` companion file with a `testFile` path it will automatically read the audio file (WAV, FLAC, Ogg, and MP3 are supported) and run the offline pass, making it straightforward to develop and debug offline processors without leaving your normal Cabbage workflow.
+**VS Code extension prompt:** When the VS Code extension launches a standalone ARA instrument, it will prompt you to select an audio file (WAV, FLAC, Ogg, or MP3).
+
+**Widget JSON property:** You can pre-specify test files in the widget JSON so they load automatically without a prompt:
+
+```json
+{
+  "ara": {
+    "testFiles": ["guitar.wav", "drums.wav"]
+  }
+}
+```
+
+Relative paths are resolved from the CSD file's directory. The audio is loaded on a background thread and made available through the same ARA opcodes, making it straightforward to develop and debug without leaving your normal Cabbage workflow.
+
+### Current limitations
+
+The ARA implementation is still in its early stages. The following table represents the current implementation status.
+
+| ARA Entity | Status | Notes |
+|---|---|---|
+| AudioSource | Supported | Name, channels, sample count, sample rate, duration, region crop |
+| PlaybackRegion | Supported | Name, track name, crop offset, arrangement position, source index, colour |
+| EditorView selection | Supported | Selected region/track data, time range, hidden tracks |
+| MusicalContext | Supported | Name, order index, colour |
+| RegionSequence | Supported | Name, order index, parent musical context, colour |
+| AudioModification | Supported | Name, persistent ID |
+
+This will be expanded in future versions as the ARA integration matures. Musical context content (tempo map, bar signatures, key signatures, tuning, chords) will be added in a future release.
+
+See the [ARA Opcodes](../cabbage_opcodes/cabbagearaget) reference for the full list of available opcodes.

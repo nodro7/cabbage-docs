@@ -1,5 +1,5 @@
 ---
-title: "Rotary Slider"
+title: "RotarySlider"
 ---
 
 import Active from "../../../../components/properties/active.astro";
@@ -11,12 +11,11 @@ import Id from "../../../../components/properties/id.astro";
 import Label from "../../../../components/properties/label.astro";
 import Persistence from "../../../../components/properties/persistence.astro";
 import Popup from "../../../../components/properties/popup.astro";
-import StyleRotarySlider from "../../../../components/properties/rotarySlider.style.astro";
 import ValueText from "../../../../components/properties/valueText.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleRotarySlider from "../../../../components/properties/rotarySlider.style.astro";
 
-# RotarySlider
 
 `rotarySlider` allows users to adjust a value by sliding a handle vertically. This component is useful for controlling parameters in real-time.
 
@@ -39,6 +38,8 @@ Below is the full, alphabetical list of top-level widget properties for `rotaryS
 <a id="channel" class="anchor-target"></a>
 ### Channel
 <Channel />
+
+Note: the `label` object inside `channels[]` above only names this widget's parameter in the DAW — the on-screen caption is set with the `Label` property below.
 
 <a id="filmstrip" class="anchor-target"></a>
 ### FilmStrip
@@ -79,19 +80,25 @@ Below is the full, alphabetical list of top-level widget properties for `rotaryS
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Slider Example", "size": {"width": 560, "height": 360}, "guiMode": "queue", "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "Stereo", "ins": "2", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Slider Example", "size": {"width": 560, "height": 360}, "guiMode": "queue" },
         {
             "type"    : "rotarySlider",
             "bounds"  : {"left": 20, "top": 60, "width": 120, "height": 80},
-            "label"   : {"text": "Harmonic 1"},
             "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
             "channels": [
-                { "id": "harmonic1", "event": "valueChanged", "range": {"min": 0, "max": 1, "defaultValue": 0, "skew": 1, "increment": 0.001} }
+                {
+                    "id"   : "harmonic1",
+                    "label": "Harmonic 1",
+                    "event": "valueChanged",
+                    "range": {"min": 0, "max": 1, "defaultValue": 0, "skew": 1, "increment": 0.001}
+                }
             ]
         },
         {
@@ -203,4 +210,3 @@ i1 0 z
 </CsScore>
 </CsoundSynthesizer>
 ```
-

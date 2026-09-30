@@ -1,0 +1,13 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Track defines the slider track appearance. thickness sets the track width, fill sets the active track color, background sets the inactive track color, and height sets the track height.</p>`;
+---
+<div class="property-section">
+  <Code code={`"track": {
+    "thickness": "auto",
+    "fill": "#93d200",
+    "background": "#393939ff",
+    "height": 12
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

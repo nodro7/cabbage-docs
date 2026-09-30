@@ -2,8 +2,6 @@
 title: "cabbageSendMessage"
 ---
 
-# cabbageSendMessage
-
 This opcode sends arbitrary JSON data directly to the frontend, allowing you to create custom messages for specialized UI interactions or data visualization. Unlike other Cabbage opcodes that update specific widget properties, `cabbageSendMessage` gives you complete control over the message format and content.
 
 📃 **Note:** Every message sent via `cabbageSendMessage` is added to a queue that is passed to the frontend. Calling `cabbageSendMessage` at k-rate can generate a high volume of messages, which may clog the communication channels between Csound and the plugin UI. Therefore, care must be taken to send messages only when absolutely necessary. 
@@ -107,3 +105,4 @@ Cabbage.addMessageListener((message) => {
 3. **Event Notifications**: Trigger frontend animations, transitions, or other visual effects based on musical events.
 
 4. **Custom Protocols**: Implement domain-specific communication between Csound instruments and specialized UI components.
+

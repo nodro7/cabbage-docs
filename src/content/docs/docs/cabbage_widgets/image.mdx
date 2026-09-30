@@ -11,12 +11,11 @@ import Id from "../../../../components/properties/id.astro";
 import Label from "../../../../components/properties/label.astro";
 import Persistence from "../../../../components/properties/persistence.astro";
 import Sample from "../../../../components/properties/sample.astro";
-import StyleImage from "../../../../components/properties/image.style.astro";
 import TableNumber from "../../../../components/properties/tableNumber.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleImage from "../../../../components/properties/image.style.astro";
 
-# Image
 
 `image` creates an on-screen image. Users can interact with an image via mouse events if a channel name has been assigned.
 
@@ -78,12 +77,14 @@ Below is the full, alphabetical list of top-level widget properties for `image`.
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Label Example", "size": {"width": 500, "height": 500}, "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Label Example", "size": {"width": 500, "height": 500} },
         {
             "type"       : "image",
             "channels"   : [
@@ -117,10 +118,8 @@ nchnls = 2
 instr 1
     imageX:k, trigX:k = cabbageGetValue:k("image1X")
     imageY:k, trigY:k = cabbageGetValue:k("image1Y")
-    printf("Current Mouse X Position: %f
-", trigX, imageX)
-    printf("Current Mouse Y Position: %f
-", trigY, imageY)
+    printf("Current Mouse X Position: %f\n", trigX, imageX)
+    printf("Current Mouse Y Position: %f\n", trigY, imageY)
 endin
 
 
@@ -131,4 +130,3 @@ i1 0 z
 </CsScore>
 </CsoundSynthesizer>
 ```
-

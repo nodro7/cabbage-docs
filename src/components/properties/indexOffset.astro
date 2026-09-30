@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>IndexOffset determines if combo box indices start from 0 or 1. When true, the first item has index 1; when false, it starts from 0.</p>`;
+---
+<div class="property-section">
+  <Code code={`"indexOffset": false`} lang="json" />
+  <Fragment set:html={description} />
+</div>

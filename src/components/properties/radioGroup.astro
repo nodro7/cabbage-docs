@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Radio group allows buttons to be grouped together so that only one button in the group can be active at a time. Set to -1 for no grouping, or to a positive integer to group buttons together.</p>`;
+---
+<div class="property-section">
+  <Code code={`"radioGroup": -1`} lang="json" />
+  <Fragment set:html={description} />
+</div>

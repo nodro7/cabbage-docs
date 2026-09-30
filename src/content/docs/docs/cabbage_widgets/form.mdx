@@ -3,20 +3,18 @@ title: "Form"
 ---
 
 import Caption from "../../../../components/properties/caption.astro";
-import ChannelConfig from "../../../../components/properties/channelConfig.astro";
-import EnableDevTools from "../../../../components/properties/enableDevTools.astro";
-import Id from "../../../../components/properties/id.astro";
-import Logger from "../../../../components/properties/logger.astro";
-import Package from "../../../../components/properties/package.astro";
-import Pluginid from "../../../../components/properties/pluginId.astro";
 import Size from "../../../../components/properties/size.astro";
-import StyleForm from "../../../../components/properties/form.style.astro";
+import Id from "../../../../components/properties/id.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleForm from "../../../../components/properties/form.style.astro";
 
-# Form
 
-`form` creates the main application window. `pluginId` is the only required property, while `caption` will only be used when running an instrument as a standalone. The default values for size are 600x300. There can only be one form per instrument, and it has the unique channel name of `MainForm`.
+`form` creates the main application window. The default values for size are 600x300. There can only be one form per instrument, and it has the unique channel name of `MainForm`. The `caption` property will only be displayed when running an instrument as a standalone application.
+
+:::note
+Configuration properties like `pluginId`, `channelConfig`, `enableDevTools`, `logger`, and `package` have been moved to the top-level of the Cabbage JSON structure. See the [Widget Introduction](./intro) for more details.
+:::
 
 ## Properties (alphabetical)
 
@@ -26,22 +24,6 @@ Below is the full, alphabetical list of top-level widget properties for `form`.
 <a id="caption" class="anchor-target"></a>
 ### Caption
 <Caption />
-
-<a id="channelConfig" class="anchor-target"></a>
-### ChannelConfig
-<ChannelConfig />
-
-<a id="enableDevTools" class="anchor-target"></a>
-### EnableDevTools
-<EnableDevTools />
-
-<a id="logger" class="anchor-target"></a>
-### Logger
-<Logger />
-
-<a id="package" class="anchor-target"></a>
-### Package
-<Package />
 
 <a id="id" class="anchor-target"></a>
 ### Id
@@ -53,37 +35,21 @@ Below is the full, alphabetical list of top-level widget properties for `form`.
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Button Example", "size": {"width": 380, "height": 300}, "guiMode": "queue", "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Form Example", "size": {"width": 380, "height": 200} },
         {
-            "type"    : "checkBox",
-            "bounds"  : {"left": 10, "top": 16, "width": 126, "height": 18},
+            "type"    : "label",
             "channels": [
-                { "id": "trigger", "event": "valueChanged", "range": {"min": 0, "max": 1, "defaultValue": 0, "skew": 1, "increment": 1} }
+                { "id": "info", "event": "valueChanged" }
             ],
-            "label"   : {"text": "Synth Enabled"}
-        },
-        {
-            "type"    : "button",
-            "bounds"  : {"left": 146, "top": 12, "width": 80, "height": 30},
-            "channels": [
-                { "id": "mute", "event": "valueChanged", "range": {"min": 0, "max": 1, "defaultValue": 0, "skew": 1, "increment": 1} }
-            ],
-            "label"   : { "text": {"off": "Unmute", "on": "Mute"} }
-        },
-        {
-            "type"    : "button",
-            "bounds"  : {"left": 240, "top": 12, "width": 121, "height": 30},
-            "channels": [ {"id": "toggleFreq", "event": "valueChanged"} ],
-            "label"   : { "text": {"off": "Toggle Freq", "on": "Toggle Freq"} },
-            "style"   : {
-                "off": {"backgroundColor": "#ff0000", "textColor": "#ffffff"},
-                "on" : {"backgroundColor": "#0295cf", "textColor": "#ffffff"}
-            }
+            "bounds"  : {"left": 10, "top": 16, "width": 360, "height": 20},
+            "label"   : {"text": "The form sets this window's caption and size"}
         }
     ]
 }
@@ -99,6 +65,7 @@ ksmps = 32
 nchnls = 2
 0dbfs = 1
 
+
 ; Rory Walsh 2021
 ;
 ; License: CC0 1.0 Universal
@@ -106,28 +73,8 @@ nchnls = 2
 ; even for commercial purposes, all without asking permission.
 
 instr 1
-
-    kVal, kTrig = cabbageGetValue("trigger")
-
-    if kTrig == 1 then
-        if kVal == 1 then
-            event("i", "Synth", 0, 3600)
-        else
-            iInstrNum = nstrnum("Synth")
-            turnoff2(iInstrNum, 0, 0)
-        endif
-    endif
-
+    prints("Form example running\n")
 endin
-
-instr Synth
-    prints("Starting Synth")
-    kMute = cabbageGetValue("mute")
-    a1 = oscili(.5*kMute, 300*(cabbageGetValue("toggleFreq")+1))
-    outs(a1, a1)
-endin
-
-
 
 
 </CsInstruments>
@@ -137,4 +84,3 @@ i1 0 z
 </CsScore>
 </CsoundSynthesizer>
 ```
-

@@ -1,8 +1,7 @@
 ---
-title: Custom Widgets
+title: "Custom Widgets"
+description: "Creating custom widget classes for use with the Cabbage editor"
 ---
-
-# Custom Widgets
 
 Creating custom widget classes allows you to develop new controls while retaining the full editing tools provided by the Cabbage VS Code extension — including the property panel and drag-to-position editing. New widgets can be created using the command palette by selecting **Create New Custom Widget**.
 

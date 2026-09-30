@@ -1,18 +1,17 @@
 ---
-title: Custom Interfaces
+title: "Custom Interfaces"
+description: "Building entirely custom web-based plugin interfaces with any framework"
 ---
-
-# Custom Interfaces
 
 It's also possible to design a completely custom web-based interface using any framework you like — vanilla HTML/JS, Svelte, React, Vue, and so on. The Cabbage JS API handles all communication with the Csound backend, so your UI code stays framework-agnostic.
 
-Unlike [Custom Widgets](customwidgets/), this approach does not use Cabbage's built-in UI editing tools. Instead, you have full control over the interface and simply use the API to exchange data with Csound.
+Unlike [Custom Widgets](./customwidgets), this approach does not use Cabbage's built-in UI editing tools. Instead, you have full control over the interface and simply use the API to exchange data with Csound.
 
 📃 **Note:** A `<Cabbage>{...}</Cabbage>` section is still required in your `.csd` file to define the plugin parameters exposed to the host DAW. The widgets declared there are not rendered visually when a custom interface is active, but they set up the parameter slots that your UI controls map to.
 
 ## Getting Started
 
-The quickest way to start a custom interface project is the **Export Vanilla Plugin** command in the Command Palette. This exports a working plugin binary and creates a ready-to-use resource folder alongside it containing:
+The quickest way to start a custom interface project is the **Create Vanilla VST3 Effect/Synth Project (Custom UI)** command in the Command Palette. This scaffolds a working plugin binary and creates a ready-to-use resource folder alongside it containing:
 
 - A `cabbage/` folder with `cabbage.js` and supporting files
 - A starter `index.html` wired up to the Cabbage JS API (can be removed in using a build tool to generate a user-defined index.html)
@@ -286,3 +285,4 @@ export function MyControl() {
   return <input type="range" min={0} max={1} step={0.01} value={value} onChange={onChange} />;
 }
 ```
+

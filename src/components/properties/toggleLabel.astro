@@ -1,0 +1,20 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Configures the label shown inside widgets that switch between off/on states, such as <code>button</code> and <code>fileButton</code>.</p>
+<ul>
+<li>text.off: string — the text shown when the widget value is <code>0</code>.</li>
+<li>text.on: string — the text shown when the widget value is <code>1</code>.</li>
+<li>align: string — optional text alignment for widgets that support it, such as <code>button</code>.</li>
+</ul>
+<p>Typography and colors are configured via <code>style.*</code>, including <code>style.on.textColor</code>, <code>style.off.textColor</code>, and related state styles.</p>`;
+---
+<div class="property-section">
+  <Code code={`"label": {
+  "text": {
+    "off": "Start",
+    "on": "Stop"
+  },
+  "align": "center"
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

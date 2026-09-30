@@ -1,0 +1,16 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Color defines color schemes for widgets. Different widgets use different color properties: background and text for general use, highlighted for selection states, and keyboard-specific colors for piano keys.</p>`;
+---
+<div class="property-section">
+  <Code code={`"color": {
+    "background": "#ffffff",
+    "text": "#000000",
+    "highlighted": "#dddddd",
+    "whiteNote": "#ffffff",
+    "arrowBackground": "#0295cf",
+    "keydown": "#93d200",
+    "blackNote": "#000000"
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>

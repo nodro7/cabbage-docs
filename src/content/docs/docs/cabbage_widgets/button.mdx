@@ -7,13 +7,12 @@ import Automatable from "../../../../components/properties/automatable.astro";
 import Bounds from "../../../../components/properties/bounds.astro";
 import Channel from "../../../../components/properties/channel.astro";
 import Id from "../../../../components/properties/id.astro";
-import Label from "../../../../components/properties/label.astro";
+import ToggleLabel from "../../../../components/properties/toggleLabel.astro";
 import Persistence from "../../../../components/properties/persistence.astro";
-import StyleButton from "../../../../components/properties/button.style.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleButton from "../../../../components/properties/button.style.astro";
 
-# Button
 
 `button` creates a button on screen that can be used for a whole range of tasks. The "channel" string identifies the channel on which Cabbage will communicate with Csound.
 
@@ -43,7 +42,7 @@ Below is the full, alphabetical list of top-level widget properties for `button`
 
 <a id="label" class="anchor-target"></a>
 ### Label
-<Label />
+<ToggleLabel />
 
 <a id="persistence" class="anchor-target"></a>
 ### Persistence
@@ -63,12 +62,14 @@ Below is the full, alphabetical list of top-level widget properties for `button`
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Button Example", "size": {"width": 380, "height": 300}, "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Button Example", "size": {"width": 380, "height": 300} },
         {
             "type"    : "button",
             "bounds"  : {"left": 16, "top": 12, "width": 117, "height": 30},
@@ -106,7 +107,6 @@ Below is the full, alphabetical list of top-level widget properties for `button`
 <CsInstruments>
 ; Initialize the global variables.
 ksmps = 32
-nchnls = 2
 0dbfs = 1
 
 ; Rory Walsh 2021
@@ -146,5 +146,6 @@ i1 0 z
 </CsScore>
 </CsoundSynthesizer>
 ```
-
 <Visible />
+
+

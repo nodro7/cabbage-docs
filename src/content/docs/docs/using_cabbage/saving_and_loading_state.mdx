@@ -1,0 +1,406 @@
+---
+title: "Saving and Loading State"
+description: "How to save and load widget state using presets"
+---
+
+Cabbage provides a robust preset system that lets you save and restore the state of your widgets to JSON files. This is useful for building preset managers, A/B comparison tools, or any system that needs to recall a previous configuration. Note that this system is separate from the host DAW's preset management, and is purely for saving widget states within your Cabbage instrument. By default, only the channel data from each widget is saved, i.e, its channel ID and current value. The entire UI state can also be saved (see below), but is disabled by default to reduce the file size of presets. 
+
+📃 **Note:** The DAW state saving/loading will save the entire JSON tree, so any changes made to the widget's UI state will be reflected in the DAW's saved state.
+
+## How it works
+
+State is managed through two opcodes:
+
+- [`cabbageSaveState`](../cabbage_opcodes/cabbagesavestate) – writes the current widget state to a JSON file
+- [`cabbageLoadState`](../cabbage_opcodes/cabbageloadstate) – restores widget state from a previously saved JSON file
+
+Both opcodes run at i-time only, so they should be called from dedicated instruments that are triggered via UI events such as a button press, or item click.
+
+## Basic save and load
+
+The two examples below show the simplest way to save and load state. The filename is generated using Csound string formatting, and the file is saved in the same directory as the `.csd` file using the `CSD_PATH` reserved channel.
+
+```csound
+instr SaveState
+    filename:S = sprintf("%s/myPreset.json", chnget:S("CSD_PATH"))
+    cabbageSaveState(filename)
+endin
+
+instr LoadState
+    filename:S = sprintf("%s/myPreset.json", chnget:S("CSD_PATH"))
+    cabbageLoadState(filename)
+endin
+```
+
+The `CSD_PATH` reserved channel gives you the directory where the `.csd` file lives, which is a convenient place to store presets alongside your instrument. Note this provide only one save file, which will be overwritten each time you save. To support multiple presets, generate unique filenames using string formatting (e.g., `preset_%d.json` with a preset number). See the extended example below for a complete implementation of dynamic filenames.
+
+## Triggering save/load from the UI
+
+Use buttons clicks or other such events to trigger the save and load instruments. An always on (`z` duration) `PresetManager` instrument can be used to monitor the button channels and trigger the appropriate instrument:
+
+```csound
+instr PresetManager
+    saveValue:k, saveTrig:k = cabbageGetValue:k("saveButton")
+    loadValue:k, loadTrig:k = cabbageGetValue:k("loadButton")
+
+    if (saveTrig == 1) then
+        event("i", "SaveState", 0, 0.1)
+    endif
+
+    if (loadTrig == 1) then
+        event("i", "LoadState", 0, 0.1)
+    endif
+endin
+```
+
+## Excluding widgets from presets
+
+Not every widget should be saved and restored as part of a preset. Buttons that trigger actions (like "Save" or "Load" themselves) should be excluded. If not, they can cause undefined behavior through feedback loops. Use the `persistence` property in your widget JSON to control this:
+
+```json
+{
+    "type": "button",
+    "channels": [{ "id": "saveButton" }],
+    "persistence": { "preset": false, "session": false },
+    "label": { "text": { "on": "Save", "off": "Save" } }
+}
+```
+
+Setting `"preset": false` means the widget's value will not be included in saved state files, and will not be overwritten when state is loaded. The `"session"` flag controls whether the value is saved/restored between plugin sessions by the host.
+
+## Custom UI state and string channels
+
+The same session mechanism persists arbitrary text for custom interfaces: declare a channel with `"type": "string"` (e.g. on a hidden widget), push JSON into it with `sendControlData()`, and read it back from the launch dumps. String state round-trips through session and preset saves with no files involved. See [Persisting Custom UI State](../custom_interfaces/persisting_ui_state) for the full pattern.
+
+## Saving a widget's full JSON data
+
+Most widget needs only their current value saved and restored, which is what the default `cabbageSaveState` does. However, in some cases you may want to save the entire JSON state of a widget, including its UI properties (e.g., bounds, colours, styles). To do this, mark the widget with a user-defined custom property (e.g., `fullSave`) and filter at save time:
+
+```json
+{
+    "type": "rotarySlider",
+    "channels": [{ "id": "harmonic1", "range": {"max": 1000} }],
+    "fullSave": true
+}
+```
+
+Then build a filtered channel list using `cabbageGetWidgets` and `cabbageHasKey`:
+
+```csound
+instr SaveSelectedState
+    filename:S = sprintf("%s/savedState.json", chnget:S("CSD_PATH"))
+    fullSaveIndex:i init 0
+    fullSaveChannels:S[] init 10
+    channels:S[] = cabbageGetWidgets()
+    prints("Number of widgets found: %d\n", lenarray(channels))
+
+
+    for channel in channels do
+    // Make sure key exists first (Csound && does not short-circuit)
+    if(cabbageHasKey:i(channel, "fullSave") == 1) then
+        if(cabbageGet:i(channel, "fullSave") == 1) then
+            fullSaveChannels[fullSaveIndex] = channel
+            fullSaveIndex += 1
+        endif
+    endif
+    od
+
+    prints("Number of channels with fullSave flag: %d\n", fullSaveIndex)
+    cabbageSaveState(filename, fullSaveChannels)
+endin
+```
+
+When you pass a channel array as the second argument to `cabbageSaveState`, the selected widgets will have their entire JSON data saved. When loading state, the opcode will check if the saved JSON contains full widget data for each channel. If it does, it will restore the entire widget state from the JSON. If not, it will fall back to restoring just the channel value. This allows you to mix and match widgets with different levels of saved state as needed.
+
+
+## Full example
+
+The following example puts it all together — eight harmonic sliders that can be randomised, saved, and restored:
+
+```csound
+<Cabbage>
+{
+    "pluginId"     : "def1",
+    "channelConfig": [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"      : [
+        {
+            "type"          : "form",
+            "id"            : "MainForm",
+            "caption"       : "Slider Example",
+            "size"          : {"width": 461, "height": 482},
+            "guiMode"       : "queue",
+            "channels"      : [ {"id": "formChannel"} ],
+            "channelConfig" : "2-2",
+            "enableDevTools": true
+        },
+        {
+            "type"  : "csoundOutput",
+            "bounds": {"left": 10, "top": 350, "width": 540, "height": 170},
+            "style" : {
+                "backgroundColor": "#222222",
+                "border"         : "1px solid #444444",
+                "color"          : "#dddddd",
+                "fontSize"       : 8,
+                "fontFamily"     : "courier new, monospace"
+            }
+        },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 9, "width": 60, "height": 48},
+            "label"   : {"text": "Harmonic 1"},
+            "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
+            "channels": [
+                { "id": "harmonic1", "range": {"max": 1000} }
+            ],
+            "fullSave": true
+        },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 77, "width": 60, "height": 48},
+            "label"   : {"text": "Harmonic 2"},
+            "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
+            "channels": [
+                { "id": "harmonic2", "range": {"max": 1000} }
+            ],
+            "fullSave": true
+        },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 145, "width": 60, "height": 48},
+            "label"   : {"text": "Harmonic 3"},
+            "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
+            "channels": [
+                { "id": "harmonic3", "range": {"max": 1000} }
+            ],
+            "fullSave": true
+        },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 212, "width": 60, "height": 48},
+            "label"   : {"text": "Harmonic 4"},
+            "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
+            "channels": [
+                { "id": "harmonic4", "range": {"max": 1000} }
+            ],
+            "fullSave": true
+        },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"top": 68, "width": 60, "height": 48},
+            "label"   : {"text": "Harmonic 5"},
+            "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
+            "channels": [
+                { "id": "harmonic5", "range": {"max": 1000} }
+            ],
+            "fullSave": true
+        },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 78, "top": 68, "width": 60, "height": 48},
+            "label"   : {"text": "Harmonic 6"},
+            "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
+            "channels": [
+                { "id": "harmonic6", "range": {"max": 1000} }
+            ],
+            "fullSave": true
+        },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 146, "top": 68, "width": 60, "height": 48},
+            "label"   : {"text": "Harmonic 7"},
+            "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
+            "channels": [
+                { "id": "harmonic7", "range": {"max": 1000} }
+            ],
+            "fullSave": true
+        },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 214, "top": 68, "width": 60, "height": 48},
+            "label"   : {"text": "Harmonic 8"},
+            "style"   : { "label": {"fontColor": "#dddddd"}, "valueText": {"fontSize": 12} },
+            "channels": [
+                { "id": "harmonic8", "range": {"max": 1000} }
+            ],
+            "fullSave": true
+        },
+        {
+            "type"    : "csoundOutput",
+            "id"      : "csoundOutput1",
+            "bounds"  : {"left": 10, "top": 157, "width": 367, "height": 314},
+            "channels": [
+                { "id": "csoundOutput", "range": {"increment": 0.001} }
+            ],
+            "style"   : {
+                "backgroundColor": "#222222",
+                "fontFamily"     : "courier new, monospace",
+                "fontSize"       : 12,
+                "border"         : "1px solid #444444",
+                "color"          : "#dddddd"
+            }
+        },
+        {
+            "type"       : "button",
+            "bounds"     : {"top": 126, "width": 116, "height": 25},
+            "channels"   : [
+                { "id": "saveState", "range": {"increment": 0.001} }
+            ],
+            "persistence": {"preset": false, "session": false},
+            "label"      : { "text": {"on": "Save State", "off": "Save State"} }
+        },
+        {
+            "type"       : "button",
+            "bounds"     : {"left": 261, "top": 126, "width": 116, "height": 25},
+            "channels"   : [
+                { "id": "loadState", "range": {"increment": 0.001} }
+            ],
+            "persistence": {"preset": false, "session": false},
+            "label"      : { "text": {"on": "Load State", "off": "Load State"} }
+        },
+        {
+            "type"       : "button",
+            "bounds"     : {"left": 134, "top": 126, "width": 116, "height": 25},
+            "channels"   : [
+                { "id": "saveSelectedState", "range": {"increment": 0.001} }
+            ],
+            "persistence": {"preset": false, "session": false},
+            "label"      : { "text": {"on": "Save Selected State", "off": "Save Selected State"} }
+        },
+        {
+            "type"       : "button",
+            "bounds"     : {"left": 281, "top": 75},
+            "channels"   : [
+                { "id": "randomise", "range": {"increment": 0.001} }
+            ],
+            "persistence": {"preset": false, "session": false},
+            "label"      : { "text": {"on": "Randomise", "off": "Randomise"} }
+        }
+    ]
+}
+
+</Cabbage>
+<CsoundSynthesizer>
+<CsOptions>
+-n -d -+rtmidi=NULL -m0d -M0 --midi-key-cps=4 --midi-velocity-amp=5
+</CsOptions>
+<CsInstruments>
+; Initialize the global variables.
+ksmps = 32
+nchnls = 2
+0dbfs = 1
+
+wavetable@global:i = ftgen(1, 0, 4096, 10, 1, .8, .6, .4, .2, 0.1, 0.01)
+callsToReportValues@global:i init 0
+
+/* Main signal generator. A bank of 8 oscillators */
+instr MainSignal
+    // Assign all channel values to a freqs array
+    freqs:k[] init 8
+    for index in [k(1),k(2),k(3),k(4),k(5),k(6),k(7),k(8)] do
+        freqs[index-1] = cabbageGetValue:k(sprintfk("harmonic%d", index))
+    od
+
+    // Use new create/run opcode to create an array of oscillators and run them
+    oscillators:Opcode[] = create(oscili, lenarray(freqs))
+    oscBank:a[] = run(oscillators, 1, freqs, wavetable)
+    oscMix:a = sumarray(oscBank)/lenarray(oscBank)
+
+    out(oscMix, oscMix)
+
+    randomButton:k, randomButtonTrig:k = cabbageGetValue:k("randomise")
+    if(randomButtonTrig == 1) then
+        event("i", "RandomiseColors", 0, 0.1)
+        event("i", "RandomiseValues", 0.1, 0.1)
+    endif
+endin
+
+/* Quickly randomise values */
+instr RandomiseValues
+    prints("Randomising values...\n")
+    for index in [1, 2, 3, 4, 5, 6, 7, 8] do
+        cabbageSetValue(sprintf("harmonic%d", index), random:i(50, 1000))
+    od
+    event_i("i", "ReportValues", 1, 0)
+endin
+
+/* Quickly randomise colors */
+instr RandomiseColors
+    prints("Randomising colors...\n")
+    for index in [1, 2, 3, 4, 5, 6, 7, 8] do
+        cabbageSet(sprintf("harmonic%d", index), "style.thumb.backgroundColor", sprintf("#%06x", random:i(0, 0xFFFFFF)))
+    od
+endin
+
+/* Dedicated instrument for handling presets */
+instr PresetManager
+    saveAllButtonValue:k, saveAllButtonTrig:k = cabbageGetValue:k("saveState")
+    saveSelectedButtonValue:k, saveSelectedButtonTrig:k = cabbageGetValue:k("saveSelectedState")
+    loadButtonValue:k, loadButtonTrig:k = cabbageGetValue:k("loadState")
+
+    if (saveAllButtonTrig == 1) then
+        event("i", "SaveState", 0, 0.1)
+    endif
+
+    if (saveSelectedButtonTrig == 1) then
+        event("i", "SaveSelectedState", 0, 0.1)
+    endif
+
+    if (loadButtonTrig == 1) then
+        event("i", "LoadState", 0, 0.1)
+    endif
+
+endin
+
+/* Save all widget state for all widgets */
+instr SaveState
+    filename:S = sprintf("%s/savedState.json", chnget:S("CSD_PATH"))
+    cabbageSaveState(filename)
+endin
+
+/* Save all widgets, but only save the full widget data for any widgets
+in the fullSaveChannels array. */
+instr SaveSelectedState
+    filename:S = sprintf("%s/savedState.json", chnget:S("CSD_PATH"))
+    fullSaveIndex:i init 0
+    fullSaveChannels:S[] init 10
+    channels:S[] = cabbageGetWidgets()
+    prints("Number of widgets found: %d\n", lenarray(channels))
+
+
+    for channel in channels do
+        // Make sure key exists first (Csound && does not short-circuit)
+        if(cabbageHasKey:i(channel, "fullSave") == 1) then
+            if(cabbageGet:i(channel, "fullSave") == 1) then
+                fullSaveChannels[fullSaveIndex] = channel
+                fullSaveIndex += 1
+            endif
+        endif
+    od
+
+    prints("Number of channels with fullSave flag: %d\n", fullSaveIndex)
+    cabbageSaveState(filename, fullSaveChannels)
+endin
+
+/* Load state data from file */
+instr LoadState
+    prints("Loading state...\n")
+    filename:S = sprintf("%s/savedState.json", chnget:S("CSD_PATH"))
+    cabbageLoadState(filename)
+    event_i("i", "ReportValues", 1, 0)
+endin
+
+instr ReportValues
+    prints("Current values: %d\n", callsToReportValues)
+    callsToReportValues += 1
+    for index in [1, 2, 3, 4, 5, 6, 7, 8] do
+        prints("%f\n", cabbageGetValue(sprintf("harmonic%d", index)))
+    od
+endin
+</CsInstruments>
+<CsScore>
+;causes Csound to run for about 7000 years...
+i"MainSignal" 0 z
+i"PresetManager" 0 z
+</CsScore>
+</CsoundSynthesizer>
+```

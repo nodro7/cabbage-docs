@@ -1,5 +1,6 @@
 ---
 title: "Working with Media Files"
+description: "Managing media files in Cabbage 3"
 ---
 
 Because Cabbage uses a web frontend, all image files used in a UI are sand-boxed. This means that for security reasons, Cabbage UIs can only access files within its own designated directory structure. The browser-based interface cannot directly access files from arbitrary locations on your computer - they must be properly included in your project's folder. 
@@ -18,10 +19,10 @@ Media files can be selected from the property panel or added manually to a widge
 📃 **Note:** Most widgets that support images also allow embedding SVG strings, eliminating the need for separate image files. For example:
 
 ```json
-"svg"       : {
-    "markup": "<svg width=\"39\" height=\"28\" viewBox=\"0 0 39 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"M27.0766 19.6261L37.4187\" fill=\"white\"/> </svg>",
-    "padding": {"left": 3, "right": 6, "top": 6, "bottom": 6}
-},
+    "svg"       : {
+        "markup": "<svg width=\"39\" height=\"28\" viewBox=\"0 0 39 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"> <path d=\"M27.0766 19.6261L37.4187\" fill=\"white\"/> </svg>",
+        "padding": {"left": 3, "right": 6, "top": 6, "bottom": 6}
+    },
 ```
 
 ### Accessing audio files
@@ -29,8 +30,8 @@ Media files can be selected from the property panel or added manually to a widge
 Audio files are read by Csound, hence they don't need and special considerations. However, you should also make sure to use full absolute paths for all sound files. The simplest way of doing this is to make sure your sound files are located in the same directory as your .csd file. Then use the `CSD_PATH` reserved channel to construct the full paths:
 
 ```csound
-SFileName1 = "loop1.wav"
-SFileName1 = sprintf("%s/%s", chnget:S("CSD_PATH"), SFileName)
+    SFileName1 = "loop1.wav"
+    SFileName1 = sprintf("%s/%s", chnget:S("CSD_PATH"), SFileName)
 ```
 
 
@@ -58,6 +59,6 @@ When exporting your instrument as a plugin you can use the `package` object from
 },
 ```
 
-For more information, see the [`form`](/docs/cabbage_widgets/form/) widget.
+For more information, see the [`form`](../cabbage_widgets/form) widget.
 
 📃 **Note:** Images can be included as base64 strings

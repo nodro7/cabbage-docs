@@ -1,5 +1,5 @@
 ---
-title: "FileButton"
+title: "File Button"
 ---
 
 import Active from "../../../../components/properties/active.astro";
@@ -7,13 +7,12 @@ import Automatable from "../../../../components/properties/automatable.astro";
 import Bounds from "../../../../components/properties/bounds.astro";
 import Channel from "../../../../components/properties/channel.astro";
 import Id from "../../../../components/properties/id.astro";
-import Label from "../../../../components/properties/label.astro";
+import ToggleLabel from "../../../../components/properties/toggleLabel.astro";
 import Persistence from "../../../../components/properties/persistence.astro";
-import StyleFileButton from "../../../../components/properties/filebutton.style.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleFileButton from "../../../../components/properties/filebutton.style.astro";
 
-# File Button
 
 `fileButton` creates a button that opens a native file browser dialog. When clicked, it allows users to select files from their system. The selected file path is sent as a string value through the widget's channel, enabling dynamic audio file loading and other file-based operations in Csound.
 
@@ -71,7 +70,7 @@ For all files, use `"*"` or `"*.*"`.
 
 <a id="label" class="anchor-target"></a>
 ### Label
-<Label />
+<ToggleLabel />
 
 <a id="mode" class="anchor-target"></a>
 ### Mode

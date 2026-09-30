@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>SvgText contains SVG markup for custom image widget graphics. When set, this SVG content will be rendered instead of external image files.</p>`;
+---
+<div class="property-section">
+  <Code code={`"svgText": ""`} lang="json" />
+  <Fragment set:html={description} />
+</div>

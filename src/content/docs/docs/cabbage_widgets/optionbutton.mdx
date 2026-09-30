@@ -10,11 +10,10 @@ import Id from "../../../../components/properties/id.astro";
 import Items from "../../../../components/properties/items.astro";
 import Persistence from "../../../../components/properties/persistence.astro";
 import Populate from "../../../../components/properties/populate.astro";
-import StyleOptionButton from "../../../../components/properties/optionButton.style.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleOptionButton from "../../../../components/properties/optionButton.style.astro";
 
-# OptionButton
 
 `optionButton` creates a button which users can use to toggle through a range of items. Pressing the button will send the index of that item to Csound on a channel named by the channel string.
 
@@ -68,12 +67,14 @@ Below is the full, alphabetical list of top-level widget properties for `optionB
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Combobox Example", "size": {"width": 580, "height": 500}, "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Combobox Example", "size": {"width": 580, "height": 500} },
         {
             "type"    : "rotarySlider",
             "bounds"  : {"left": 12, "top": 9, "width": 86, "height": 90},
@@ -160,4 +161,6 @@ f0 z
 </CsScore>
 </CsoundSynthesizer>
 ```
+
+ 
 

@@ -1,5 +1,5 @@
 ---
-title: "Checkbox"
+title: "CheckBox"
 ---
 
 import Active from "../../../../components/properties/active.astro";
@@ -9,12 +9,11 @@ import Channel from "../../../../components/properties/channel.astro";
 import Id from "../../../../components/properties/id.astro";
 import Label from "../../../../components/properties/label.astro";
 import Persistence from "../../../../components/properties/persistence.astro";
-import StyleCheckbox from "../../../../components/properties/checkbox.style.astro";
 import Value from "../../../../components/properties/value.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleCheckbox from "../../../../components/properties/checkbox.style.astro";
 
-# CheckBox
 
 `checkBox` creates a checkBox on screen that can be used for a whole range of tasks. The "channel" string identifies the channel on which Cabbage will communicate with Csound.
 
@@ -68,12 +67,14 @@ Below is the full, alphabetical list of top-level widget properties for `checkBo
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Button Example", "size": {"width": 380, "height": 300}, "guiMode": "queue", "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Button Example", "size": {"width": 380, "height": 300}, "guiMode": "queue" },
         {
             "type"    : "checkBox",
             "bounds"  : {"left": 10, "top": 16, "width": 126, "height": 18},
@@ -152,4 +153,3 @@ i1 0 z
 </CsScore>
 </CsoundSynthesizer>
 ```
-

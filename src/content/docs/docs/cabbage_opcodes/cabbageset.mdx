@@ -2,11 +2,6 @@
 title: "cabbageSet"
 ---
 
-
-
-
-#cabbageSet
-
 This opcode sets a widget property, i.e,`colour.fill`, `visible`, `opacity`, etc. It can run at init-time or k-time. The k-time variant must use a trigger to initiate the update (see below). 
 
 ## Syntax
@@ -39,8 +34,11 @@ cabbageSet:k(kTrig, SChannel, SProperty, kValue[])
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "GetSet Opcodes", "size": {"height": 500, "width": 580}, "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "GetSet Opcodes", "size": {"height": 500, "width": 580} },
         {
             "type"   : "rotarySlider",
             "channel": "gain",
@@ -139,3 +137,4 @@ f0 z
 </CsScore>
 </CsoundSynthesizer>
 ```
+

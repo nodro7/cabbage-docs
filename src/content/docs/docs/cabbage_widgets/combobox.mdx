@@ -10,11 +10,10 @@ import Id from "../../../../components/properties/id.astro";
 import Items from "../../../../components/properties/items.astro";
 import Persistence from "../../../../components/properties/persistence.astro";
 import Populate from "../../../../components/properties/populate.astro";
-import StyleCombo from "../../../../components/properties/combobox.style.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleCombo from "../../../../components/properties/combobox.style.astro";
 
-# ComboBox
 
 `combobox` creates a drop-down list of items which users can choose from. Once the user selects an item, the index of their selection will be sent to Csound on a channel named by the channel string.
 
@@ -68,12 +67,14 @@ Below is the full, alphabetical list of top-level widget properties for `combobo
 
 ## Example
 
-
 ```csound
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Combobox Example", "size": {"width": 580, "height": 500}, "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Combobox Example", "size": {"width": 580, "height": 500} },
         {
             "type"    : "rotarySlider",
             "id"      : "att",
@@ -187,4 +188,5 @@ f0 z
 </CsScore>
 </CsoundSynthesizer>
 ```
+
 
