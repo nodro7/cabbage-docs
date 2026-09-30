@@ -1,0 +1,26 @@
+---
+// Title, description, canonical and social tags for a marketing page.
+import { site } from '../../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Site-relative path of the social image. */
+  ogImage?: string;
+}
+const { title, description, ogImage } = Astro.props;
+const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const image = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+{image && <meta property="og:image" content={image} />}
+<meta name="twitter:card" content="summary_large_image" />

@@ -1,0 +1,26 @@
+---
+// A link or button styled as a button. Primary is the green fill and is
+// reserved for Install; quiet is the bordered variant.
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'quiet';
+  /** md is 48px tall (content), sm is 44px (header). */
+  size?: 'md' | 'sm';
+  class?: string;
+  [attribute: string]: unknown;
+}
+const { href, variant = 'primary', size = 'md', class: className, ...rest } = Astro.props;
+const classes = ['btn', `btn-${variant}`, size === 'sm' && 'btn-sm', className];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type="button" class:list={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

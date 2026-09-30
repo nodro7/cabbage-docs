@@ -1,0 +1,157 @@
+/*
+ * Base styles for the marketing pages (Home, Install, Learn, 404).
+ * Needs tokens.css and components.css. The docs use starlight.css instead.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+html[data-theme='light'] {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--cb-bg);
+  color: var(--cb-fg);
+  font-family: var(--cb-font-sans);
+  font-size: var(--cb-text-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ol,
+ul,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--cb-blue);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+code,
+kbd,
+pre {
+  font-family: var(--cb-font-mono);
+}
+
+main:focus {
+  outline: none;
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: calc(var(--cb-container) + 2 * var(--cb-gutter));
+  margin-inline: auto;
+  padding-inline: var(--cb-gutter);
+}
+
+/* Sections alternate --cb-bg and --cb-chrome, separated by 1px lines.
+   The footer draws the last line. */
+.cb-section {
+  border-bottom: 1px solid var(--cb-line);
+}
+.cb-section:last-child {
+  border-bottom: 0;
+}
+.cb-section--chrome {
+  background: var(--cb-chrome);
+}
+
+/* Type. Headlines are condensed with font-stretch, not a second family. */
+.cb-display {
+  font-size: var(--cb-text-display);
+  line-height: 1.02;
+  font-weight: 600;
+  font-stretch: var(--cb-stretch-display);
+  letter-spacing: -0.015em;
+}
+.cb-title {
+  font-size: var(--cb-text-title);
+  line-height: 1.04;
+  font-weight: 600;
+  font-stretch: var(--cb-stretch-display);
+  letter-spacing: -0.015em;
+}
+.cb-h2 {
+  font-size: var(--cb-text-h2);
+  line-height: 1.08;
+  font-weight: 600;
+  font-stretch: var(--cb-stretch-h2);
+  letter-spacing: -0.01em;
+}
+.cb-h3-lg {
+  font-size: var(--cb-text-h3-lg);
+  line-height: 1.15;
+  font-weight: 600;
+  font-stretch: 88%;
+}
+.cb-h3 {
+  font-size: var(--cb-text-h3);
+  line-height: 1.25;
+  font-weight: 600;
+  font-stretch: var(--cb-stretch-h3);
+}
+.cb-lead {
+  font-size: var(--cb-text-lead);
+  line-height: 1.6;
+  color: var(--cb-muted);
+}
+.cb-muted {
+  color: var(--cb-muted);
+}
+.cb-meta {
+  font-size: var(--cb-text-meta);
+  color: var(--cb-faint);
+}
+
+/* There is no motion on load anywhere. This removes what is left. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

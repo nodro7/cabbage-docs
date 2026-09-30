@@ -1,0 +1,12 @@
+---
+// The Cabbage mark: green cabbage, blue headphones, in both themes.
+// Decorative wherever it sits next to the wordmark, so alt is empty.
+interface Props {
+  /** Rendered height in CSS pixels. Width follows the mark's 97:91 ratio. */
+  height?: number;
+}
+const { height = 34 } = Astro.props;
+const width = Math.round((height * 97.117) / 90.999);
+---
+
+<img src="/img/cabbage-mark.svg" alt="" width={width} height={height} decoding="async" />

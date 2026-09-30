@@ -1,0 +1,173 @@
+---
+// The row inside the header: wordmark, optional search, nav links, theme
+// toggle and the Install button. Used as is by the marketing header, and by
+// the Starlight Header override inside Starlight's own <header>.
+//
+// The toggle and Install are rendered twice and one copy is hidden at each
+// width. On narrow screens they sit beside the wordmark and the links wrap
+// to a second row; on wide screens they follow the links. Rendering both
+// keeps the keyboard order the same as the visual order in each layout.
+import { install, isCurrent, primary } from '../../data/nav';
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+interface Props {
+  /** "docs" sits inside Starlight's fixed-height bar and never wraps. */
+  variant?: 'site' | 'docs';
+}
+const { variant = 'site' } = Astro.props;
+const path = Astro.url.pathname;
+const installCurrent = isCurrent(install, path) ? 'page' : undefined;
+---
+
+<div class:list={['cb-header', `cb-header--${variant}`]}>
+  <div class="cb-header__start">
+    <a class="cb-brand" href="/">
+      <Logo />
+      <span>Cabbage</span>
+    </a>
+    <slot name="search" />
+  </div>
+
+  <div class="cb-header__actions cb-header__actions--narrow">
+    <ThemeToggle />
+    <a class="btn btn-primary btn-sm" href={install.href} aria-current={installCurrent}>{install.label}</a>
+  </div>
+
+  <div class="cb-header__end">
+    <nav class="cb-header__nav" aria-label="Main">
+      {
+        primary.map((item) => (
+          <a class="cb-navlink" href={item.href} aria-current={isCurrent(item, path) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="cb-header__actions cb-header__actions--wide">
+      <ThemeToggle />
+      <a class="btn btn-primary btn-sm" href={install.href} aria-current={installCurrent}>{install.label}</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cb-header {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+  }
+  .cb-header--site {
+    max-width: calc(var(--cb-container) + 2 * var(--cb-gutter));
+    margin: 0 auto;
+    padding: 10px var(--cb-gutter);
+  }
+  /* Inside Starlight's bar the height is fixed, so nothing wraps. */
+  .cb-header--docs {
+    flex-wrap: nowrap;
+    height: 100%;
+  }
+
+  .cb-header__start {
+    display: flex;
+    align-items: center;
+    gap: 8px 28px;
+    min-width: 0;
+  }
+
+  .cb-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: var(--cb-target);
+    color: var(--cb-fg);
+    font-size: 1.3125rem;
+    font-weight: 700;
+    font-stretch: var(--cb-stretch-brand);
+    line-height: 1;
+    text-decoration: none;
+  }
+  .cb-brand:hover {
+    text-decoration: none;
+  }
+
+  .cb-header__end {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+  .cb-header--docs .cb-header__end {
+    flex-wrap: nowrap;
+  }
+
+  .cb-header__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .cb-navlink {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--cb-target);
+    padding: 0 12px;
+    border-radius: var(--cb-radius);
+    font-size: var(--cb-text-small);
+    font-weight: 500;
+    color: var(--cb-muted);
+    text-decoration: none;
+  }
+  .cb-navlink:hover {
+    color: var(--cb-fg);
+    background: var(--cb-raise);
+    text-decoration: none;
+  }
+  .cb-navlink[aria-current='page'] {
+    color: var(--cb-fg);
+  }
+
+  .cb-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cb-header__actions .btn {
+    margin-left: 8px;
+  }
+
+  /* Wide: one row. The copy beside the wordmark is hidden. */
+  .cb-header__actions--narrow {
+    display: none;
+  }
+
+  /* Marketing pages below 42rem: two rows. Wordmark, toggle and Install on
+     the first, the links on the second. */
+  @media (max-width: 41.99rem) {
+    .cb-header--site {
+      column-gap: 8px;
+    }
+    .cb-header--site .cb-header__actions--narrow {
+      display: flex;
+    }
+    .cb-header--site .cb-header__actions--wide {
+      display: none;
+    }
+    .cb-header--site .cb-header__end {
+      flex-basis: 100%;
+      margin-inline: -12px;
+    }
+  }
+
+  /* Docs pages below 50rem: the links, the toggle and Install live in
+     Starlight's mobile menu instead (see starlight/MobileMenuFooter.astro). */
+  @media (max-width: 49.99rem) {
+    .cb-header--docs .cb-header__end {
+      display: none;
+    }
+  }
+</style>

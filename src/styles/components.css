@@ -1,0 +1,91 @@
+/*
+ * Shared pieces used on the marketing pages and inside the Starlight docs.
+ * Needs tokens.css. Loaded by SiteLayout and by Starlight's customCss.
+ */
+
+/* Focus: 2px solid with a 3px offset on every interactive element. */
+:focus-visible {
+  outline: 2px solid var(--cb-focus);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Buttons. One primary action per view, and it is always Install. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: var(--cb-radius);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover {
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--cb-green);
+  color: var(--cb-green-ink);
+}
+.btn-primary:hover {
+  background: var(--cb-green-hover);
+}
+.btn-quiet {
+  background: transparent;
+  border-color: var(--cb-line);
+  color: var(--cb-fg);
+}
+.btn-quiet:hover {
+  background: var(--cb-raise);
+}
+.btn-sm {
+  min-height: var(--cb-target);
+  padding: 0 18px;
+  font-size: var(--cb-text-small);
+}
+
+.textlink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--cb-target);
+  font-weight: 500;
+  color: var(--cb-blue);
+  text-decoration: none;
+}
+.textlink:hover {
+  text-decoration: underline;
+}
+
+.iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cb-target);
+  height: var(--cb-target);
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius);
+  background: transparent;
+  color: var(--cb-muted);
+  cursor: pointer;
+}
+.iconbtn:hover {
+  color: var(--cb-fg);
+  background: var(--cb-raise);
+}

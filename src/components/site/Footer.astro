@@ -1,0 +1,186 @@
+---
+// Site footer. "full" is the marketing footer. "compact" sits inside the
+// docs content column, under the pagination: the link groups in one or two
+// rows, then the licence and vegetables lines.
+import { footer } from '../../data/nav';
+import { licenceLine, site } from '../../data/site';
+import Logo from './Logo.astro';
+
+interface Props {
+  variant?: 'full' | 'compact';
+}
+const { variant = 'full' } = Astro.props;
+---
+
+{
+  variant === 'full' ? (
+    <footer class="cb-footer">
+      <div class="cb-footer__inner">
+        <div class="cb-footer__grid">
+          <div class="cb-footer__brand">
+            <div class="cb-footer__mark">
+              <Logo />
+              <span>Cabbage</span>
+            </div>
+            <p>{site.tagline}</p>
+          </div>
+          {footer.map((group) => (
+            <nav class="cb-footer__nav" aria-label={group.label}>
+              <h2>{group.label}</h2>
+              <ul role="list">
+                {group.items.map((item) => (
+                  <li>
+                    <a href={item.href}>{item.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+        <div class="cb-footer__legal">
+          <span>{licenceLine}</span>
+          <span>{site.vegetablesLine}</span>
+        </div>
+      </div>
+    </footer>
+  ) : (
+    <div class="cb-footer-compact" data-pagefind-ignore>
+      <nav class="cb-footer-compact__groups" aria-label="Footer">
+        {footer.map((group) => (
+          <div class="cb-footer-compact__group">
+            <span class="cb-footer-compact__label">{group.label}</span>
+            <ul role="list">
+              {group.items.map((item) => (
+                <li>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+      <p>{licenceLine}</p>
+      <p>{site.vegetablesLine}</p>
+    </div>
+  )
+}
+
+<style>
+  /* ---------- Full ---------- */
+  .cb-footer {
+    background: var(--cb-chrome);
+    border-top: 1px solid var(--cb-line);
+  }
+  .cb-footer__inner {
+    box-sizing: border-box;
+    max-width: calc(var(--cb-container) + 2 * var(--cb-gutter));
+    margin: 0 auto;
+    padding: 56px var(--cb-gutter) 40px;
+  }
+  .cb-footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    gap: 32px 40px;
+  }
+  .cb-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .cb-footer__mark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3125rem;
+    font-weight: 700;
+    font-stretch: var(--cb-stretch-brand);
+    line-height: 1;
+  }
+  .cb-footer__brand p {
+    max-width: 260px;
+    font-size: var(--cb-text-small);
+    color: var(--cb-muted);
+  }
+  .cb-footer__nav h2 {
+    margin: 0 0 4px;
+    font-size: var(--cb-text-meta);
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--cb-muted);
+  }
+  .cb-footer__nav ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cb-footer__nav a {
+    display: flex;
+    align-items: center;
+    min-height: var(--cb-target);
+    font-size: var(--cb-text-small);
+    color: var(--cb-fg);
+    text-decoration: none;
+  }
+  .cb-footer__nav a:hover {
+    text-decoration: underline;
+  }
+  .cb-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cb-line);
+    font-size: var(--cb-text-meta);
+    color: var(--cb-muted);
+  }
+
+  /* ---------- Compact (docs) ---------- */
+  .cb-footer-compact {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--cb-line);
+    font-size: var(--cb-text-meta);
+    line-height: 1.5;
+    color: var(--cb-muted);
+  }
+  .cb-footer-compact__groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 32px;
+    margin-bottom: 12px;
+  }
+  .cb-footer-compact__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 12px;
+  }
+  .cb-footer-compact__label {
+    font-weight: 600;
+  }
+  .cb-footer-compact ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cb-footer-compact a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    color: var(--cb-fg);
+    text-decoration: none;
+  }
+  .cb-footer-compact a:hover {
+    text-decoration: underline;
+  }
+  .cb-footer-compact p {
+    margin: 0;
+  }
+</style>

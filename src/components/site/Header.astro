@@ -1,0 +1,16 @@
+---
+// Header for the marketing pages. The docs use the same row inside
+// Starlight's header (see starlight/Header.astro).
+import HeaderRow from './HeaderRow.astro';
+---
+
+<header class="cb-site-header">
+  <HeaderRow variant="site" />
+</header>
+
+<style>
+  .cb-site-header {
+    background: var(--cb-chrome);
+    border-bottom: 1px solid var(--cb-line);
+  }
+</style>

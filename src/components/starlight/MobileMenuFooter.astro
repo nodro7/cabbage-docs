@@ -1,0 +1,70 @@
+---
+// Starlight MobileMenuFooter override. Below 50rem the docs header has no
+// room for the nav, so the links, the theme toggle and Install sit at the
+// bottom of Starlight's mobile menu instead.
+import { install, isCurrent, primary } from '../../data/nav';
+import ThemeToggle from '../site/ThemeToggle.astro';
+
+const path = Astro.url.pathname;
+---
+
+<div class="cb-mobile-menu">
+  <nav aria-label="Site">
+    <ul role="list">
+      {
+        primary.map((item) => (
+          <li>
+            <a href={item.href} aria-current={isCurrent(item, path) ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="cb-mobile-menu__actions">
+    <a class="btn btn-primary btn-sm" href={install.href}>{install.label}</a>
+    <ThemeToggle />
+  </div>
+</div>
+
+<style>
+  .cb-mobile-menu {
+    margin-top: 1rem;
+    padding: 0.75rem 0 1rem;
+    border-top: 1px solid var(--cb-line);
+  }
+  .cb-mobile-menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cb-mobile-menu nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--cb-target);
+    padding: 0 12px;
+    border-radius: var(--cb-radius);
+    font-size: var(--cb-text-small);
+    font-weight: 500;
+    color: var(--cb-muted);
+    text-decoration: none;
+  }
+  .cb-mobile-menu nav a:hover,
+  .cb-mobile-menu nav a[aria-current='page'] {
+    color: var(--cb-fg);
+  }
+  .cb-mobile-menu nav a:hover {
+    background: var(--cb-raise);
+  }
+  .cb-mobile-menu__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 0 4px;
+  }
+</style>

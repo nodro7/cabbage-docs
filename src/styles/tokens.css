@@ -1,0 +1,104 @@
+/*
+ * Cabbage 3 site tokens
+ * ---------------------------------------------------------------
+ * Source of truth for colour, type and spacing on both the marketing
+ * pages and the Starlight docs. Imported by the shared layout and by
+ * Starlight's customCss. The mapping onto Starlight's own variables
+ * lives in starlight.css.
+ *
+ * Theme model: dark is the default. Starlight sets data-theme="light"
+ * or "dark" on <html>; marketing pages set the same attribute.
+ *
+ * Every text/background pair below has been checked for WCAG 2.2 AA
+ * (4.5:1 for body text, 3:1 for large text). Do not swap a token for a
+ * lighter or darker neighbour without re-checking.
+ */
+
+:root {
+  /* ---------- Type ---------- */
+  /* Self-hosted through Fontsource variable packages. Instrument Sans
+     must be loaded WITH its wdth axis (75 to 100). */
+  --cb-font-sans: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --cb-font-mono: 'JetBrains Mono Variable', ui-monospace, Menlo, Consolas, monospace;
+
+  /* Sizes. Headlines are condensed with font-stretch, not a second family. */
+  --cb-text-display: clamp(2.375rem, 5.2vw, 4.5rem);   /* home h1, 404 h1. lh 1.02, wght 600, stretch 80%, tracking -0.015em */
+  --cb-text-title: clamp(2.125rem, 4vw, 3.5rem);       /* inner page h1. lh 1.04, wght 600, stretch 80%, tracking -0.015em */
+  --cb-text-h2: clamp(1.875rem, 3.4vw, 2.75rem);       /* section heading. lh 1.08, wght 600, stretch 85%, tracking -0.01em */
+  --cb-text-h3-lg: 1.625rem;                           /* panel heading. lh 1.15, wght 600, stretch 88% */
+  --cb-text-h3: 1.375rem;                              /* card/step heading. lh 1.25, wght 600, stretch 90% */
+  --cb-text-lead: 1.1875rem;                           /* 19px, lh 1.6 */
+  --cb-text-body: 1.0625rem;                           /* 17px, lh 1.55 */
+  --cb-text-body-sm: 1rem;                             /* 16px, secondary paragraphs */
+  --cb-text-small: 0.9375rem;                          /* 15px, nav, captions */
+  --cb-text-meta: 0.875rem;                            /* 14px, release line, footer */
+  --cb-text-code: 0.8125rem;                           /* 13px mono, lh 22px */
+  --cb-text-code-label: 0.78125rem;                    /* 12.5px mono, file tabs */
+
+  --cb-stretch-display: 80%;
+  --cb-stretch-h2: 85%;
+  --cb-stretch-h3: 90%;
+  --cb-stretch-brand: 85%;                             /* "Cabbage" wordmark, wght 700, 21px */
+
+  /* ---------- Layout ---------- */
+  --cb-container: 75rem;                               /* 1200px content width */
+  --cb-gutter: clamp(1.25rem, 4vw, 2rem);              /* inline page padding */
+  --cb-section-y: clamp(3.5rem, 7vw, 6rem);            /* section block padding */
+  --cb-section-y-sm: clamp(3rem, 6vw, 5rem);
+  --cb-radius-sm: 6px;                                 /* segmented buttons, list rows */
+  --cb-radius: 8px;                                    /* buttons, inputs */
+  --cb-radius-lg: 12px;                                /* panels, code windows, cards */
+  --cb-radius-pill: 999px;
+  --cb-target: 44px;                                   /* minimum interactive height on marketing pages */
+
+  /* ---------- Colour: dark (default) ---------- */
+  /* Neutrals follow VS Code "Dark Modern", where Cabbage 3 lives. */
+  --cb-bg: #1f1f1f;          /* page ground, code surfaces */
+  --cb-chrome: #181818;      /* header, footer, alternate sections, panel headers */
+  --cb-raise: #2a2a2a;       /* hover, selected rows */
+  --cb-line: #363636;        /* borders and dividers */
+  --cb-fg: #ececec;          /* primary text */
+  --cb-muted: #ababab;       /* secondary text, 6.9:1 on bg */
+  --cb-faint: #8f8f8f;       /* line numbers, comments, meta, 5.1:1 on bg */
+
+  --cb-green: #93d200;       /* logo green. FILLS ONLY (buttons, badges) */
+  --cb-green-hover: #a6e31c;
+  --cb-green-ink: #142000;   /* text on green fills, 9.3:1 */
+  --cb-green-text: #a5e02b;  /* green used AS TEXT or small marks */
+  --cb-blue: #63b7f2;        /* links, 7.5:1 on bg */
+  --cb-focus: #ffffff;       /* focus ring: 2px solid, 3px offset */
+
+  --cb-code-keyword: #63b7f2;  /* opcodes, keywords, JSON keys */
+  --cb-code-string: #b4e36b;
+  --cb-code-comment: #8f8f8f;
+  --cb-code-punct: #ababab;
+
+  --cb-shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.5);      /* hero editor window only */
+
+  /* Logo: green #93d200 cabbage, blue #3091d1 headphones, in BOTH themes. */
+}
+
+:root[data-theme='light'] {
+  /* Neutrals follow VS Code "Light Modern". */
+  --cb-bg: #ffffff;
+  --cb-chrome: #f5f5f5;
+  --cb-raise: #ebebeb;
+  --cb-line: #d9d9d9;
+  --cb-fg: #1f1f1f;
+  --cb-muted: #525252;       /* 7.8:1 on white */
+  --cb-faint: #6b6b6b;       /* 5.3:1 on white, 4.9:1 on chrome */
+
+  --cb-green: #93d200;       /* still fills only: 1.8:1 on white, never text */
+  --cb-green-hover: #a6e31c;
+  --cb-green-ink: #142000;
+  --cb-green-text: #3a6600;  /* 6.8:1 on white */
+  --cb-blue: #0b63a5;        /* 6.3:1 on white. The old #3091d1 fails AA as link text. */
+  --cb-focus: #1f1f1f;
+
+  --cb-code-keyword: #0b63a5;
+  --cb-code-string: #3a6600;
+  --cb-code-comment: #6b6b6b;
+  --cb-code-punct: #525252;
+
+  --cb-shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.14);
+}

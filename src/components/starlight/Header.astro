@@ -1,0 +1,10 @@
+---
+// Starlight Header override: the site header row, with Starlight's search
+// trigger between the wordmark and the nav.
+import Search from '@astrojs/starlight/components/Search.astro';
+import HeaderRow from '../site/HeaderRow.astro';
+---
+
+<HeaderRow variant="docs">
+  <Search slot="search" />
+</HeaderRow>

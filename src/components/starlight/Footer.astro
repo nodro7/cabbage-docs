@@ -1,0 +1,11 @@
+---
+// Starlight Footer override: previous and next links, then a compact
+// version of the site footer. It stays inside the content column.
+import Pagination from '@astrojs/starlight/components/Pagination.astro';
+import SiteFooter from '../site/Footer.astro';
+---
+
+<footer>
+  <Pagination />
+  <SiteFooter variant="compact" />
+</footer>

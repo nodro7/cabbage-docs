@@ -1,0 +1,16 @@
+---
+// One icon button that flips between dark and light. The label names the
+// action and is kept in sync by src/scripts/theme.js. Hidden when JavaScript
+// is off (see the noscript rule in the layouts), because it cannot work then.
+---
+
+<button type="button" class="iconbtn" data-theme-toggle aria-label="Switch to light theme">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="12" r="9"></circle>
+    <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"></path>
+  </svg>
+</button>
+
+<script>
+  import '../../scripts/theme.js';
+</script>

@@ -1,0 +1,18 @@
+---
+// Starlight Head override: the default head, plus preloads for the two
+// fonts used above the fold and the no-JavaScript rule for the theme toggle.
+import Default from '@astrojs/starlight/components/Head.astro';
+import sansFontUrl from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wdth-normal.woff2?url';
+import monoFontUrl from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
+---
+
+<Default />
+<link rel="preload" href={sansFontUrl} as="font" type="font/woff2" crossorigin />
+<link rel="preload" href={monoFontUrl} as="font" type="font/woff2" crossorigin />
+<noscript>
+  <style>
+    [data-theme-toggle] {
+      display: none;
+    }
+  </style>
+</noscript>

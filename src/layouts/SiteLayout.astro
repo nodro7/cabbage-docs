@@ -1,0 +1,53 @@
+---
+// Shared shell for the marketing pages: head, skip link, header, main, footer.
+// The docs get the same header row and tokens through the Starlight overrides.
+import '@fontsource-variable/instrument-sans/wdth.css';
+import '@fontsource-variable/jetbrains-mono/index.css';
+import '../styles/tokens.css';
+import '../styles/components.css';
+import '../styles/site.css';
+
+import sansFontUrl from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wdth-normal.woff2?url';
+import monoFontUrl from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
+import themeInit from '../scripts/theme-init.js?raw';
+
+import Footer from '../components/site/Footer.astro';
+import Header from '../components/site/Header.astro';
+import Meta from '../components/site/Meta.astro';
+import SkipLink from '../components/site/SkipLink.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+const { title, description, ogImage } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={themeInit} />
+    <Meta title={title} description={description} ogImage={ogImage} />
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+    <link rel="preload" href={sansFontUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={monoFontUrl} as="font" type="font/woff2" crossorigin />
+    <noscript>
+      <style>
+        [data-theme-toggle] {
+          display: none;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <SkipLink />
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

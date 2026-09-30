@@ -1,0 +1,152 @@
+/*
+ * Starlight theme: maps the site tokens onto Starlight's variables and
+ * restyles the docs chrome. Loaded after tokens.css and components.css
+ * through customCss. Starlight's own CSS sits in cascade layers, so these
+ * unlayered rules win without specificity fights.
+ */
+
+:root {
+  --sl-font: var(--cb-font-sans);
+  --sl-font-mono: var(--cb-font-mono);
+  --sl-color-black: var(--cb-bg);
+  --sl-color-white: var(--cb-fg);
+  --sl-color-gray-1: #dedede;
+  --sl-color-gray-2: #c4c4c4;
+  --sl-color-gray-3: var(--cb-muted);
+  --sl-color-gray-4: #6e6e6e;
+  --sl-color-gray-5: var(--cb-line);
+  --sl-color-gray-6: var(--cb-raise);
+  --sl-color-bg-nav: var(--cb-chrome);
+  --sl-color-bg-sidebar: var(--cb-chrome);
+  --sl-color-hairline: var(--cb-line);
+  --sl-color-accent-low: #12324a;
+  --sl-color-accent: #3f9fe0;
+  --sl-color-accent-high: var(--cb-blue);
+
+  /* Header bar: 44px targets plus 10px padding, the same at every width. */
+  --sl-nav-height: 4rem;
+  --sl-nav-pad-y: 0.625rem;
+  --sl-nav-pad-x: var(--cb-gutter);
+  --sl-menu-button-size: 2.75rem;
+}
+
+:root[data-theme='light'] {
+  --sl-color-black: var(--cb-bg);
+  --sl-color-white: var(--cb-fg);
+  --sl-color-gray-1: #2b2b2b;
+  --sl-color-gray-2: #3d3d3d;
+  --sl-color-gray-3: var(--cb-muted);
+  --sl-color-gray-4: #8a8a8a;
+  --sl-color-gray-5: var(--cb-line);
+  --sl-color-gray-6: var(--cb-raise);
+  --sl-color-gray-7: var(--cb-chrome);
+  --sl-color-accent-low: #d4e8f7;
+  --sl-color-accent: var(--cb-blue);
+  --sl-color-accent-high: #083f6b;
+}
+
+/* ---------- Header bar ---------- */
+
+header.header {
+  border-bottom: 1px solid var(--cb-line);
+  background-color: var(--cb-chrome);
+}
+
+/* Search trigger: an icon button until there is room for the field-like
+   button (60rem). Starlight switches at 50rem, where the nav still needs
+   the space. */
+site-search > button[data-open-modal] {
+  flex: none;
+  justify-content: center;
+  width: var(--cb-target);
+  height: var(--cb-target);
+  padding: 0;
+  border: 0;
+  border-radius: var(--cb-radius);
+  background: transparent;
+  color: var(--cb-muted);
+  font-size: 1.25rem;
+}
+site-search > button[data-open-modal]:hover {
+  color: var(--cb-fg);
+  background: var(--cb-raise);
+}
+
+@media (max-width: 59.99rem) {
+  site-search > button[data-open-modal] > span,
+  site-search > button[data-open-modal] > kbd {
+    display: none;
+  }
+}
+
+@media (min-width: 60rem) {
+  site-search > button[data-open-modal] {
+    justify-content: flex-start;
+    gap: 10px;
+    width: 240px;
+    max-width: 22rem;
+    padding-inline: 14px 12px;
+    border: 1px solid var(--cb-line);
+    background: var(--cb-bg);
+    color: var(--cb-muted);
+    font-size: var(--cb-text-small);
+  }
+  site-search > button[data-open-modal]:hover {
+    border-color: var(--cb-muted);
+    background: var(--cb-bg);
+    color: var(--cb-fg);
+  }
+  site-search > button[data-open-modal] > kbd {
+    margin-inline-start: auto;
+    padding: 1px 7px;
+    border: 1px solid var(--cb-line);
+    border-radius: 5px;
+    background: transparent;
+    font-family: var(--cb-font-mono);
+    font-size: 0.75rem;
+  }
+  site-search > button[data-open-modal] kbd kbd {
+    font-family: inherit;
+  }
+}
+
+/* Menu button on narrow screens: same look as the header's icon button. */
+starlight-menu-button button {
+  border-radius: var(--cb-radius);
+  background-color: transparent;
+  color: var(--cb-muted);
+  box-shadow: none;
+}
+starlight-menu-button button:hover,
+starlight-menu-button[aria-expanded='true'] button {
+  background-color: var(--cb-raise);
+  color: var(--cb-fg);
+}
+[data-theme='light'] starlight-menu-button button {
+  background-color: transparent;
+  color: var(--cb-muted);
+}
+[data-theme='light'] starlight-menu-button button:hover,
+[data-theme='light'] starlight-menu-button[aria-expanded='true'] button {
+  background-color: var(--cb-raise);
+  color: var(--cb-fg);
+}
+
+/* ---------- Property sections (widget reference) ---------- */
+
+.property-section {
+  margin-bottom: 1.5rem;
+}
+.property-section pre {
+  margin: 0.5rem 0;
+}
+.property-section blockquote {
+  border-left: 3px solid var(--sl-color-accent);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  color: var(--sl-color-gray-3);
+}
+.property-section ul {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
