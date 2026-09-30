@@ -16,9 +16,9 @@ export type NavGroup = {
   items: NavItem[];
 };
 
-// Targets point at the routes that exist today. They move to /docs/, /learn/
-// and /install/ as those pages land.
-const docs: NavItem = { label: 'Docs', href: '/docs/intro/' };
+// Learn and Install point at the routes that exist today. They move to
+// /learn/ and /install/ as those pages land.
+const docs: NavItem = { label: 'Docs', href: '/docs/' };
 const learn: NavItem = { label: 'Learn', href: '/videos/' };
 const forum: NavItem = { label: 'Forum', href: site.forumUrl, external: true };
 const github: NavItem = { label: 'GitHub', href: site.githubUrl, external: true };

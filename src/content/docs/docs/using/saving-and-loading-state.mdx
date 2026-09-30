@@ -11,8 +11,8 @@ Cabbage provides a robust preset system that lets you save and restore the state
 
 State is managed through two opcodes:
 
-- [`cabbageSaveState`](../cabbage_opcodes/cabbagesavestate) – writes the current widget state to a JSON file
-- [`cabbageLoadState`](../cabbage_opcodes/cabbageloadstate) – restores widget state from a previously saved JSON file
+- [`cabbageSaveState`](/docs/opcodes/cabbagesavestate/) – writes the current widget state to a JSON file
+- [`cabbageLoadState`](/docs/opcodes/cabbageloadstate/) – restores widget state from a previously saved JSON file
 
 Both opcodes run at i-time only, so they should be called from dedicated instruments that are triggered via UI events such as a button press, or item click.
 
@@ -70,7 +70,7 @@ Setting `"preset": false` means the widget's value will not be included in saved
 
 ## Custom UI state and string channels
 
-The same session mechanism persists arbitrary text for custom interfaces: declare a channel with `"type": "string"` (e.g. on a hidden widget), push JSON into it with `sendControlData()`, and read it back from the launch dumps. String state round-trips through session and preset saves with no files involved. See [Persisting Custom UI State](../custom_interfaces/persisting_ui_state) for the full pattern.
+The same session mechanism persists arbitrary text for custom interfaces: declare a channel with `"type": "string"` (e.g. on a hidden widget), push JSON into it with `sendControlData()`, and read it back from the launch dumps. String state round-trips through session and preset saves with no files involved. See [Persisting Custom UI State](/docs/custom-ui/persisting-ui-state/) for the full pattern.
 
 ## Saving a widget's full JSON data
 

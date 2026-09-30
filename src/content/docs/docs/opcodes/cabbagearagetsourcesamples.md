@@ -48,5 +48,5 @@ endin
 
 ## See Also
 
-- [cabbageAraGet](./cabbagearaget)
-- [cabbageAraGetUpdate](./cabbagearagetupdate)
+- [cabbageAraGet](/docs/opcodes/cabbagearaget/)
+- [cabbageAraGetUpdate](/docs/opcodes/cabbagearagetupdate/)

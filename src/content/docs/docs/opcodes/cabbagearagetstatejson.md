@@ -97,6 +97,6 @@ endin
 
 ## See Also
 
-- [cabbageAraDump](./cabbagearadump)
-- [cabbageAraGet](./cabbagearaget)
-- [cabbageAraGetUpdate](./cabbagearagetupdate)
+- [cabbageAraDump](/docs/opcodes/cabbagearadump/)
+- [cabbageAraGet](/docs/opcodes/cabbagearaget/)
+- [cabbageAraGetUpdate](/docs/opcodes/cabbagearagetupdate/)

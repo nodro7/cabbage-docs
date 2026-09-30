@@ -37,5 +37,5 @@ endin
 
 ## See Also
 
-- [cabbageAraGet](./cabbagearaget)
-- [cabbageAraGetSourceSamples](./cabbagearagetsourcesamples)
+- [cabbageAraGet](/docs/opcodes/cabbagearaget/)
+- [cabbageAraGetSourceSamples](/docs/opcodes/cabbagearagetsourcesamples/)

@@ -103,7 +103,7 @@ setTimeout(() => { backendStateKnown = true; }, 1500);
 
 ## Orchestra access (optional)
 
-Because the value also lands in a Csound string channel, your instrument can participate: read it with the string variant of `cabbageGetValue` (the trigger version fires only when the text changes), parse it with the [`cabbageJsonGet`](../cabbage_opcodes/cabbagejsonget) family of opcodes, and write widget text back with the string form of `cabbageSet`:
+Because the value also lands in a Csound string channel, your instrument can participate: read it with the string variant of `cabbageGetValue` (the trigger version fires only when the text changes), parse it with the [`cabbageJsonGet`](/docs/opcodes/cabbagejsonget/) family of opcodes, and write widget text back with the string form of `cabbageSet`:
 
 ```csound
 state:S, trig:k = cabbageGetValue("myUiState")
@@ -112,7 +112,7 @@ if trig == 1 then
 endif
 ```
 
-To read fields out of the restored JSON, query it directly — [`cabbageJsonGet`](../cabbage_opcodes/cabbagejsonget) for values (string, numeric, and array overloads), [`cabbageJsonType`](../cabbage_opcodes/cabbagejsontype) to branch on value types, [`cabbageJsonHas`](../cabbage_opcodes/cabbagejsonhas) / [`cabbageJsonLen`](../cabbage_opcodes/cabbagejsonlen) for existence and sizes, and [`cabbageJsonSet`](../cabbage_opcodes/cabbagejsonset) to patch documents in the orchestra:
+To read fields out of the restored JSON, query it directly — [`cabbageJsonGet`](/docs/opcodes/cabbagejsonget/) for values (string, numeric, and array overloads), [`cabbageJsonType`](/docs/opcodes/cabbagejsontype/) to branch on value types, [`cabbageJsonHas`](/docs/opcodes/cabbagejsonhas/) / [`cabbageJsonLen`](/docs/opcodes/cabbagejsonlen/) for existence and sizes, and [`cabbageJsonSet`](/docs/opcodes/cabbagejsonset/) to patch documents in the orchestra:
 
 ```csound
 state:S, trig:k = cabbageGetValue("myUiState")
@@ -125,6 +125,6 @@ This is the right tool when Csound needs to transform or react to the state. For
 
 ## See also
 
-- [Cabbage JS API](./cabbagejs_api) — `sendControlData`, `addMessageListener`, `extractValue`
-- [Saving and Loading State](../using_cabbage/saving_and_loading_state) — file presets and the `persistence` flags that control what session/preset save includes
-- [cabbageGetValue](../cabbage_opcodes/cabbagegetvalue) and [cabbageSet](../cabbage_opcodes/cabbageset) — string variants for orchestra-side access
+- [Cabbage JS API](/docs/custom-ui/js-api/) — `sendControlData`, `addMessageListener`, `extractValue`
+- [Saving and Loading State](/docs/using/saving-and-loading-state/) — file presets and the `persistence` flags that control what session/preset save includes
+- [cabbageGetValue](/docs/opcodes/cabbagegetvalue/) and [cabbageSet](/docs/opcodes/cabbageset/) — string variants for orchestra-side access

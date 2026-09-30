@@ -1,6 +1,8 @@
 ---
 title: "Overview"
 description: "Overview"
+sidebar:
+  order: 0
 ---
 
 The Cabbage 3 VS Code Extension offers a seamless workflow for designing and testing instruments directly within Visual Studio Code. 

@@ -1,5 +1,7 @@
 ---
 title: "Overview"
+sidebar:
+  order: 0
 ---
 
 Beyond supporting custom JavaScript/HTML frameworks, Cabbage provides a declarative JSON syntax to define plugin properties and a robust set of native widgets. 
@@ -58,7 +60,7 @@ This example copies all `.wav` files from the samples folder into an audioSample
 
 Defines the preferred audio I/O bus configuration for the plugin. In this example, the plugin indicates that both stereo and mono layouts are supported. 
 
-See the [Audio Channel Configuration](../using_cabbage/channels) documentation for detailed information.
+See the [Audio Channel Configuration](/docs/using/audio-channels/) documentation for detailed information.
 
 ### Developer Tools
 
@@ -144,7 +146,7 @@ Named channels are a central part of the Cabbage architecture: they carry values
 }
 ```
 
-`channel.id`, in this case `"Gain"`, will be registered as a plugin parameter in a host DAW, with `0` and `1` defining its minimum and maximum range. The [`cabbageSetValue`](../cabbage_opcodes/cabbagesetvalue) and [`cabbageGetValue`](../cabbage_opcodes/cabbagegetvalue) opcodes can be used to send values back and forth to these channels.
+`channel.id`, in this case `"Gain"`, will be registered as a plugin parameter in a host DAW, with `0` and `1` defining its minimum and maximum range. The [`cabbageSetValue`](/docs/opcodes/cabbagesetvalue/) and [`cabbageGetValue`](/docs/opcodes/cabbagegetvalue/) opcodes can be used to send values back and forth to these channels.
 
 Certain widgets, such as a `groupBox`, will rarely be set up to function as parameters. In these cases, a top-level `id` can be set. For example:
 
@@ -155,7 +157,7 @@ Certain widgets, such as a `groupBox`, will rarely be set up to function as para
 }
 ```
 
-In such cases, the [`cabbageSet`](../cabbage_opcodes/cabbageset) and [`cabbageGet`](../cabbage_opcodes/cabbageget) opcodes can be used to send JSON data back and forth. Widgets can also combine a top-level `id` with channel `id`s. Consider an `image` widget for example, with multiple channels defined:
+In such cases, the [`cabbageSet`](/docs/opcodes/cabbageset/) and [`cabbageGet`](/docs/opcodes/cabbageget/) opcodes can be used to send JSON data back and forth. Widgets can also combine a top-level `id` with channel `id`s. Consider an `image` widget for example, with multiple channels defined:
 
 ```json
 {
@@ -273,19 +275,19 @@ Widgets with `automatable:true` can still send and receive data over named chann
 Each widget in Cabbage is documented with its properties and available channels. Example .csd files are provided to demonstrate how to integrate the widget into a project and use its channels in practice.
 
 
-- [Button](button)
-- [Checkbox](checkbox)
-- [ComboBox](combobox)
-- [Form](form)
-- [GenTable](gentable)
-- [GroupBox](groupbox)
-- [Horizontal Slider](horizontalslider)
-- [Image](image)
-- [Keyboard](keyboard)
-- [Label](label)
-- [Number Slider](numberslider)
-- [Option Button](optionbutton)
-- [Rotary Slider](rotaryslider)
-- [Vertical Slider](verticalslider)
-- [XY Pad](xypad)
+- [Button](/docs/widgets/button/)
+- [Checkbox](/docs/widgets/checkbox/)
+- [ComboBox](/docs/widgets/combobox/)
+- [Form](/docs/widgets/form/)
+- [GenTable](/docs/widgets/gentable/)
+- [GroupBox](/docs/widgets/groupbox/)
+- [Horizontal Slider](/docs/widgets/horizontal-slider/)
+- [Image](/docs/widgets/image/)
+- [Keyboard](/docs/widgets/keyboard/)
+- [Label](/docs/widgets/label/)
+- [Number Slider](/docs/widgets/number-slider/)
+- [Option Button](/docs/widgets/option-button/)
+- [Rotary Slider](/docs/widgets/rotary-slider/)
+- [Vertical Slider](/docs/widgets/vertical-slider/)
+- [XY Pad](/docs/widgets/xy-pad/)
 

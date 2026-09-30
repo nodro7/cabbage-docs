@@ -7,7 +7,7 @@ description: "Cabbage API"
 
 The Cabbage JavaScript API provides the communication layer between webview UIs and the Cabbage backend. This API enables bidirectional communication for plugin development.
 
-📃 **Note:** A `<Cabbage>{...}</Cabbage>` JSON structure is still required to define parameters for use in a host application. Objects declared in this structure are accessible through the API via a custom event handler (see below). These objects are sent at load time and can be updated at runtime using the [`cabbageSet`](../cabbage_opcodes/cabbageset) and [`cabbageSetValue`](../cabbage_opcodes/cabbagesetvalue) opcodes.
+📃 **Note:** A `<Cabbage>{...}</Cabbage>` JSON structure is still required to define parameters for use in a host application. Objects declared in this structure are accessible through the API via a custom event handler (see below). These objects are sent at load time and can be updated at runtime using the [`cabbageSet`](/docs/opcodes/cabbageset/) and [`cabbageSetValue`](/docs/opcodes/cabbagesetvalue/) opcodes.
 
 ## Architecture Overview
 
@@ -38,8 +38,8 @@ Register a listener for incoming messages from the Cabbage backend. This is the 
 | `command` | Fields | Sent by |
 |-----------|--------|---------|
 | `parameterChange` | `paramIdx`, `value` (may be top-level or nested in `data`) | DAW automation / backend |
-| `widgetUpdate` | `id`, `value` | [`cabbageSetValue`](../cabbage_opcodes/cabbagesetvalue) opcode |
-| `widgetUpdate` | `id`, `widgetJson` | [`cabbageSet`](../cabbage_opcodes/cabbageset) opcode |
+| `widgetUpdate` | `id`, `value` | [`cabbageSetValue`](/docs/opcodes/cabbagesetvalue/) opcode |
+| `widgetUpdate` | `id`, `widgetJson` | [`cabbageSet`](/docs/opcodes/cabbageset/) opcode |
 | `channelDataUpdate` | `channel`, `value` | Csound channel data |
 | `resizeResponse` | `accepted`, `width`, `height` | Response to `requestResize()` |
 
@@ -99,7 +99,7 @@ Send widget value changes to the Cabbage backend. This is the primary API for us
 - Automatically routes based on channel automatable status
 - Thread-safe: Asynchronous, doesn't block audio thread
 - Values sent in natural ranges, backend handles normalization
-- **String values**: on a non-automatable channel, a string value is stored as the channel's `stringValue` (and into the matching Csound string channel). String state is included in session/preset saves and re-pushed in the launch dumps — see [Persisting Custom UI State](./persisting_ui_state). The channel must be declared with `"type": "string"`, e.g. `"channels": [{ "id": "myState", "type": "string" }]`.
+- **String values**: on a non-automatable channel, a string value is stored as the channel's `stringValue` (and into the matching Csound string channel). String state is included in session/preset saves and re-pushed in the launch dumps — see [Persisting Custom UI State](/docs/custom-ui/persisting-ui-state/). The channel must be declared with `"type": "string"`, e.g. `"channels": [{ "id": "myState", "type": "string" }]`.
 
 **Examples:**
 ```csound

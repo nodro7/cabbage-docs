@@ -5,7 +5,7 @@ description: "Building entirely custom web-based plugin interfaces with any fram
 
 It's also possible to design a completely custom web-based interface using any framework you like — vanilla HTML/JS, Svelte, React, Vue, and so on. The Cabbage JS API handles all communication with the Csound backend, so your UI code stays framework-agnostic.
 
-Unlike [Custom Widgets](./customwidgets), this approach does not use Cabbage's built-in UI editing tools. Instead, you have full control over the interface and simply use the API to exchange data with Csound.
+Unlike [Custom Widgets](/docs/custom-ui/custom-widgets/), this approach does not use Cabbage's built-in UI editing tools. Instead, you have full control over the interface and simply use the API to exchange data with Csound.
 
 📃 **Note:** A `<Cabbage>{...}</Cabbage>` section is still required in your `.csd` file to define the plugin parameters exposed to the host DAW. The widgets declared there are not rendered visually when a custom interface is active, but they set up the parameter slots that your UI controls map to.
 

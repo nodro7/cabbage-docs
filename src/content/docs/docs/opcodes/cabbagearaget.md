@@ -338,8 +338,8 @@ endin
 
 ## See Also
 
-- [cabbageAraGetUpdate](./cabbagearagetupdate)
-- [cabbageAraGetSourceSamples](./cabbagearagetsourcesamples)
+- [cabbageAraGetUpdate](/docs/opcodes/cabbagearagetupdate/)
+- [cabbageAraGetSourceSamples](/docs/opcodes/cabbagearagetsourcesamples/)
 
 ---
 

@@ -277,4 +277,4 @@ The ARA implementation is still in its early stages. The following table represe
 
 This will be expanded in future versions as the ARA integration matures. Musical context content (tempo map, bar signatures, key signatures, tuning, chords) will be added in a future release.
 
-See the [ARA Opcodes](../cabbage_opcodes/cabbagearaget) reference for the full list of available opcodes.
+See the [ARA Opcodes](/docs/opcodes/cabbagearaget/) reference for the full list of available opcodes.

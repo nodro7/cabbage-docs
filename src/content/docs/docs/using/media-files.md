@@ -59,6 +59,6 @@ When exporting your instrument as a plugin you can use the `package` object from
 },
 ```
 
-For more information, see the [`form`](../cabbage_widgets/form) widget.
+For more information, see the [`form`](/docs/widgets/form/) widget.
 
 📃 **Note:** Images can be included as base64 strings
