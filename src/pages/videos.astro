@@ -1,0 +1,603 @@
+---
+// ---------------------------------------------------------------------------
+// To add a new video: copy the ID from the YouTube URL (?v=THE_ID_HERE) and
+// add one line to the list below with its title. Everything on the page
+// (thumbnails, embeds, fallback links) renders from this list. Newest first.
+// Playlist: https://www.youtube.com/playlist?list=PLPHJAwcqO_C0
+// ---------------------------------------------------------------------------
+const PLAYLIST_URL = "https://www.youtube.com/playlist?list=PLPHJAwcqO_C0";
+
+const VIDEOS = [
+  // Optional per-video `zoom` overrides the default 1.1 thumbnail zoom
+  // (useful if a particular render has thicker baked-in bars).
+  { id: "tBcK2GkMOQQ", title: "Cabbage 3 Overview and Features", zoom: 1.15 },
+  { id: "Z8OCGgWn42A", title: "1 - Installing Cabbage 3" },
+  { id: "e9FaofZeC8U", title: "2 - Using the Cabbage VS Code Extension" },
+  { id: "3c-1U2vR54E", title: "3 - File structure in Csound 7 and Cabbage 3" },
+  { id: "wD1TFHvFFXQ", title: "4 - Variables in Csound 7 and Cabbage 3" },
+  { id: "AHvR9NoPlBo", title: "5 - Opcodes in Csound 7 and Cabbage 3" },
+  { id: "Dme2FJ_3H3s", title: "6 - Note events with Cabbage 3" },
+  { id: "K6-pg1RPRfw", title: "7 - Widgets with Cabbage 3" },
+  { id: "2fD5TbgqH2Q", title: "8 - Building a simple synth plugin with Cabbage 3" },
+  { id: "lKrG_--aVGk", title: "9 - Exporting instruments in Cabbage 3" },
+  { id: "ML7iq1PYhU8", title: "10 - Custom UIs with Cabbage 3" },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Videos – Cabbage Audio</title>
+    <meta
+      name="description"
+      content="Video tutorials for Cabbage 3 — installation, Csound basics, widgets, and exporting instruments."
+    />
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Dark is default */
+      :root {
+        --bg: #181818;
+        --bg-alt: linear-gradient(135deg, #1a2332 0%, #1c2a2e 50%, #1a251a 100%);
+        --text: #e0e0e0;
+        --text-muted: #aaa;
+        --text-faint: #999;
+        --text-footer: #777;
+        --border: #333;
+        --accent: #4aa8e8;
+        --accent-hover: #3b96d4;
+        --card-bg: #1f1f1f;
+        --card-hover-shadow: rgba(0, 0, 0, 0.3);
+        --btn-secondary-bg: #222;
+        --btn-secondary-hover: #2a2a2a;
+      }
+
+      /* Light mode overrides */
+      :root[data-theme="light"] {
+        --bg: #ffffff;
+        --bg-alt: linear-gradient(135deg, #f0f8ff 0%, #e8f4f8 50%, #f5fff5 100%);
+        --text: #1a1a2e;
+        --text-muted: #555;
+        --text-faint: #666;
+        --text-footer: #888;
+        --border: #eee;
+        --accent: #3091d1;
+        --accent-hover: #2578b3;
+        --card-bg: #ffffff;
+        --card-hover-shadow: rgba(0, 0, 0, 0.08);
+        --btn-secondary-bg: #fff;
+        --btn-secondary-hover: #f0f8ff;
+      }
+
+      .sr-only {
+        clip-path: inset(50%);
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+
+      /* Navbar (same as homepage) */
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 2rem;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        height: 4rem;
+      }
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 1.5rem;
+      }
+      .navbar-brand img {
+        height: 2.5rem;
+        width: auto;
+      }
+      .navbar-links {
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+      }
+      .navbar-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        text-decoration: none;
+        color: var(--text-muted);
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+      }
+      .navbar-links a:hover {
+        color: var(--accent);
+      }
+      .navbar-links a svg {
+        width: 1rem;
+        height: 1rem;
+        color: var(--text-muted);
+        transition: color 0.2s;
+      }
+      .navbar-links a:hover svg {
+        color: var(--accent);
+      }
+
+      /* Theme toggle (same as homepage) */
+      .theme-toggle {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        color: var(--text-muted);
+        transition: color 0.2s;
+      }
+      .theme-toggle:hover {
+        color: var(--text);
+      }
+      .theme-toggle .label-icon {
+        width: 0.875rem;
+        height: 0.875rem;
+        display: none;
+      }
+      .theme-toggle .label-icon.active {
+        display: block;
+      }
+      .theme-toggle select {
+        border: 0;
+        padding-block: 0.625rem;
+        padding-inline: calc(0.875rem + 0.5rem + 0.25rem) calc(1.25rem + 0.5rem + 0.25rem);
+        margin-inline: -0.5rem;
+        background-color: transparent;
+        text-overflow: ellipsis;
+        color: inherit;
+        cursor: pointer;
+        appearance: none;
+        font-size: 0.95rem;
+        font-family: inherit;
+        width: 6.25em;
+      }
+      .theme-toggle option {
+        background-color: var(--bg);
+        color: var(--text);
+      }
+      .theme-toggle .icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+      .theme-toggle .label-icon {
+        inset-inline-start: 0;
+      }
+      .theme-toggle .caret {
+        inset-inline-end: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+
+      /* Hero */
+      .hero {
+        text-align: center;
+        padding: 4rem 2rem 3rem;
+        background: var(--bg-alt);
+      }
+      .hero h1 {
+        font-size: 2.75rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+      .hero h1 span {
+        color: var(--accent);
+      }
+      .hero p {
+        font-size: 1.15rem;
+        color: var(--text-muted);
+        max-width: 640px;
+        margin: 1rem auto 2rem;
+      }
+
+      /* Buttons (same as homepage) */
+      .btn {
+        cursor: pointer;
+        box-sizing: border-box;
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        vertical-align: middle;
+        line-height: 1.5;
+        user-select: none;
+        inline-size: fit-content;
+        max-width: min(100%, 100vw);
+        border: 2px solid transparent;
+        font-size: 1rem;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        touch-action: manipulation;
+        transition-property: color, background-color, border-color, transform;
+        transition-duration: 0.2s;
+        transition-timing-function: ease-out;
+        gap: 0.5rem;
+        text-decoration: none;
+        padding: 0.75rem 2rem;
+        border-radius: 9999px;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--accent-hover);
+      }
+      .btn-secondary {
+        background: var(--btn-secondary-bg);
+        color: var(--accent);
+        border: 2px solid var(--accent);
+      }
+      .btn-secondary:hover {
+        background: var(--btn-secondary-hover);
+      }
+
+      /* Video grid */
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem;
+        max-width: 1100px;
+        margin: 2.5rem auto;
+        padding: 0 2rem 4rem;
+      }
+      .video-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: box-shadow 0.2s, transform 0.2s;
+      }
+      .video-card:hover {
+        box-shadow: 0 8px 30px var(--card-hover-shadow);
+      }
+      .thumb {
+        position: relative;
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: var(--card-bg);
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        overflow: hidden;
+      }
+      .thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        /* Slight zoom to crop any letterbox bars baked into the thumbnail */
+        transform: scale(1.1);
+      }
+      .thumb .play {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        display: flex;
+      }
+      .thumb .play span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 9999px;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(2px);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        transition: background 0.2s, transform 0.2s;
+      }
+      .thumb:hover .play span {
+        background: var(--accent);
+        border-color: transparent;
+        transform: scale(1.08);
+      }
+      .thumb .play svg {
+        width: 1rem;
+        height: 1rem;
+        color: #fff;
+        margin-left: 0.15rem;
+      }
+      .thumb iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .video-title {
+        padding: 1rem 1.25rem;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      .video-title a {
+        color: var(--text);
+        text-decoration: none;
+      }
+      .video-title a:hover {
+        color: var(--accent);
+      }
+
+      /* Theme-aware logo swap */
+      .logo-light { display: none; }
+      .logo-dark  { display: inline; }
+      :root[data-theme="light"] .logo-light { display: inline; }
+      :root[data-theme="light"] .logo-dark  { display: none; }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .video-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 640px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+        .video-grid {
+          grid-template-columns: 1fr;
+        }
+        .navbar-links {
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <script is:inline>
+      // Sync theme with Starlight's stored preference, falling back to system preference
+      (function () {
+        var stored = typeof localStorage !== "undefined" && localStorage.getItem("starlight-theme");
+        var theme = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+        document.documentElement.dataset.theme = theme === "light" ? "light" : "dark";
+      })();
+    </script>
+    <nav class="navbar">
+      <a href="/" class="navbar-brand">
+        <img src="/img/cabbage_transparent.svg" alt="Cabbage Logo" class="logo-dark" />
+        <img src="/img/cabbage_transparent_light.svg" alt="Cabbage Logo" class="logo-light" />
+        Cabbage
+      </a>
+      <div class="navbar-links">
+        <a href="/docs/intro/"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>Docs</a>
+        <a href="/download/"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Download</a>
+        <a href="https://forum.cabbageaudio.com/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Forum</a>
+        <a href="https://github.com/rorywalsh/vscabbage" rel="me"
+          ><span class="sr-only">GitHub</span><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"
+            ><path
+              d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"
+            ></path></svg
+          ></a
+        >
+        <label class="theme-toggle">
+          <span class="sr-only">Select theme</span>
+          <svg
+            class="icon label-icon"
+            data-theme-icon="light"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg
+          >
+          <svg
+            class="icon label-icon"
+            data-theme-icon="dark"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg
+          >
+          <svg
+            class="icon label-icon"
+            data-theme-icon="auto"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            ><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"
+            ></line><line x1="12" y1="17" x2="12" y2="21"></line></svg
+          >
+          <select id="theme-select" autocomplete="off">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="auto" selected>Auto</option>
+          </select>
+          <svg
+            class="icon caret"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
+        </label>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <h1>Videos</h1>
+      <p>
+        Tutorials and overviews for Cabbage 3, from installation to building
+        and exporting your own instruments.
+      </p>
+      <a href={PLAYLIST_URL} class="btn btn-secondary" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"></path></svg>Watch full playlist on YouTube</a>
+    </section>
+
+    <section class="video-grid">
+      {VIDEOS.map((video) => (
+        <article class="video-card">
+          <button
+            type="button"
+            class="thumb"
+            data-video-id={video.id}
+            data-video-title={video.title}
+            aria-label={"Play " + video.title}
+          >
+            <img
+              src={"https://i.ytimg.com/vi/" + video.id + "/maxresdefault.jpg"}
+              onerror="this.onerror=null;this.src=this.src.replace('maxresdefault','hqdefault')"
+              alt=""
+              loading="lazy"
+              style={"transform: scale(" + (video.zoom ?? 1.1) + ")"}
+            />
+            <span class="play" aria-hidden="true">
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
+              </span>
+            </span>
+          </button>
+          <div class="video-title">
+            <a
+              href={"https://www.youtube.com/watch?v=" + video.id + "&list=PLPHJAwcqO_C0"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {video.title}
+            </a>
+          </div>
+          <noscript>
+            <div class="video-title">
+              <a href={"https://www.youtube.com/watch?v=" + video.id}>Watch on YouTube</a>
+            </div>
+          </noscript>
+        </article>
+      ))}
+    </section>
+
+    <script is:inline>
+      // Theme toggle (same as homepage)
+      (function () {
+        var storageKey = "starlight-theme";
+        var select = document.getElementById("theme-select");
+
+        function parseTheme(v) {
+          return v === "dark" || v === "light" ? v : "auto";
+        }
+
+        function loadTheme() {
+          return parseTheme(typeof localStorage !== "undefined" && localStorage.getItem(storageKey));
+        }
+
+        function getPreferred() {
+          return matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+
+        function updateIcon(theme) {
+          var icons = document.querySelectorAll(".theme-toggle .label-icon");
+          for (var i = 0; i < icons.length; i++) {
+            icons[i].classList.toggle("active", icons[i].dataset.themeIcon === theme);
+          }
+        }
+
+        function applyTheme(theme) {
+          document.documentElement.dataset.theme = theme === "auto" ? getPreferred() : theme;
+          if (typeof localStorage !== "undefined") {
+            localStorage.setItem(storageKey, theme === "light" || theme === "dark" ? theme : "");
+          }
+          if (select) select.value = theme;
+          updateIcon(theme);
+        }
+
+        applyTheme(loadTheme());
+
+        if (select) {
+          select.addEventListener("change", function (e) {
+            applyTheme(parseTheme(e.target.value));
+          });
+        }
+
+        matchMedia("(prefers-color-scheme: light)").addEventListener("change", function () {
+          if (loadTheme() === "auto") applyTheme("auto");
+        });
+      })();
+    </script>
+
+    <script is:inline>
+      // Click-to-load YouTube embeds (privacy-enhanced, no cookies until play).
+      (function () {
+        function loadVideo(btn) {
+          var id = btn.getAttribute("data-video-id");
+          var title = btn.getAttribute("data-video-title") || "YouTube video";
+          if (!id || btn.querySelector("iframe")) return;
+          var frame = document.createElement("iframe");
+          frame.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+          frame.title = title;
+          frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          frame.allowFullscreen = true;
+          btn.innerHTML = "";
+          btn.appendChild(frame);
+          btn.setAttribute("aria-label", title);
+        }
+
+        document.querySelectorAll(".thumb[data-video-id]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            loadVideo(btn);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
