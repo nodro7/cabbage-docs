@@ -35,7 +35,7 @@ export default defineEcConfig({
 		uiFontFamily: 'var(--cb-font-mono)',
 		uiFontSize: 'var(--cb-text-code-label)',
 		uiLineHeight: '1.44',
-		uiPaddingBlock: '10px',
+		uiPaddingBlock: '8.5px',
 		uiPaddingInline: '16px',
 		focusBorder: 'var(--cb-focus)',
 		scrollbarThumbColor: 'var(--cb-line)',

@@ -1,0 +1,38 @@
+---
+// The full text of a widget example, rendered from public/examples/<name>.csd.
+//
+// Usage in MDX: <ExampleCode name="rotarySlider" />
+import { Code } from '@astrojs/starlight/components';
+import { getExample } from '../../lib/examples';
+
+interface Props {
+  /** Widget type, matching public/examples/<name>.csd. */
+  name: string;
+}
+const { name } = Astro.props;
+const example = getExample(name);
+---
+
+<div class="cb-example-code" data-language="csound">
+  <Code code={example.code} lang="csound" title={example.fileName} showLineNumbers />
+</div>
+
+<style>
+  /* The language, at the right end of the file label bar. */
+  .cb-example-code {
+    position: relative;
+  }
+  .cb-example-code::after {
+    content: attr(data-language);
+    position: absolute;
+    top: 0;
+    right: 16px;
+    z-index: 1;
+    height: 38px;
+    font-family: var(--cb-font-mono);
+    font-size: var(--cb-text-code-label);
+    line-height: 38px;
+    color: var(--cb-muted);
+    pointer-events: none;
+  }
+</style>
