@@ -5,7 +5,7 @@ import Button from '../components/site/Button.astro';
 import VideoCard from '../components/site/VideoCard.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { site } from '../data/site';
-import { videos } from '../data/videos';
+import { inWords, lessonCount, videoCount, videos } from '../data/videos';
 
 const overview = videos.find((video) => video.lesson === 'Overview');
 const lessons = videos.filter((video) => video.lesson !== 'Overview');
@@ -13,7 +13,7 @@ const lessons = videos.filter((video) => video.lesson !== 'Overview');
 
 <SiteLayout
   title="Learn Cabbage 3"
-  description="Eleven videos take you from a fresh install to a synth plugin with its own interface."
+  description={`${inWords(videoCount, true)} videos take you from a fresh install to a synth plugin with its own interface.`}
   ogImage="/og/learn.png"
 >
   <section class="cb-section cb-section--chrome">
@@ -21,8 +21,8 @@ const lessons = videos.filter((video) => video.lesson !== 'Overview');
       <div class="learn-head__text">
         <h1 class="cb-title">Learn Cabbage 3</h1>
         <p class="cb-lead">
-          Eleven videos take you from a fresh install to a synth plugin with its own interface. Start with the overview,
-          then work through the lessons in order.
+          {inWords(videoCount, true)} videos take you from a fresh install to a synth plugin with its own interface. Start
+          with the overview, then work through the lessons in order.
         </p>
         <div class="learn-head__links">
           <a class="textlink" href={site.playlistUrl}>Full playlist on YouTube</a>
@@ -35,7 +35,7 @@ const lessons = videos.filter((video) => video.lesson !== 'Overview');
 
   <section class="cb-section">
     <div class="container learn-lessons">
-      <h2>The ten lessons</h2>
+      <h2>The {inWords(lessonCount)} lessons</h2>
       <ol role="list">
         {
           lessons.map((video) => (

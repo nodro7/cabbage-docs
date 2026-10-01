@@ -1,0 +1,87 @@
+/*
+ * The three custom interfaces in the Home page editor demo.
+ *
+ * These are depictions of third-party plugin designs. They are deliberately
+ * off-brand and they do not change with the site theme: the point of the
+ * demo is that the same instrument can look like anything.
+ *
+ * Each face is one set of variables. The markup is shared (HeroDemo.astro).
+ */
+
+.face-bone {
+  --p-bg: #e8e2d4;
+  --p-fg: #1a1a1a;
+  --p-dim: #4a4740;
+  --p-border: 1px solid #cfc8b6;
+  --p-radius: 6px;
+  --p-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  --p-name-w: 700;
+  --p-name-track: 0.08em;
+  --p-case: uppercase;
+  --p-track: 0.1em;
+  --p-screen: #151515;
+  --p-screen-fg: #e8e2d4;
+  --p-screen-border: 1px solid #000000;
+  --p-screen-radius: 3px;
+  --p-grid: #2c2c2c;
+  --p-curve: #ff7a1a;
+  --p-curve-fill: rgba(255, 122, 26, 0.16);
+  --p-knob: #1a1a1a;
+  --p-knob-border: 3px solid #3a3a3a;
+  --p-knob-radius: 50%;
+  --p-knob-shadow: 0 5px 0 rgba(0, 0, 0, 0.28);
+  --p-pointer: #f4efe3;
+  --p-focus: #1a1a1a;
+}
+
+.face-ink {
+  --p-bg: #0f1b2d;
+  --p-fg: #dce8f7;
+  --p-dim: #9fb3cc;
+  --p-border: 1px solid #24395a;
+  --p-radius: 16px;
+  --p-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  --p-name-w: 600;
+  --p-name-track: 0;
+  --p-case: none;
+  --p-track: 0;
+  --p-screen: #09111d;
+  --p-screen-fg: #9fb3cc;
+  --p-screen-border: 1px solid #1d2f48;
+  --p-screen-radius: 10px;
+  --p-grid: #17263a;
+  --p-curve: #9be015;
+  --p-curve-fill: rgba(155, 224, 21, 0.14);
+  --p-knob: #16263c;
+  --p-knob-border: 1px solid #2f4a70;
+  --p-knob-radius: 50%;
+  --p-knob-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
+  --p-pointer: #9be015;
+  --p-focus: #ffffff;
+}
+
+.face-pop {
+  --p-bg: #ffd23e;
+  --p-fg: #1c1c1c;
+  --p-dim: #3d3412;
+  --p-border: 3px solid #1c1c1c;
+  --p-radius: 28px;
+  --p-shadow: 8px 8px 0 #1c1c1c;
+  --p-name-w: 700;
+  --p-name-track: -0.01em;
+  --p-case: lowercase;
+  --p-track: 0;
+  --p-screen: #1c1c1c;
+  --p-screen-fg: #ffd23e;
+  --p-screen-border: 3px solid #1c1c1c;
+  --p-screen-radius: 16px;
+  --p-grid: #363636;
+  --p-curve: #ffffff;
+  --p-curve-fill: rgba(255, 255, 255, 0.18);
+  --p-knob: #ff5a4f;
+  --p-knob-border: 3px solid #1c1c1c;
+  --p-knob-radius: 22px;
+  --p-knob-shadow: 4px 4px 0 #1c1c1c;
+  --p-pointer: #1c1c1c;
+  --p-focus: #1c1c1c;
+}

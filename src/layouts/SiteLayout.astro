@@ -20,8 +20,9 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  fullTitle?: string;
 }
-const { title, description, ogImage = '/og/default.png' } = Astro.props;
+const { title, description, ogImage = '/og/default.png', fullTitle } = Astro.props;
 ---
 
 <!doctype html>
@@ -30,7 +31,7 @@ const { title, description, ogImage = '/og/default.png' } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline set:html={themeInit} />
-    <Meta title={title} description={description} ogImage={ogImage} />
+    <Meta title={title} description={description} ogImage={ogImage} fullTitle={fullTitle} />
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
     <link rel="preload" href={sansFontUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFontUrl} as="font" type="font/woff2" crossorigin />

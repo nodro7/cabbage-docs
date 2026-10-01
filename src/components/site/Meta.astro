@@ -3,13 +3,16 @@
 import { site } from '../../data/site';
 
 interface Props {
+  /** The page name, used for the social title and, with the site name, the <title>. */
   title: string;
   description: string;
   /** Site-relative path of the social image. */
   ogImage?: string;
+  /** The whole <title>, when "Page | Cabbage" is not what is wanted. */
+  fullTitle?: string;
 }
 const { title, description, ogImage } = Astro.props;
-const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
+const fullTitle = Astro.props.fullTitle ?? (title === site.name ? title : `${title} | ${site.name}`);
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const image = ogImage ? new URL(ogImage, Astro.site).href : undefined;
 ---

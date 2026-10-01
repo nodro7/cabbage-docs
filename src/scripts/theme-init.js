@@ -13,4 +13,6 @@
         ? 'light'
         : 'dark';
   document.documentElement.dataset.theme = theme;
+  // Lets the styles tell whether scripts run, before anything is painted.
+  document.documentElement.classList.add('js');
 })();

@@ -14,6 +14,15 @@
  * lighter or darker neighbour without re-checking.
  */
 
+/*
+ * Cascade layer order. This is the first stylesheet on every page, so the
+ * order is set here, before any layered rule is seen. cb.base holds the
+ * marketing pages' base rules (site.css). The starlight.* layers are used by
+ * Starlight on the docs and by code blocks everywhere; listing them after
+ * cb.base lets a code block's own styles win over the base rules.
+ */
+@layer cb.base, starlight.base, starlight.reset, starlight.core, starlight.content, starlight.components, starlight.utils;
+
 :root {
   /* ---------- Type ---------- */
   /* Self-hosted through Fontsource variable packages. Instrument Sans

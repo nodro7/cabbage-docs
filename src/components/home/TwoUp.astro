@@ -1,0 +1,55 @@
+---
+// Two short blocks: for people coming from Cabbage 2, and for people who
+// sell what they make.
+import { site } from '../../data/site';
+---
+
+<section class="cb-section">
+  <div class="container two-up">
+    <div>
+      <h2 class="cb-h3-lg">Coming from Cabbage 2?</h2>
+      <p class="cb-muted">
+        Cabbage 3 is a rewrite, and some familiar things have moved. The standalone IDE has given way to a VS Code
+        extension, widgets are written as JSON with camelCase names, and instruments run on Csound 7. One command
+        converts your old widget code.
+      </p>
+      <div class="two-up__links">
+        <a class="textlink" href="/docs/whats-new/">What is new in Cabbage 3</a>
+        <a class="textlink" href={site.v2Url}>Cabbage 2 downloads and docs</a>
+      </div>
+    </div>
+    <div>
+      <h2 class="cb-h3-lg">Selling what you make</h2>
+      <p class="cb-muted">
+        Instruments you build with Cabbage are yours to distribute and sell. In a standard export, end users can read
+        your Csound code. If you need to ship it encrypted, Cabbage Pro adds protected exports. Message rorywalsh on the
+        forum for details.
+      </p>
+      <div class="two-up__links">
+        <a class="textlink" href="/docs/faqs/">Read the FAQs</a>
+        <a class="textlink" href={site.forumUrl}>Ask about Cabbage Pro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .two-up {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
+    gap: 48px 80px;
+    padding-block: clamp(48px, 6vw, 80px);
+  }
+  .two-up > div {
+    min-width: 0;
+  }
+  p {
+    margin-top: 12px;
+  }
+  .two-up__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 28px;
+    margin-top: 8px;
+  }
+</style>

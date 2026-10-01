@@ -1,47 +1,25 @@
 ---
-// Temporary home page content. The new Home replaces it (build step 5).
-import Button from '../components/site/Button.astro';
+// Home. Sections alternate the page ground and the chrome ground.
+import CommandPalette from '../components/home/CommandPalette.astro';
+import Csound7 from '../components/home/Csound7.astro';
+import Hero from '../components/home/Hero.astro';
+import InstallCta from '../components/home/InstallCta.astro';
+import Ladder from '../components/home/Ladder.astro';
+import LearnTeaser from '../components/home/LearnTeaser.astro';
+import TwoUp from '../components/home/TwoUp.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
-import { site } from '../data/site';
 ---
 
 <SiteLayout
   title="Cabbage"
-  description="Cabbage is a framework for audio software development using Csound. Create VST, AU, and CLAP plugins with ease."
+  fullTitle="Cabbage: a framework for audio software development"
+  description="Cabbage is a framework for audio software development. Write your instrument in Csound 7, build its interface with HTML, CSS and JavaScript, and export it as a VST3, CLAP or AU plugin without leaving VS Code."
 >
-  <section class="cb-section temp-hero">
-    <div class="container">
-      <img src="/img/cabbage-mark.svg" alt="" width="120" height="112" />
-      <h1 class="cb-display">Cabbage 3</h1>
-      <p class="cb-lead">
-        Welcome to the homepage for Cabbage 3. For the latest updates, documentation, and downloads, visit the links
-        below.
-      </p>
-      <div class="temp-hero__actions">
-        <Button href="/install/">Install Cabbage 3</Button>
-        <Button href="/docs/" variant="quiet">Docs</Button>
-        <Button href="/learn/" variant="quiet">Learn</Button>
-        <Button href={site.forumUrl} variant="quiet">Forum</Button>
-      </div>
-    </div>
-  </section>
+  <Hero />
+  <Ladder />
+  <Csound7 />
+  <CommandPalette />
+  <TwoUp />
+  <LearnTeaser />
+  <InstallCta />
 </SiteLayout>
-
-<style>
-  .temp-hero .container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding-block: var(--cb-section-y);
-  }
-  .temp-hero .cb-lead {
-    max-width: 640px;
-  }
-  .temp-hero__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 16px;
-    margin-top: 12px;
-  }
-</style>

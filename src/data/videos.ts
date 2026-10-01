@@ -48,3 +48,15 @@ export function numberedTitle(video: Video): string {
 export function watchUrl(video: Video): string {
 	return `https://www.youtube.com/watch?v=${video.id}`;
 }
+
+const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty'];
+
+/** A count in words, as the page copy has it: "eleven". Figures above twenty. */
+export function inWords(count: number, capital = false): string {
+	const word = WORDS[count] ?? String(count);
+	return capital ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+}
+
+/** How many videos there are, and how many of them are numbered lessons. */
+export const videoCount = videos.length;
+export const lessonCount = videos.filter((video) => video.lesson !== 'Overview').length;

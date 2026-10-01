@@ -1,0 +1,181 @@
+---
+// "Everything else is a command away": a command-palette-style list on the
+// left, and what the selected command does on the right.
+//
+// With JavaScript it is a list of buttons and a live detail region. Without
+// it, every command is listed with its description. The ">Cabbage" row is
+// decoration, not an input.
+import { commands, defaultCommand } from '../../data/commands';
+
+const current = commands[defaultCommand];
+---
+
+<section class="cb-section cb-section--chrome">
+  <div class="container palette-section">
+    <h2 class="cb-h2">Everything else is a command away.</h2>
+    <p class="cb-muted palette-section__intro">
+      Cabbage 3 lives in the VS Code command palette. Pick a command to see what it does.
+    </p>
+
+    <div class="palette" data-palette>
+      <div class="palette__list">
+        <div class="palette__input" aria-hidden="true">
+          <span>&gt;Cabbage</span>
+          <span class="palette__caret"></span>
+        </div>
+        <div class="palette__commands" role="group" aria-label="Cabbage commands">
+          {
+            commands.map((command, index) => (
+              <button
+                type="button"
+                class="palette__command"
+                aria-pressed={index === defaultCommand ? 'true' : 'false'}
+                data-command
+                data-title={command.title}
+                data-description={command.description}
+                data-link-label={command.link.label}
+                data-link-href={command.link.href}
+              >
+                <span>Cabbage: {command.title}</span>
+                {command.key && <span class="palette__key">{command.key}</span>}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+      <div class="palette__detail" aria-live="polite">
+        <h3 class="cb-h3-lg" data-command-title>{current.title}</h3>
+        <p class="cb-muted" data-command-description>{current.description}</p>
+        <a class="textlink" href={current.link.href} data-command-link>{current.link.label}</a>
+      </div>
+    </div>
+
+    <dl class="palette-plain">
+      {
+        commands.map((command) => (
+          <div>
+            <dt>Cabbage: {command.title}</dt>
+            <dd>
+              {command.description} <a href={command.link.href}>{command.link.label}</a>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/palette.js';
+</script>
+
+<style>
+  .palette-section {
+    padding-block: var(--cb-section-y);
+  }
+  .palette-section__intro {
+    max-width: 640px;
+    margin-top: 16px;
+  }
+
+  /* The palette needs the script. Without it, the plain list shows. */
+  :global(html:not(.js)) .palette {
+    display: none;
+  }
+  :global(html.js) .palette-plain {
+    display: none;
+  }
+
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
+    gap: 1px;
+    margin-top: 40px;
+    overflow: hidden;
+    border: 1px solid var(--cb-line);
+    border-radius: var(--cb-radius-lg);
+    background: var(--cb-line);
+  }
+  .palette__list {
+    min-width: 0;
+    padding: 8px;
+    background: var(--cb-bg);
+  }
+  .palette__input {
+    display: flex;
+    align-items: center;
+    min-height: var(--cb-target);
+    margin-bottom: 6px;
+    padding: 0 14px;
+    border: 1px solid var(--cb-blue);
+    border-radius: var(--cb-radius-sm);
+    font-family: var(--cb-font-mono);
+    font-size: var(--cb-text-meta);
+  }
+  .palette__caret {
+    display: inline-block;
+    width: 1px;
+    height: 18px;
+    margin-left: 2px;
+    background: var(--cb-fg);
+  }
+  .palette__commands {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .palette__command {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: var(--cb-target);
+    padding: 6px 14px;
+    border: 0;
+    border-radius: var(--cb-radius-sm);
+    background: transparent;
+    color: var(--cb-fg);
+    font: inherit;
+    font-size: var(--cb-text-small);
+    text-align: left;
+    cursor: pointer;
+  }
+  .palette__command:hover {
+    box-shadow: inset 0 0 0 1px var(--cb-line);
+  }
+  .palette__command[aria-pressed='true'] {
+    background: var(--cb-raise);
+  }
+  .palette__key {
+    font-family: var(--cb-font-mono);
+    font-size: 0.75rem;
+    color: var(--cb-muted);
+    white-space: nowrap;
+  }
+  .palette__detail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 14px;
+    min-width: 0;
+    padding: clamp(24px, 4vw, 48px);
+    background: var(--cb-bg);
+  }
+
+  .palette-plain {
+    display: grid;
+    gap: 20px;
+    max-width: 760px;
+    margin-top: 40px;
+  }
+  .palette-plain dt {
+    font-weight: 600;
+  }
+  .palette-plain dd {
+    margin-top: 2px;
+    color: var(--cb-muted);
+  }
+</style>

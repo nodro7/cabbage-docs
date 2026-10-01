@@ -1,0 +1,483 @@
+---
+// The editor demo in the Home hero: a Csound instrument, the source of its
+// interface, and the running plugin. The visitor can swap the interface
+// while the Csound stays the same.
+//
+// Everything is rendered here for the starting state (Ink, cutoff 0.6,
+// resonance 0.5), so the demo is complete without JavaScript: it shows the
+// Ink interface and main.js, and the switch is hidden. src/scripts/hero-demo.js
+// then makes the knobs and the switch work.
+import { Code } from 'astro-expressive-code/components';
+import SegmentedControl from '../site/SegmentedControl.astro';
+import { cabbageJson, mainJs, savoyCsd } from '../../data/hero-samples';
+import { curveFillPath, curvePath, cutoffText, knobDegrees, qText, resonanceText } from '../../scripts/filter-curve.js';
+import '../../styles/hero-faces.css';
+
+const cutoff = 0.6;
+const resonance = 0.5;
+const line = curvePath(cutoff, resonance);
+
+const faces = [
+  { value: 'stock', label: 'Built-in' },
+  { value: 'bone', label: 'Bone' },
+  { value: 'ink', label: 'Ink' },
+  { value: 'pop', label: 'Pop' },
+];
+const knobs = [
+  { name: 'cutoff', label: 'Cutoff', value: cutoff },
+  { name: 'resonance', label: 'Resonance', value: resonance },
+];
+---
+
+<div class="demo" data-demo>
+  <div class="demo__titlebar">
+    <div class="demo__title">
+      <span class="demo__name">Savoy</span>
+      <span class="demo__tagline">One instrument, four interfaces</span>
+    </div>
+    <SegmentedControl label="Interface" options={faces} selected="ink" data-demo-faces />
+  </div>
+
+  <div class="demo__columns">
+    <div class="demo__source">
+      <div class="demo__label">
+        <span class="demo__file">Savoy.csd</span>
+        <span>the sound</span>
+      </div>
+      <div class="demo__code">
+        <Code code={savoyCsd} lang="csound" frame="none" showLineNumbers />
+      </div>
+
+      <div class="demo__label demo__label--mid">
+        <span class="demo__file" data-ui-file>main.js</span>
+        <span>the interface</span>
+      </div>
+      {/* Both samples sit in the same box, so switching never moves the layout. */}
+      <div class="demo__ui">
+        <div class="demo__code is-current" data-pane-js>
+          <Code code={mainJs} lang="js" frame="none" showLineNumbers />
+        </div>
+        <div class="demo__code" data-pane-json>
+          <Code code={cabbageJson} lang="csound" frame="none" showLineNumbers />
+        </div>
+      </div>
+    </div>
+
+    <div class="demo__preview">
+      <div class="demo__label demo__label--plain">
+        <span data-preview-label>Preview</span>
+      </div>
+      <div class="demo__stage">
+        <div class="face face-ink" data-face-custom>
+          <div class="face__head">
+            <span class="face__name">Savoy</span>
+            <span class="face__kind">Resonant low-pass</span>
+          </div>
+          <div class="face__screen">
+            <div class="face__readouts">
+              <span data-readout="cutoff">{cutoffText(cutoff)}</span>
+              <span data-readout="q">{qText(resonance)}</span>
+            </div>
+            <svg viewBox="0 0 400 130" role="img" aria-label="Filter response curve">
+              <path class="face__grid" d="M0 32.5H400M0 65H400M0 97.5H400M100 0V130M200 0V130M300 0V130"></path>
+              <path class="face__curve-fill" data-curve-fill d={curveFillPath(line)}></path>
+              <path class="face__curve" data-curve-line d={line}></path>
+            </svg>
+          </div>
+          <div class="face__knobs">
+            {
+              knobs.map((knob) => (
+                <div class="face__knobcol">
+                  <div class="knob" data-knob={knob.name} data-label={knob.label}>
+                    <div class="knob__dial" data-dial style={`transform: rotate(${knobDegrees(knob.value)}deg)`}>
+                      <div class="knob__pointer" />
+                    </div>
+                  </div>
+                  <span class="face__label">{knob.label}</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        {/* TODO(G): this is a stand-in drawing of the built-in widgets. Replace it with an accurate recreation, or a screenshot of the real widgets, once one is supplied. */}
+        <div class="stock" data-face-stock hidden>
+          <div class="stock__titlebar">Savoy</div>
+          <div class="stock__knobs">
+            {
+              knobs.map((knob) => (
+                <div class="stock__knobcol">
+                  <div class="knob knob--stock" data-knob={knob.name} data-label={knob.name}>
+                    <div class="knob__dial" data-dial style={`transform: rotate(${knobDegrees(knob.value)}deg)`}>
+                      <div class="knob__pointer" />
+                    </div>
+                  </div>
+                  <span>{knob.name}</span>
+                  <span class="stock__value" data-readout={knob.name}>
+                    {knob.name === 'cutoff' ? cutoffText(knob.value) : resonanceText(knob.value)}
+                  </span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <p class="demo__caption" data-caption>
+          The same instrument with an interface of its own. It is a web page.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo__status">
+    <span>Csound 7</span>
+    <span class="demo__server"><span class="demo__dot" aria-hidden="true"></span>Cabbage server running</span>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/hero-demo.js';
+</script>
+
+<style>
+  .demo {
+    margin-top: clamp(40px, 4vw, 56px);
+    overflow: hidden;
+    border: 1px solid var(--cb-line);
+    border-radius: var(--cb-radius-lg);
+    background: var(--cb-bg);
+    box-shadow: var(--cb-shadow-lg);
+  }
+
+  /* ---------- Window chrome ---------- */
+  .demo__titlebar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    min-height: 58px;
+    padding: 6px 8px 6px 16px;
+    border-bottom: 1px solid var(--cb-line);
+    background: var(--cb-chrome);
+  }
+  .demo__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 12px;
+  }
+  .demo__name {
+    font-size: var(--cb-text-small);
+    font-weight: 600;
+  }
+  .demo__tagline {
+    font-size: var(--cb-text-meta);
+    color: var(--cb-muted);
+  }
+  /* The switch needs the script. */
+  :global(html:not(.js)) .demo :global([data-demo-faces]) {
+    display: none;
+  }
+
+  .demo__columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
+    gap: 1px;
+    background: var(--cb-line);
+  }
+  .demo__source {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--cb-bg);
+  }
+  .demo__preview {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--cb-chrome);
+  }
+
+  .demo__label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 38px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--cb-line);
+    background: var(--cb-chrome);
+    font-family: var(--cb-font-mono);
+    font-size: var(--cb-text-code-label);
+    color: var(--cb-muted);
+  }
+  .demo__label--mid {
+    border-top: 1px solid var(--cb-line);
+  }
+  .demo__label--plain {
+    background: transparent;
+  }
+  .demo__file {
+    color: var(--cb-fg);
+  }
+
+  .demo__status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px 16px;
+    min-height: 28px;
+    padding: 0 14px;
+    border-top: 1px solid var(--cb-line);
+    background: var(--cb-chrome);
+    font-family: var(--cb-font-mono);
+    font-size: 0.75rem;
+    color: var(--cb-muted);
+  }
+  .demo__server {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .demo__dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cb-green-text);
+  }
+
+  /* ---------- Code panes ---------- */
+  /* The code blocks sit inside the editor window: no frame of their own and
+     no copy button. They scroll sideways inside themselves. */
+  .demo__code :global(.expressive-code),
+  .demo__code :global(.expressive-code figure),
+  .demo__code :global(.expressive-code pre) {
+    height: 100%;
+  }
+  .demo__code :global(.expressive-code pre) {
+    /* Sideways scrolling only. The interface pane has a fixed height, and a
+       second scrollbar there would catch the wheel and hold the page. */
+    overflow-y: hidden;
+    border: 0;
+    border-radius: 0;
+    background: var(--cb-bg);
+  }
+  .demo__code :global(.expressive-code .copy) {
+    display: none;
+  }
+
+  /* The interface pane: a fixed height, 15 lines of 22px and the padding. */
+  .demo__ui {
+    display: grid;
+    height: 358px;
+  }
+  .demo__ui > .demo__code {
+    grid-area: 1 / 1;
+    min-width: 0;
+    min-height: 0;
+    visibility: hidden;
+  }
+  .demo__ui > .demo__code.is-current {
+    visibility: visible;
+  }
+
+  /* ---------- Preview ---------- */
+  .demo__stage {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+    gap: 20px;
+    padding: 32px 24px;
+  }
+  .demo__caption {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    text-wrap: balance;
+    font-size: var(--cb-text-small);
+    color: var(--cb-muted);
+  }
+
+  /* A custom face. Its look comes from the variables in hero-faces.css. */
+  .face {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 20px;
+    border: var(--p-border);
+    border-radius: var(--p-radius);
+    background: var(--p-bg);
+    color: var(--p-fg);
+    box-shadow: var(--p-shadow);
+    font-family: var(--cb-font-sans);
+  }
+  .face[hidden],
+  .stock[hidden] {
+    display: none;
+  }
+  .face__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .face__name {
+    font-size: 1.375rem;
+    line-height: 1.3;
+    font-weight: var(--p-name-w);
+    letter-spacing: var(--p-name-track);
+    text-transform: var(--p-case);
+  }
+  .face__kind {
+    font-size: 0.75rem;
+    color: var(--p-dim);
+    letter-spacing: var(--p-track);
+    text-transform: var(--p-case);
+  }
+  .face__screen {
+    margin-top: 14px;
+    padding: 12px 12px 8px;
+    border: var(--p-screen-border);
+    border-radius: var(--p-screen-radius);
+    background: var(--p-screen);
+  }
+  .face__readouts {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: var(--cb-font-mono);
+    font-size: 0.8125rem;
+    line-height: 18px;
+    color: var(--p-screen-fg);
+  }
+  .face__screen svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 6px;
+  }
+  .face__grid {
+    fill: none;
+    stroke: var(--p-grid);
+    stroke-width: 1;
+  }
+  .face__curve-fill {
+    fill: var(--p-curve-fill);
+    stroke: none;
+  }
+  .face__curve {
+    fill: none;
+    stroke: var(--p-curve);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .face__knobs {
+    display: flex;
+    justify-content: center;
+    gap: 56px;
+    margin-top: 18px;
+  }
+  .face__knobcol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .face__label {
+    font-size: 0.75rem;
+    line-height: 16px;
+    letter-spacing: var(--p-track);
+    text-transform: var(--p-case);
+  }
+
+  /* Knobs. The script gives them the slider role; they are dragged, or
+     turned with the arrow, Page, Home and End keys. */
+  .knob {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    border-radius: var(--p-knob-radius, 50%);
+    box-shadow: var(--p-knob-shadow, none);
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+  }
+  .knob:active {
+    cursor: grabbing;
+  }
+  .knob:focus-visible {
+    outline: 2px solid var(--p-focus, #ffffff);
+    outline-offset: 4px;
+  }
+  .knob__dial {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+    border: var(--p-knob-border);
+    border-radius: var(--p-knob-radius, 50%);
+    background: var(--p-knob);
+  }
+  .knob__pointer {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 4px;
+    height: 20px;
+    margin-left: -2px;
+    border-radius: 2px;
+    background: var(--p-pointer);
+  }
+
+  /* The built-in widgets: plain on purpose. */
+  .stock {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    border: 1px solid #555555;
+    background: #2b2b2b;
+    color: #dddddd;
+    font-family: system-ui, sans-serif;
+  }
+  .stock__titlebar {
+    padding: 6px 10px;
+    border-bottom: 1px solid #555555;
+    background: #202020;
+    font-size: 0.75rem;
+    line-height: 16px;
+  }
+  .stock__knobs {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 40px 20px 36px;
+  }
+  .stock__knobcol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    line-height: 16px;
+  }
+  .stock__value {
+    color: #b5b5b5;
+  }
+  .knob--stock .knob__dial {
+    border: 2px solid #9a9a9a;
+    background: transparent;
+  }
+  .knob--stock .knob__pointer {
+    top: 6px;
+    width: 2px;
+    height: 22px;
+    margin-left: -1px;
+    border-radius: 0;
+    background: #dddddd;
+  }
+</style>

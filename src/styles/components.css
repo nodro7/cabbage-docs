@@ -3,6 +3,14 @@
  * Needs tokens.css. Loaded by SiteLayout and by Starlight's customCss.
  */
 
+/* Code is shown as typed: no ligatures turning => into an arrow. */
+code,
+kbd,
+pre,
+samp {
+  font-variant-ligatures: none;
+}
+
 /* Focus: 2px solid with a 3px offset on every interactive element. */
 :focus-visible {
   outline: 2px solid var(--cb-focus);

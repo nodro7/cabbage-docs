@@ -1,0 +1,84 @@
+---
+// Csound 7: four short points and the FilterBank sample from the docs.
+import { Code } from 'astro-expressive-code/components';
+import { filterBankCsd } from '../../data/hero-samples';
+
+const points = [
+  {
+    title: 'Explicit types',
+    text: 'Name variables however you like and declare their rate: cutoff:k, not kCutoff.',
+  },
+  {
+    title: 'Structs and better UDOs',
+    text: 'Group related state, and pass arrays to your own opcodes by reference.',
+  },
+  {
+    title: 'Built-in oversampling',
+    text: 'Run distortion and waveshaping at a higher rate to keep aliasing out.',
+  },
+  {
+    title: 'Opcode arrays',
+    text: 'Create a bank of filters or oscillators and run the lot in one line.',
+  },
+];
+---
+
+<section class="cb-section">
+  <div class="container csound7">
+    <div class="csound7__text">
+      <h2 class="cb-h2">Csound 7 underneath.</h2>
+      <p class="cb-muted">
+        Cabbage 3 is built on the latest major release of Csound. Instrument code is easier to read, and a few things
+        plugin authors have wanted for years are now part of the language.
+      </p>
+      <dl>
+        {
+          points.map((point) => (
+            <div>
+              <dt>{point.title}</dt>
+              <dd>{point.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <a class="textlink" href="/docs/using/csound7/">Csound 7 in Cabbage</a>
+    </div>
+    <div class="csound7__code">
+      <Code code={filterBankCsd} lang="csound" title="FilterBank.csd" showLineNumbers />
+    </div>
+  </div>
+</section>
+
+<style>
+  .csound7 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+    gap: 40px 64px;
+    align-items: center;
+    padding-block: var(--cb-section-y);
+  }
+  .csound7__text,
+  .csound7__code {
+    min-width: 0;
+  }
+  .csound7__text > p {
+    margin-top: 16px;
+  }
+  dl {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 20px 32px;
+    margin-top: 28px;
+  }
+  dt {
+    font-weight: 600;
+  }
+  dd {
+    margin-top: 2px;
+    font-size: var(--cb-text-body-sm);
+    color: var(--cb-muted);
+  }
+  .textlink {
+    margin-top: 16px;
+  }
+</style>

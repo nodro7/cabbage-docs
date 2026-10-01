@@ -1,0 +1,94 @@
+---
+// The closing call to action: the three installs, and the Install button.
+import Button from '../site/Button.astro';
+import { site } from '../../data/site';
+
+const installs = [
+  { title: 'Csound 7', text: 'The audio engine Cabbage 3 runs on.' },
+  {
+    title: 'The Cabbage extension for VS Code',
+    text: 'The editor tools, the live preview and the Cabbage server, in one download.',
+  },
+  {
+    title: 'The Csound language extension',
+    text: 'Syntax highlighting, opcode hints and error checking for your Csound code.',
+  },
+];
+---
+
+<section class="cb-section">
+  <div class="container install-cta">
+    <div>
+      <h2 class="cb-h2">Three installs and you are making noise.</h2>
+      <div class="install-cta__actions">
+        <Button href="/install/">Install Cabbage 3</Button>
+        <p class="cb-muted">Stuck? <a href={site.forumUrl}>Ask on the forum</a>.</p>
+      </div>
+    </div>
+    <ol role="list">
+      {
+        installs.map((item, index) => (
+          <li>
+            <span class="install-cta__number">{index + 1}</span>
+            <div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .install-cta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+    gap: 40px 80px;
+    align-items: center;
+    padding-block: var(--cb-section-y);
+  }
+  .install-cta > * {
+    min-width: 0;
+  }
+  h2 {
+    text-wrap: balance;
+  }
+  .install-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin-top: 28px;
+  }
+  ol {
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--cb-line);
+    list-style: none;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 0 12px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--cb-line);
+  }
+  .install-cta__number {
+    font-family: var(--cb-font-mono);
+    font-size: var(--cb-text-meta);
+    line-height: 28px;
+    color: var(--cb-green-text);
+  }
+  h3 {
+    font-size: var(--cb-text-lead);
+    line-height: 28px;
+    font-weight: 600;
+  }
+  li p {
+    margin-top: 2px;
+    font-size: var(--cb-text-body-sm);
+    color: var(--cb-muted);
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+// Home hero: what Cabbage is, the three actions, and the editor demo.
+import Button from '../site/Button.astro';
+import HeroDemo from './HeroDemo.astro';
+import { site } from '../../data/site';
+import { formatDate, getRelease } from '../../lib/release';
+
+const release = await getRelease();
+const releaseDate = formatDate(release.date);
+---
+
+<section class="cb-section hero">
+  <div class="container hero__inner">
+    <a class="hero__news" href="/docs/whats-new/">
+      <span class="hero__badge">New</span>
+      <span>Cabbage 3 is out of alpha. See what changed since Cabbage 2</span>
+    </a>
+    <h1 class="cb-display">
+      <span>Csound for the sound.</span>
+      <span>The web for everything you see.</span>
+    </h1>
+    <p class="cb-lead">
+      Cabbage is a framework for audio software development. Write your instrument in Csound 7, build its interface
+      with HTML, CSS and JavaScript, and export it as a VST3, CLAP or AU plugin without leaving VS Code.
+    </p>
+    <div class="hero__actions">
+      <Button href="/install/">Install Cabbage 3</Button>
+      <Button href="/docs/" variant="quiet">Read the docs</Button>
+      <a class="textlink" href={site.forumUrl}>Ask on the forum</a>
+    </div>
+    <p class="cb-meta">
+      Free and open source. Runs on macOS, Windows and Linux. Latest release {release.version}{
+        releaseDate && `, ${releaseDate}`
+      }.
+    </p>
+
+    <HeroDemo />
+  </div>
+</section>
+
+<style>
+  .hero__inner {
+    padding-block: clamp(40px, 5vw, 72px) clamp(56px, 7vw, 96px);
+  }
+  .hero__news {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    min-height: var(--cb-target);
+    font-size: var(--cb-text-small);
+    color: var(--cb-muted);
+    text-decoration: none;
+  }
+  .hero__news:hover {
+    color: var(--cb-fg);
+    text-decoration: none;
+  }
+  .hero__badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: var(--cb-radius-pill);
+    background: var(--cb-green);
+    color: var(--cb-green-ink);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  h1 {
+    margin-top: 20px;
+  }
+  h1 span {
+    display: block;
+  }
+  .cb-lead {
+    max-width: 640px;
+    margin-top: 24px;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+    margin-top: 32px;
+  }
+  .hero__actions .textlink {
+    padding: 0 8px;
+  }
+  .cb-meta {
+    margin-top: 20px;
+  }
+</style>

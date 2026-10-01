@@ -1,0 +1,41 @@
+---
+// Four of the videos, and a link to the Learn page.
+import VideoCard from '../site/VideoCard.astro';
+import { inWords, lessonCount, videoCount, videos } from '../../data/videos';
+
+// The overview, the first lesson, the synth build and the custom UI lesson.
+const picks = ['Overview', 1, 8, 10];
+const featured = videos.filter((video) => picks.includes(video.lesson));
+---
+
+<section class="cb-section cb-section--chrome">
+  <div class="container learn-teaser">
+    <h2 class="cb-h2">{inWords(videoCount, true)} videos, from install to export.</h2>
+    <p class="cb-muted">
+      A short overview, then {inWords(lessonCount)} lessons that build a synth plugin and give it a custom interface.
+    </p>
+    <div class="learn-teaser__grid">
+      {featured.map((video) => <VideoCard video={video} />)}
+    </div>
+    <a class="textlink" href="/learn/">See all {inWords(videoCount)} videos</a>
+  </div>
+</section>
+
+<style>
+  .learn-teaser {
+    padding-block: var(--cb-section-y);
+  }
+  p {
+    max-width: 640px;
+    margin-top: 16px;
+  }
+  .learn-teaser__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: 28px 24px;
+    margin-top: 40px;
+  }
+  .textlink {
+    margin-top: 20px;
+  }
+</style>

@@ -1,0 +1,85 @@
+---
+// The ladder: from built-in widgets to an interface of your own. It is a
+// real sequence, so it is an ordered list.
+const steps = [
+  {
+    title: 'Sketch with built-in widgets',
+    text: 'Describe sliders, buttons, keyboards and XY pads in JSON, then drag them into place in Edit Mode. Every change is written back to your .csd file.',
+    link: { label: 'Widget reference', href: '/docs/widgets/overview/' },
+  },
+  {
+    title: 'Add widgets of your own',
+    text: 'Write a widget class in JavaScript. It shows up in the property panel and drags around the editor like the built-in ones.',
+    link: { label: 'Custom widgets', href: '/docs/custom-ui/custom-widgets/' },
+  },
+  {
+    title: 'Replace the whole interface',
+    text: 'Point Cabbage at any web page: plain HTML, or a Svelte, React or Vue project with hot reload. The Cabbage JS API carries values to Csound and back, DAW automation included.',
+    link: { label: 'Custom interfaces', href: '/docs/custom-ui/custom-interfaces/' },
+  },
+];
+---
+
+<section class="cb-section cb-section--chrome">
+  <div class="container ladder">
+    <h2 class="cb-h2">Start with a sketch. Finish with a design of your own.</h2>
+    <p class="cb-muted ladder__intro">
+      The widgets that ship with Cabbage are for prototyping. They get sound on screen in minutes. When the instrument
+      is right, give it an interface that looks like your work, not ours.
+    </p>
+    <ol role="list">
+      {
+        steps.map((step, index) => (
+          <li>
+            <span class="ladder__number">{index + 1}</span>
+            <h3 class="cb-h3">{step.title}</h3>
+            <p>{step.text}</p>
+            <a class="textlink" href={step.link.href}>
+              {step.link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .ladder {
+    padding-block: var(--cb-section-y);
+  }
+  h2 {
+    max-width: 760px;
+    text-wrap: balance;
+  }
+  .ladder__intro {
+    max-width: 640px;
+    margin-top: 16px;
+  }
+  ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 32px 40px;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 2px solid var(--cb-fg);
+  }
+  .ladder__number {
+    font-family: var(--cb-font-mono);
+    font-size: var(--cb-text-meta);
+    line-height: 22px;
+    color: var(--cb-green-text);
+  }
+  li p {
+    font-size: var(--cb-text-body-sm);
+    color: var(--cb-muted);
+  }
+</style>
