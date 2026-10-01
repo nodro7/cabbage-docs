@@ -1,10 +1,13 @@
 ---
 title: "Working with Multichannel Instruments"
+description: "How to set the number of input and output channels, and how to set up sidechains and buses."
 ---
+
+<!-- TODO(G): this page sets channelConfig as a string on the form widget and says nchnls and nchnls_i set the channel counts. The Audio Channel Configuration page says channelConfig is a top-level array that alone controls the channel count. Is this page an older draft? If so, move what is still true (sidechains, the nchnls check) there, delete this page and redirect it. -->
 
 While any instrument that processes more than one signal channel can be considered multichannel, the term is typically used for instruments that handle more than two channels.
 
-### Defining number of outputs 
+## Defining number of outputs 
 
 The number of outputs can be specified in the Csound header section using the nchnls keyword, which indicates how many output channels the instrument should use. In the following setup, the instrument is configured with two outputs.
 
@@ -19,7 +22,7 @@ nchnls = 2 //stereo output
 0dbfs = 1
 ```
 
-### Defining the number of inputs
+## Defining the number of inputs
 
 Similarly, we can use the `nchnls_i` keyword to set the number of input channels. 
 
@@ -35,7 +38,9 @@ nchnls_i = 4    //quadraphonic input
 0dbfs = 1
 ```
 
-📃 **Note:**  The numer given for `nchnls` will be taken as the number of input channels *if* `nchnls_i` is not defined. 
+:::note
+The number given for `nchnls` will be taken as the number of input channels *if* `nchnls_i` is not defined.
+:::
 
 ## Instruments with side-chains 
 
@@ -58,7 +63,7 @@ nchnls_i = 3    //stereo plus mono input
 
 An audio bus is a logical grouping of audio channels that allows for the routing and processing of multiple audio signals as a single unit. Buses are used to simplify signal management, enabling plugins to handle mono, stereo, surround, or custom configurations seamlessly and integrate effectively with the DAW's mixing and routing workflows. Sidechaining is typically handled using a unique bus. 
 
-In order to set up custom busing in Cabbage 3 we define a list of available bus configurations in our `form` widget. For this we use the `channelConfig` property, which can be assigned a string with all supported configurations. In the case of our simple sidechain setup from above, we should probably group the inputs into a stereo bus, and the sidechain channel into a mono bus. To do this we add '2.1-2' to our `chanelConfig` property. 
+In order to set up custom busing in Cabbage 3 we define a list of available bus configurations in our `form` widget. For this we use the `channelConfig` property, which can be assigned a string with all supported configurations. In the case of our simple sidechain setup from above, we should probably group the inputs into a stereo bus, and the sidechain channel into a mono bus. To do this we add '2.1-2' to our `channelConfig` property. 
 
 ```json
 {

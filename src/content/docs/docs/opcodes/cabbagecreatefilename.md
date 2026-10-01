@@ -1,5 +1,6 @@
 ---
 title: "cabbageCreateFileName"
+description: "Generates a likely-unique file name in a target directory, with the extension you ask for."
 ---
 
 Generates a likely-unique filename in a target directory using the requested extension. This opcode is useful when you need a valid and unique filename for testing. The opcode returns a full path (forward slashes) but does not create the file on disk. This opcode is i-time only, so it's best used in a dedicated instrument that will generate the filename when needed. 

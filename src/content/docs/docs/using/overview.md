@@ -1,6 +1,6 @@
 ---
 title: "Overview"
-description: "Overview"
+description: "What you can do with the Cabbage 3 extension for VS Code."
 sidebar:
   order: 0
 ---

@@ -5,7 +5,9 @@ description: "How to save and load widget state using presets"
 
 Cabbage provides a robust preset system that lets you save and restore the state of your widgets to JSON files. This is useful for building preset managers, A/B comparison tools, or any system that needs to recall a previous configuration. Note that this system is separate from the host DAW's preset management, and is purely for saving widget states within your Cabbage instrument. By default, only the channel data from each widget is saved, i.e, its channel ID and current value. The entire UI state can also be saved (see below), but is disabled by default to reduce the file size of presets. 
 
-📃 **Note:** The DAW state saving/loading will save the entire JSON tree, so any changes made to the widget's UI state will be reflected in the DAW's saved state.
+:::note
+The DAW state saving/loading will save the entire JSON tree, so any changes made to the widget's UI state will be reflected in the DAW's saved state.
+:::
 
 ## How it works
 
@@ -32,11 +34,11 @@ instr LoadState
 endin
 ```
 
-The `CSD_PATH` reserved channel gives you the directory where the `.csd` file lives, which is a convenient place to store presets alongside your instrument. Note this provide only one save file, which will be overwritten each time you save. To support multiple presets, generate unique filenames using string formatting (e.g., `preset_%d.json` with a preset number). See the extended example below for a complete implementation of dynamic filenames.
+The `CSD_PATH` reserved channel gives you the directory where the `.csd` file lives, which is a convenient place to store presets alongside your instrument. Note this provides only one save file, which will be overwritten each time you save. To support multiple presets, generate unique filenames using string formatting (e.g., `preset_%d.json` with a preset number). See the extended example below for a complete implementation of dynamic filenames.
 
 ## Triggering save/load from the UI
 
-Use buttons clicks or other such events to trigger the save and load instruments. An always on (`z` duration) `PresetManager` instrument can be used to monitor the button channels and trigger the appropriate instrument:
+Use button clicks or other such events to trigger the save and load instruments. An always on (`z` duration) `PresetManager` instrument can be used to monitor the button channels and trigger the appropriate instrument:
 
 ```csound
 instr PresetManager
@@ -74,7 +76,7 @@ The same session mechanism persists arbitrary text for custom interfaces: declar
 
 ## Saving a widget's full JSON data
 
-Most widget needs only their current value saved and restored, which is what the default `cabbageSaveState` does. However, in some cases you may want to save the entire JSON state of a widget, including its UI properties (e.g., bounds, colours, styles). To do this, mark the widget with a user-defined custom property (e.g., `fullSave`) and filter at save time:
+Most widgets need only their current value saved and restored, which is what the default `cabbageSaveState` does. However, in some cases you may want to save the entire JSON state of a widget, including its UI properties (e.g., bounds, colours, styles). To do this, mark the widget with a user-defined custom property (e.g., `fullSave`) and filter at save time:
 
 ```json
 {

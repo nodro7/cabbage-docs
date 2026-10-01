@@ -1,5 +1,6 @@
 ---
 title: "cabbageGet"
+description: "Queries the current value of a widget property."
 ---
 
 This opcode queries the current value of a widget property, i.e,`colour`, `bounds.top`, `height`, etc. It can run at init-time or k-time and includes an optional output argument that triggers a value of 1 for one k-cycle whenever the widget value is updated or changed.
@@ -23,7 +24,9 @@ value:k [, kTrig] = cabbageGet(SChannel, SProperty)
 * *SValue* - the current string value of the widget property
 * *kTrig* - a trigger signal that will return 1 for a single k-cycle whenever the value has been updated/changed
 
-## Example:
+## Example
+
+<!-- TODO(G): the example below calls cabbageGetValue, not cabbageGet. Rory to supply an example for this opcode. -->
 
 ```csound
 <Cabbage>[

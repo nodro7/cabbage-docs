@@ -1,6 +1,6 @@
 ---
 title: "Csound 7"
-description: "Csound 7 in Cabbage"
+description: "The Csound 7 features that matter most in Cabbage 3: explicit types, structs, better UDOs, oversampling and opcode arrays."
 ---
 
 Cabbage 3 is built on Csound 7, the latest major release of the Csound audio programming language. The improvements it brings make it a much stronger foundation for building audio plugins and instruments. This page highlights the Csound 7 features most relevant to Cabbage users.
@@ -37,7 +37,7 @@ endin
 
 For Cabbage users building complex instruments structs provide a clean way to organise state that previously required verbose naming conventions or unwieldy arrays. The following is an example of a struct that can be used to represent the two outputs of a Cabbage button:
 
-```
+```csound
 struct CabbageButton trig:k, val:k
 
 instr Effect
@@ -45,8 +45,8 @@ instr Effect
   mute:CabbageButton init 0, 0
   compress:CabbageButton
 
-  mute.val, mute.trig = cabbageGetValue("muteWidget)
-  compress.val, compress.trig = cabbageGetValue("compressWidget)
+  mute.val, mute.trig = cabbageGetValue("muteWidget")
+  compress.val, compress.trig = cabbageGetValue("compressWidget")
   (...)
 
 endin

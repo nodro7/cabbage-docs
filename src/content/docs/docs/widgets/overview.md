@@ -1,5 +1,6 @@
 ---
 title: "Overview"
+description: "The JSON format that describes a Cabbage interface: top-level properties, widget channels and the properties common to all widgets."
 sidebar:
   order: 0
 ---
@@ -34,10 +35,10 @@ The unique identifier for the plugin. This is **required** for all plugins. If t
 
 ### Package Object
 
- ```json
+```json
 "package" : {
     "include": [ {"src": "sample", "dest": "samples"} ],
-    "cabzOuputDir":""
+    "cabzOutputDir":""
 }
 ```
 
@@ -92,10 +93,9 @@ A complete Cabbage JSON structure with top-level configuration:
 ```json
 <Cabbage>{
     "pluginId": "MyPl",
-    "channelConfig": {
-        "inputs": ["2"],
-        "outputs": ["2"]
-    },
+    "channelConfig": [
+        { "name": "Stereo", "ins": "2", "outs": "2" }
+    ],
     "widgets": [
         {
             "type": "form",
@@ -170,7 +170,7 @@ In such cases, the [`cabbageSet`](/docs/opcodes/cabbageset/) and [`cabbageGet`](
         },
         {
             "id": "mouseY",
-            "event": "mouseMoveX",
+            "event": "mouseMoveY",
             "range": {"min": 0, "max": 1000, "defaultValue": 0, "skew": 1, "increment": 0.01}
         },
         {
@@ -181,7 +181,9 @@ In such cases, the [`cabbageSet`](/docs/opcodes/cabbageset/) and [`cabbageGet`](
 }
 ```
 
-📃 **Note:** While it is possible to use `cabbageSet` to update a widget's value, it's not advised to do so. When calling cabbageSet, the widget's entire JSON data is passed from the backend to the frontend. When updating a value using `cabbageSetValue` only the value and channel name are sent, this results in much less overhead. 
+:::note
+While it is possible to use `cabbageSet` to update a widget's value, it's not advised to do so. When calling cabbageSet, the widget's entire JSON data is passed from the backend to the frontend. When updating a value using `cabbageSetValue` only the value and channel name are sent, this results in much less overhead.
+:::
 
 If no top-level `id` is set, the `channels[0].id` channel can be used, but the resulting code might not be very intuitive, for instance, calling `cabbageSet` to set the color of `mouseX` doesn’t make much sense. In such cases, it helps to define a more appropriately named top-level `id`:
 
@@ -212,7 +214,9 @@ Using well-named top-level `id`s to manage a widget’s visual state offers many
 
 JSON doesn't support comments. If you wish to add comments to your JSON, use a `"//" : "This is a comment....."` property. The extension will highlight this line to make it stands out from the rest of the JSON code. 
 
-⚠️ **Important:** A widget's range is fixed and cannot be changed at run-time. However, there are ways to make it appear as though the range has changed. Please ask on the forum for tips and tricks on making this work.  
+:::caution
+A widget's range is fixed and cannot be changed at run-time. However, there are ways to make it appear as though the range has changed. Please ask on the forum for tips and tricks on making this work.
+:::
 
 ## Widget Properties 
 
@@ -266,7 +270,7 @@ Each widget also has a unique set of styling properties accessed through the `st
 
 All widgets include an `automatable` property. Only widgets with `automatable` set to `true` will appear as automatable parameters in a host environment. Through the named channels, these widgets can be controlled or modulated by the host, ensuring synchronisation between the interface and the audio engine. Many of the stock widgets that ship with Cabbage have their `automatable` property set to `true` by default.
 
-Widgets with `automatable:true` can still send and receive data over named channels, but they will not appear in the list of plugin parameters presented in the DAW. A `fileButton` is a good example of one such widget. It makes little sense to give the DAW control to open a native file browser dialog. Note that this property cannot be toggled on and off; the host needs to know what is automatable when it loads.
+Widgets with `automatable: false` can still send and receive data over named channels, but they will not appear in the list of plugin parameters presented in the DAW. A `fileButton` is a good example of one such widget. It makes little sense to give the DAW control to open a native file browser dialog. Note that this property cannot be toggled on and off; the host needs to know what is automatable when it loads.
 
 
 
@@ -278,6 +282,7 @@ Each widget in Cabbage is documented with its properties and available channels.
 - [Button](/docs/widgets/button/)
 - [Checkbox](/docs/widgets/checkbox/)
 - [ComboBox](/docs/widgets/combobox/)
+- [File Button](/docs/widgets/file-button/)
 - [Form](/docs/widgets/form/)
 - [GenTable](/docs/widgets/gentable/)
 - [GroupBox](/docs/widgets/groupbox/)

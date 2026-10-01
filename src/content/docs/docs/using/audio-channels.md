@@ -1,6 +1,6 @@
 ---
 title: "Audio Channel Configuration"
-description: "Managing channel layouts"
+description: "How to declare the channel layouts a plugin supports with channelConfig, and how hosts choose between them."
 ---
 
 Managing channel layouts presents a unique challenge because a developer cannot assume a host will honor the plugin's preferred configuration. For instance, a plugin designed for Stereo (2-in/2-out) might be forced onto a Mono or even a 5.1 track by the host. If the plugin attempts to access a channel index that the host hasn't allocated, it can result in a memory access violation or undefined behavior. Therefore, developers must implement defensive I/O logic (see below), verifying the actual channel count at runtime and gracefully handling any configuration the host provides. 
@@ -21,9 +21,10 @@ Cabbage dynamically overrides Csound’s internal channel settings to match the 
 ]
 ```
 
-The first entry is used on initial load. The host can switch between configurations at runtime. Cabbage will restart Csound with the correct channel count automatically if the users changes the channel config. This could result in internal buffers being destroyed, but there is no way to avoud this 
-
-📃 **Note:** While `channelConfig` object can be used to indicate the preferred channel configuration for a plugin, the host has the final say. So it's important to check `nhchnls` and `nchnls_i` within your code to make sure your instrument can correctly handle the channel layout. 
+The first entry is used on initial load. The host can switch between configurations at runtime. Cabbage will restart Csound with the correct channel count automatically if the user changes the channel config. This could result in internal buffers being destroyed, but there is no way to avoid this.
+:::note
+While `channelConfig` object can be used to indicate the preferred channel configuration for a plugin, the host has the final say. So it's important to check `nchnls` and `nchnls_i` within your code to make sure your instrument can correctly handle the channel layout.
+:::
 
 ## Instruments with sidechains
 

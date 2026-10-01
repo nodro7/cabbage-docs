@@ -1,13 +1,13 @@
 ---
 title: "Cabbage JS API"
-description: "Cabbage API"
+description: "Reference for the Cabbage JavaScript API, which carries values and messages between a web interface and the Cabbage backend."
 ---
-
-# Cabbage JavaScript API Reference
 
 The Cabbage JavaScript API provides the communication layer between webview UIs and the Cabbage backend. This API enables bidirectional communication for plugin development.
 
-📃 **Note:** A `<Cabbage>{...}</Cabbage>` JSON structure is still required to define parameters for use in a host application. Objects declared in this structure are accessible through the API via a custom event handler (see below). These objects are sent at load time and can be updated at runtime using the [`cabbageSet`](/docs/opcodes/cabbageset/) and [`cabbageSetValue`](/docs/opcodes/cabbagesetvalue/) opcodes.
+:::note
+A `<Cabbage>{...}</Cabbage>` JSON structure is still required to define parameters for use in a host application. Objects declared in this structure are accessible through the API via a custom event handler (see below). These objects are sent at load time and can be updated at runtime using the [`cabbageSet`](/docs/opcodes/cabbageset/) and [`cabbageSetValue`](/docs/opcodes/cabbagesetvalue/) opcodes.
+:::
 
 ## Architecture Overview
 
@@ -44,7 +44,7 @@ Register a listener for incoming messages from the Cabbage backend. This is the 
 | `resizeResponse` | `accepted`, `width`, `height` | Response to `requestResize()` |
 
 **Example — Vanilla HTML:**
-```csound
+```js
 import { Cabbage } from './cabbage/cabbage.js';
 
 Cabbage.addMessageListener((msg) => {
@@ -65,7 +65,7 @@ Cabbage.addMessageListener((msg) => {
 ```
 
 **Example — Svelte:**
-```csound
+```js
 import { Cabbage } from 'cabbage';
 import { onMount, onDestroy } from 'svelte';
 
@@ -102,7 +102,7 @@ Send widget value changes to the Cabbage backend. This is the primary API for us
 - **String values**: on a non-automatable channel, a string value is stored as the channel's `stringValue` (and into the matching Csound string channel). String state is included in session/preset saves and re-pushed in the launch dumps — see [Persisting Custom UI State](/docs/custom-ui/persisting-ui-state/). The channel must be declared with `"type": "string"`, e.g. `"channels": [{ "id": "myState", "type": "string" }]`.
 
 **Examples:**
-```csound
+```js
 // Basic usage
 Cabbage.sendControlData({ channel: "frequency", value: 1000 }, null);
 
@@ -145,7 +145,7 @@ Send MIDI messages from the UI to the backend.
 - `vscode` (Object|null): VS Code API instance
 
 **Example:**
-```csound
+```js
 Cabbage.sendMidiMessageFromUI(144, 60, 100, null); // Note on
 ```
 
@@ -165,7 +165,7 @@ Handle incoming MIDI messages from the backend (callback function).
 
 #### `Cabbage.isReadyToLoad(vscode)`
 
-Signal that the UI is ready to load and initialize. This must be called in order to notify the backend that the front has completed it's initial load.
+Signal that the UI is ready to load and initialize. This must be called in order to notify the backend that the front has completed its initial load.
 
 **Parameters:**
 - `vscode` (Object|null): VS Code API instance
@@ -187,7 +187,7 @@ Trigger a file open dialog for file selection widgets.
   - `openAtLastKnownLocation` (boolean): Use last known location
 
 **Example:**
-```csound
+```js
 Cabbage.triggerFileOpenDialog(null, "audioFile", {
     filters: "*.wav;*.aiff",
     openAtLastKnownLocation: true
@@ -222,7 +222,7 @@ By default (`false`), all key events are passed through to the DAW so keyboard s
 - Always restore to `false` when the custom widget loses focus
 
 **Example:**
-```csound
+```js
 myCustomEditor.addEventListener('focus', () => Cabbage.consumeKeypresses(true));
 myCustomEditor.addEventListener('blur',  () => Cabbage.consumeKeypresses(false));
 ```
@@ -254,7 +254,7 @@ Send a custom command to the backend for specialized operations.
 - `data` (Object, optional): Additional data to send
 
 **Example:**
-```csound
+```js
 Cabbage.sendCustomCommand('cabbageIsReadyToLoad', null);
 ```
 
@@ -262,7 +262,9 @@ Cabbage.sendCustomCommand('cabbageIsReadyToLoad', null);
 
 ### Internal Functions
 
-⚠️ **Important:** These functions are used internally and are not for general use.
+:::caution
+These functions are used internally and are not for general use.
+:::
 
 #### `Cabbage.sendWidgetUpdate(widget, vscode)`
 
@@ -333,7 +335,7 @@ When receiving `parameterChange` messages, **only update the visual display**. N
 ### isDragging Pattern
 When a user is actively dragging a slider, ignore incoming `parameterChange` updates to prevent the UI fighting with the user's input:
 
-```csound
+```js
 let isDragging = false;
 
 slider.addEventListener('pointerdown', () => { isDragging = true; });

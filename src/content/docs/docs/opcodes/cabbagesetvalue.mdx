@@ -1,5 +1,6 @@
 ---
 title: "cabbageSetValue"
+description: "Sets the current value of a widget, at init-time or k-time."
 ---
 
 This opcode sets the current value of a widget and can be executed at either init-time or k-time. When called, it immediately writes the incoming value to a Csound channel and also places the value into a FIFO queue, which the frontend reads to update the UI.
@@ -14,14 +15,16 @@ cabbageSetValue:i(SChannel, iValue)
 
 ### Initialization
 * *SChannel* – the name of the channel to query
-* *iValue* - the value to set the widget too
+* *iValue* - the value to set the widget to
 
 ### Performance
-* *kValue* - the value to set the widget too
+* *kValue* - the value to set the widget to
 * *kTrigger* - a signal used to trigger a value update 
 
 
-## Example:
+## Example
+
+{/* TODO(G): the example below calls cabbageGetValue, not cabbageSetValue. Rory to supply an example for this opcode. */}
 
 ```csound
 <Cabbage>[

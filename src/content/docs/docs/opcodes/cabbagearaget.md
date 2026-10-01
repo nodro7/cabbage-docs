@@ -69,7 +69,9 @@ These query the crop/edit state of a source within its audio modification. The v
 | `"audioSource.region.duration"` | number | source idx | Crop duration in seconds |
 | `"audioSource.region.durationInSamples"` | number | source idx | Crop duration in samples |
 
-📃 **Note:** `audioSource.region.start`/`audioSource.region.duration` and `audioSource.region.startInSamples`/`audioSource.region.durationInSamples` represent the same crop offset in different units.
+:::note
+`audioSource.region.start`/`audioSource.region.duration` and `audioSource.region.startInSamples`/`audioSource.region.durationInSamples` represent the same crop offset in different units.
+:::
 
 
 ## EditorView Properties
@@ -99,7 +101,9 @@ These query individual selected playback regions (clips on the timeline). Use a 
 | `"editorView.selectedPlayback.start"` | number | selection idx | Where the selected playback region sits on the host arrangement timeline (seconds) |
 | `"editorView.selectedPlayback.duration"` | number | selection idx | Duration of the selected playback region on the host arrangement timeline (seconds) |
 
-📃 **Note:** Selection properties are indexed by position within the selection, not by source pool index. These are separate index spaces.
+:::note
+Selection properties are indexed by position within the selection, not by source pool index. These are separate index spaces.
+:::
 
 
 ## Musical Context Properties
@@ -115,7 +119,9 @@ A musical context describes the rhythmic and harmonic structure of the music. Ea
 | `"musicalContext.color.g"` | number | mc idx | Green channel (0.0–1.0) |
 | `"musicalContext.color.b"` | number | mc idx | Blue channel (0.0–1.0) |
 
-📃 **Note:** Colour values are returned as `0.0` if the host does not provide a colour for the musical context.
+:::note
+Colour values are returned as `0.0` if the host does not provide a colour for the musical context.
+:::
 
 
 ## Region Sequence Properties
@@ -132,7 +138,9 @@ A region sequence represents a track or lane in the host, containing playback re
 | `"regionSequence.color.g"` | number | rs idx | Green channel (0.0–1.0) |
 | `"regionSequence.color.b"` | number | rs idx | Blue channel (0.0–1.0) |
 
-📃 **Note:** Region sequence index is separate from playback region index and source pool index. The track name is also available via `playbackRegion.sequenceName` for convenience.
+:::note
+Region sequence index is separate from playback region index and source pool index. The track name is also available via `playbackRegion.sequenceName` for convenience.
+:::
 
 
 ## Audio Modification Properties
@@ -163,8 +171,9 @@ These query all playback regions (clips) in the document, not just the selected 
 | `"playbackRegion.color.g"` | number | pr idx | Green channel (0.0–1.0) |
 | `"playbackRegion.color.b"` | number | pr idx | Blue channel (0.0–1.0) |
 
-📃 **Note:**
+:::note
 Playback region index is separate from source pool index and selection index. The playback region array is updated via ARA lifecycle callbacks (`playbackRegionAddedToRegionSequence`, `playbackRegionRemovedFromRegionSequence`, `playbackRegionPropertiesUpdated`, `playbackRegionWillDestroy`).
+:::
 
 
 ## Examples

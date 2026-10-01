@@ -1,5 +1,6 @@
 ---
 title: "cabbageJsonType"
+description: "Reports the JSON type of the value at a dot-notation path."
 ---
 
 This opcode reports the JSON type of the value at a dot-notation path, so the orchestra can branch before querying. It is the typesafe companion to [cabbageJsonGet](/docs/opcodes/cabbagejsonget/): use it when an empty string or zero is ambiguous (missing vs. present-but-empty, `"123"` vs. `123`).

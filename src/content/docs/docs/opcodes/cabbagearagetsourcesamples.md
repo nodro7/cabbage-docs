@@ -1,5 +1,6 @@
 ---
 title: "cabbageAraGetSourceSamples"
+description: "Reads PCM audio data from an ARA source."
 ---
 
 Reads PCM audio data from an ARA source. Available in four variants: a-rate (audio output), k-rate (k-rate output), k-array, and i-array.

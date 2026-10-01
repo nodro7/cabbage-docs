@@ -1,26 +1,11 @@
 ---
 title: "Commands & Settings"
-description: "Available commands and settings in Cabbage 3"
+description: "Every Cabbage command in the VS Code command palette and every extension setting, grouped by task."
 ---
-
-## Table of Contents
-- [Command Palette Access](#command-palette-access)
-- [Commands \& Settings](#commands--settings)
-  - [Running \& Compilation](#running--compilation)
-  - [Document Formatting](#document-formatting)
-  - [Navigation](#navigation)
-  - [Project Creation](#project-creation)
-  - [Audio/MIDI Configuration](#audiomidi-configuration)
-  - [Audio Recording](#audio-recording)
-  - [Plugin Export](#plugin-export)
-  - [Pro Plugin Export](#pro-plugin-export)
-  - [Custom Widgets](#custom-widgets)
-  - [Daisy Development](#daisy-development)
-  - [Advanced Settings](#advanced-settings)
-  - [Utilities](#utilities)
 
 ## Command Palette Access
 
+<!-- TODO(G): the extension manifest declares no keybindings. Confirm whether Ctrl+S and Ctrl+E are real defaults, and what they are on macOS. -->
 **Ctrl+S** and **Ctrl+E** are the default shortcuts for compiling and entering edit mode. All other commands are accessible from the command palette:
 
 - **Windows/Linux**: Press `Ctrl + Shift + P`
@@ -28,17 +13,13 @@ description: "Available commands and settings in Cabbage 3"
 
 Once open, type "Cabbage" to filter extension commands.
 
-> **Tip**: Assign custom shortcuts to any command by clicking the cogwheel icon next to the command in the palette.
+:::tip
+Assign custom shortcuts to any command by clicking the cogwheel icon next to the command in the palette.
+:::
 
 ## Commands & Settings
 
-<br/>
-
 ### Running & Compilation
-
-<hr/>
-
-<br/>
 
 **Commands:**
 - **Compile Cabbage Instrument** (`cabbage.compile`)
@@ -56,9 +37,8 @@ Once open, type "Cabbage" to filter extension commands.
 - **Stop Csound** (`cabbage.stopCsound`)
   - Stops the running Csound process
 
-<hr/>
-
-<br/>
+- **Validate Installation** (`cabbage.validateInstallation`)
+  - Runs the installation check. Use it when nothing appears on screen after you compile
 
 **Settings:**
 - **Clear Console On Compile** (`cabbage.clearConsoleOnCompile`)
@@ -69,14 +49,30 @@ Once open, type "Cabbage" to filter extension commands.
   - Default: `false`
   - Enable verbose logging from Cabbage for troubleshooting
 
- 
-<br/>
+- **Launch In New Column** (`cabbage.launchInNewColumn`)
+  - Default: `"Active"`
+  - Options: `"Active"` | `"One"` | `"Two"` | `"Three"` | `"Beside"`
+  - Choose which editor column the instrument UI opens in
+
+- **Property Panel Position** (`cabbage.propertyPanelPosition`)
+  - Default: `"right"`
+  - Options: `"right"` | `"left"`
+  - Position of the property panel in the webview editor
+
+- **VU Meter Position** (`cabbage.vuMeterPosition`)
+  - Default: `"bottom"`
+  - Options: `"none"` | `"top"` | `"bottom"` | `"left"` | `"right"`
+  - Position of the VU meter overlay in the instrument view. It shows one bar per output channel
+
+- **VU Meter Show Readouts** (`cabbage.vuMeterShowReadouts`)
+  - Default: `false`
+  - Show text readouts (peak dB, RMS dB, overs) on the VU meter overlay
+
+- **Save External JSON** (`cabbage.saveExternalJSON`)
+  - Default: `true`
+  - Automatically save external JSON when compiling a .csd file
 
 ### Document Formatting
-
-<hr/>
-
-<br/>
 
 **Commands:**
 - **Format Document** (`cabbage.formatDocument`)
@@ -93,10 +89,6 @@ Once open, type "Cabbage" to filter extension commands.
 
 - **Move Cabbage Section** (`cabbage.moveCabbageSection`)
   - Moves the existing `<Cabbage>` section to the top or bottom of the .csd file
-
-<hr/>
-
-<br/>
 
 **Settings:**
 - **Default JSON Formatting** (`cabbage.defaultJsonFormatting`)
@@ -122,14 +114,12 @@ Once open, type "Cabbage" to filter extension commands.
   - Default: `4`
   - Number of pixels to move by when dragging widgets in edit mode
 
- 
-<br/>
+- **Cabbage Section Placement** (`cabbage.cabbageSectionPlacement`)
+  - Default: `"top"`
+  - Options: `"top"` | `"bottom"`
+  - Where new `<Cabbage>` sections are placed in .csd files. It only applies when a section is created. To move an existing section, use the Move Cabbage Section command
 
 ### Navigation
-
-<hr/>
-
-<br/>
 
 **Commands:**
 - **Jump to widget definition** (`cabbage.jumpToWidgetObject`)
@@ -140,9 +130,6 @@ Once open, type "Cabbage" to filter extension commands.
 
 - **Reorder Widgets** (`cabbage.reorderWidgets`)
   - Reorders widgets in the `<Cabbage>` section based on their position in the UI
-
- 
-<br/>
 
 ### Project Creation
 
@@ -164,8 +151,8 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
 - **Create Vanilla VST3 Synth Project (Custom UI)** (`cabbage.createVanillaVST3Synth`)
   - Scaffolds a complete VST3 synth project with custom HTML/CSS/JS frontend and all bundled resources
 
- 
-<br/>
+- **Create Project File (cabbage.project.json)** (`cabbage.createProjectFile`)
+  - Creates a `cabbage.project.json` file beside the current .csd file. It tells the extension how to load a custom interface. See [Custom Interfaces](/docs/custom-ui/custom-interfaces/)
 
 ### Audio/MIDI Configuration
 
@@ -192,6 +179,7 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
 - **Select MIDI Output Device** (`cabbage.selectMidiOutputDevice`)
   - Choose which MIDI output device to use
 
+<!-- TODO(G): the manifest titles these three "to stereo inputs", "to input 1" and "to input 2". Confirm how they appear in the palette before the names here are changed. -->
 - **Send file to stereo inputs** (`cabbage.sendFileToChannel1and2`)
   - Routes an audio file to both input channels 1 and 2
 
@@ -218,7 +206,9 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
     - You use "Stop Csound" command
     - You enter Edit Mode
 
-> **Note**: Recording captures the final processed audio output (post-Csound processing) at the current audio system sample rate.
+:::note
+Recording captures the final processed audio output (post-Csound processing) at the current audio system sample rate.
+:::
 
 **Recording Settings:**
 
@@ -229,12 +219,8 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
     - **16-bit**: Smaller file size, suitable for most music applications
     - **32-bit float**: Higher dynamic range and precision, no clipping, larger file size
 
-<hr/>
-
-<br/>
-
 **Settings:**
-> These settings are managed by the commands above and stored in VS Code settings. They can also be edited directly in settings.json. Updating them via the command pallete will also display a list of valid options.
+> These settings are managed by the commands above and stored in VS Code settings. They can also be edited directly in settings.json. Updating them via the command palette will also display a list of valid options.
 
 - **Audio Output Device** (`cabbage.audioOutputDevice`)
   - Default: `"Default"`
@@ -261,17 +247,9 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
   - Currently selected buffer size
 
 - **Audio Driver** (`cabbage.audioDriver`)
-  - Default: `"32 samples"`
   - Currently selected audio driver (Windows only)
 
- 
-<br/>
-
 ### Plugin Export
-
-<hr/>
-
-<br/>
 
 **Commands:**
 - **Export as VST3 Effect** (`cabbage.exportVST3Effect`)
@@ -279,6 +257,12 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
 
 - **Export as VST3 Synth** (`cabbage.exportVST3Synth`)
   - Exports the current instrument as a VST3 synthesizer plugin
+
+- **Export as VST3 Effect (ARA)** (`cabbage.exportVST3EffectARA`)
+  - Exports the current instrument as a VST3 effect plugin with ARA support. See [ARA Support](/docs/using/ara-support/)
+
+- **Export as VST3 Synth (ARA)** (`cabbage.exportVST3SynthARA`)
+  - Exports the current instrument as a VST3 synthesizer plugin with ARA support
 
 - **Export as AUv2 Effect** (`cabbage.exportAUEffect`)
   - Exports the current instrument as an AUv2 effect plugin (macOS only)
@@ -295,9 +279,18 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
 - **Export as AUv2 MidiFx** (`cabbage.exportAUMidiFx`)
   - Exports the current instrument as an AUv2 MidiFx plugin (macOS only)
 
+**Settings:**
+
+<!-- TODO(G): cabbage.bundleResources is not in the extension manifest. Confirm whether it was removed or renamed. The What is new page refers to it too. -->
+- **Bundle Resources** (`cabbage.bundleResources`)
+  - Default: `false`
+  - When enabled, all resources (audio files, images, etc.) are bundled into the plugin directory. When disabled, resources are placed in the CabbageAudio resources folder
+
 #### Pro Plugin Export
 
-📃 **Note:** These commands are only available in the 'pro' build of Cabbage.
+:::note
+These commands are only available in the 'pro' build of Cabbage.
+:::
 
 - **Setup Pro Binaries** (`cabbage.setupCabbageProBinaries`)
   - Sets up the paths to Cabbage Pro binaries for encrypted plugin export
@@ -325,25 +318,22 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
 
 **Settings:**
 
-- **Bundle Resources** (`cabbage.bundleResources`)
-  - Default: `false`
-  - When enabled, all resources (audio files, images, etc.) are bundled into the plugin directory. When disabled, resources are placed in the CabbageAudio resources folder
+- **Folder Containing CabbagePro Binaries** (`cabbage.pathToCabbageProBinary`)
+  - Default: `""`
+  - Folder containing the CabbagePro binaries. Set this to enable Pro export with encrypted .csd files
 
-- **Property Panel Position** (`cabbage.propertyPanelPosition`)
-  - Default: `"right"`
-  - Options: `"right"` | `"left"`
-  - Position of the property panel in the webview editor
+- **Pro App Enabled** (`cabbage.proAppEnabled`)
+  - Default: `true`
+  - Use the Pro version of CabbageApp for development. When enabled, the CabbageApp from the Pro binaries folder is used instead of the public version
 
- 
-<br/>
+- **Pro Plugins Enabled** (`cabbage.proPluginsEnabled`)
+  - Default: `true`
+  - Use the Pro version of the Cabbage plugins for development. When enabled, the Pro plugin binaries are used instead of the public versions
 
 ### Custom Widgets
 
 **Commands:**
 
-<hr/>
-
-<br/>
 - **Select Custom Widget Folder** (`cabbage.setCustomWidgetDirectory`)
   - Choose a folder for custom widgets. Automatically copies the required Cabbage framework structure
 
@@ -356,9 +346,6 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
   - Default: `[]`
   - Array of paths to custom widget folders. Each folder should contain a `cabbage` folder structure
   - **Recommended**: Use the "Select Custom Widget Folder" command which automatically sets up the required structure
-
- 
-<br/>
 
 ### Daisy Development
 
@@ -394,20 +381,19 @@ Commands for building Csound code for the [Electrosmith Daisy](https://www.elect
   - Default: `""`
   - Folder containing Csound library - used when building for Daisy
 
- 
-<br/>
-
 ### Advanced Settings
+
+:::caution
+The Cabbage source folder and the Cabbage binary folder are set automatically by the extension. Only change them if you know what you're doing, or if you're using a custom build.
+:::
 
 **Commands:**
 
 - **Select Cabbage Source Folder** (`cabbage.setCabbageSourcePath`)
   - Sets the path to the Cabbage JavaScript source folder
-  > ⚠️ **Warning**: This is set automatically by the extension. Only change if you know what you're doing!
 
 - **Select Cabbage Binary Folder** (`cabbage.setCabbageBinaryPath`)
   - Sets the path to the Cabbage backend executable (CabbageApp)
-  > ⚠️ **Warning**: This is set automatically by the extension. Only change if you're using a custom build!
 
 - **Reset CabbageApp (not vscode) settings file** (`cabbage.resetCabbageAppSettingsFiles`)
   - Resets the Cabbage backend settings file to defaults (does not affect VS Code settings)
@@ -432,9 +418,6 @@ Commands for building Csound code for the [Electrosmith Daisy](https://www.elect
 - **Folder Containing Cabbage Javascript on Linux** (`cabbage.pathToJsSourceLinux`)
   - Default: `""`
   - Folder containing Cabbage Javascript on Linux. Leave empty to use default location
-
- 
-<br/>
 
 ### Utilities
 

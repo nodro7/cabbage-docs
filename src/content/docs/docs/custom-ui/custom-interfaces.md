@@ -7,19 +7,21 @@ It's also possible to design a completely custom web-based interface using any f
 
 Unlike [Custom Widgets](/docs/custom-ui/custom-widgets/), this approach does not use Cabbage's built-in UI editing tools. Instead, you have full control over the interface and simply use the API to exchange data with Csound.
 
-📃 **Note:** A `<Cabbage>{...}</Cabbage>` section is still required in your `.csd` file to define the plugin parameters exposed to the host DAW. The widgets declared there are not rendered visually when a custom interface is active, but they set up the parameter slots that your UI controls map to.
+:::note
+A `<Cabbage>{...}</Cabbage>` section is still required in your `.csd` file to define the plugin parameters exposed to the host DAW. The widgets declared there are not rendered visually when a custom interface is active, but they set up the parameter slots that your UI controls map to.
+:::
 
 ## Getting Started
 
 The quickest way to start a custom interface project is the **Create Vanilla VST3 Effect/Synth Project (Custom UI)** command in the Command Palette. This scaffolds a working plugin binary and creates a ready-to-use resource folder alongside it containing:
 
 - A `cabbage/` folder with `cabbage.js` and supporting files
-- A starter `index.html` wired up to the Cabbage JS API (can be removed in using a build tool to generate a user-defined index.html)
+- A starter `index.html` wired up to the Cabbage JS API (can be removed if you use a build tool to generate your own index.html)
 - A `cabbage.project.json` configured for local file mode
 
 From inside that resource folder you can initialise your framework project of choice:
 
-```csound
+```bash
 # Svelte / Vite
 npm create vite@latest MyPlugin -- --template svelte
 cd MyPlugin && npm install
@@ -31,7 +33,7 @@ cd MyPlugin && npm install
 
 Then update `cabbage.project.json` to point at the dev server while developing, and switch back to the built output for distribution:
 
-```csound
+```json
 // Development — point at the running dev server:
 { "entry": "http://localhost:5173" }
 
@@ -45,9 +47,9 @@ The Cabbage VS Code extension can load your custom interface directly in the web
 
 ### Setting up `cabbage.project.json`
 
-Create a `cabbage.project.json` file in the same folder as your `.csd` file using the **Create Cabbage Project File** command from the Command Palette. This tells the extension how to load your UI:
+Create a `cabbage.project.json` file in the same folder as your `.csd` file using the **Create Project File (cabbage.project.json)** command from the Command Palette. This tells the extension how to load your UI:
 
-```csound
+```json
 {
   // Point to a running dev server (e.g. Vite) for live-reload during development:
   "entry": "http://localhost:5173"
@@ -70,7 +72,7 @@ When `entry` is a `http://` URL, the extension wraps the dev server in an iframe
 
 A typical Cabbage project has `cabbage.js` in a `cabbage/` folder alongside the `.csd`, with the framework project in a subdirectory:
 
-```csound
+```text
 MyPlugin/
 ├── MyPlugin.csd
 ├── cabbage.project.json
@@ -84,7 +86,7 @@ MyPlugin/
 Because `cabbage.js` lives outside the framework project directory, bundlers can't resolve it with a plain relative import like `'../cabbage/cabbage.js'` without a little configuration. Add a path alias and allow the dev server to serve files from the parent directory:
 
 **`vite.config.js`:**
-```csound
+```js
 import { defineConfig } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -109,7 +111,7 @@ export default defineConfig({
 
 With this in place, you can import the API with a clean bare specifier anywhere in your project:
 
-```csound
+```js
 import { Cabbage } from 'cabbage';
 ```
 
@@ -123,7 +125,7 @@ When `entry` is a relative file path, the extension loads the HTML file directly
 
 Import the Cabbage API from `cabbage.js`:
 
-```csound
+```js
 import { Cabbage } from './cabbage/cabbage.js';  // vanilla HTML
 // or, with a bundler alias:
 import { Cabbage } from 'cabbage';               // Vite / webpack
@@ -133,13 +135,13 @@ import { Cabbage } from 'cabbage';               // Vite / webpack
 
 Use `Cabbage.sendControlData()` to send parameter values to Csound:
 
-```csound
+```js
 Cabbage.sendControlData({ channel: "frequency", value: 1000, gesture: "complete" }, null);
 ```
 
 For continuous controls (sliders, XY pads), use the gesture sequence to support DAW automation recording:
 
-```csound
+```js
 slider.addEventListener('pointerdown', () =>
     Cabbage.sendControlData({ channel: "gain", value: slider.value, gesture: "begin" }, null));
 slider.addEventListener('input', () =>
@@ -152,7 +154,7 @@ slider.addEventListener('pointerup', () =>
 
 Use `Cabbage.addMessageListener()` to handle all incoming messages. It works in every environment — VS Code, DAW plugin, dev server iframe — without any environment-specific setup:
 
-```csound
+```js
 Cabbage.addMessageListener((msg) => {
     if (msg.command === 'parameterChange') {
         // DAW automation or host parameter change.
@@ -178,7 +180,7 @@ Cabbage.addMessageListener((msg) => {
 
 A complete two-slider example:
 
-```csound
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -228,7 +230,7 @@ A complete two-slider example:
 
 ### Svelte
 
-```csound
+```svelte
 <script>
   import { Cabbage } from 'cabbage';
   import { onMount, onDestroy } from 'svelte';
@@ -260,7 +262,7 @@ A complete two-slider example:
 
 ### React
 
-```csound
+```jsx
 import { useEffect, useState } from 'react';
 import { Cabbage } from 'cabbage';
 

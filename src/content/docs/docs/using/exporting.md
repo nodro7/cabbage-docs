@@ -1,22 +1,28 @@
 ---
 title: "Exporting Instruments"
-description: "How to export instruments"
+description: "How to export an instrument as a plugin, and where Cabbage puts the plugin's resource files."
 ---
 
 Once you are satisfied that your plugin is ready for testing in a DAW, you can export it using the `Export as...` command. A list of plugin export options, specific to your current operating system, will be displayed. After selecting an export option, a file browser window will appear, allowing you to choose the target destination for your plugin binary.
 
 The plugin binary will be saved in the selected location. By default, any resources the plugin requires—such as images, .csd files, and samples, will be automatically written to the following locations:
 
-* MacOS
+* macOS
     `/Library/CabbageAudio/PLUGIN_NAME/`
 * Windows
     `C:/ProgramData/CabbageAudio/PLUGIN_NAME/`
+
+<!-- TODO(G): no Linux location is listed. Is plugin export supported on Linux, and where do resources go? -->
  
 `PLUGIN_NAME` in the folder path will match the name of your exported plugin. It is crucial that the folder name exactly matches the plugin binary name. Cabbage ensures this alignment during the export process, so avoid renaming these folders, as doing so may result in unexpected behavior within Cabbage.
 
-To make changes to your newly exported plugin, you only need to edit the associated .csd file; there’s no need to re-export the plugin each time you makes changes. For example, on Windows, if your plugin is named `SavageCabbage.clap`, you can make changes by editing the corresponding file located at:
+To make changes to your newly exported plugin, you only need to edit the associated .csd file; there’s no need to re-export the plugin each time you make changes. For example, on Windows, if your plugin is named `SavageCabbage.clap`, you can make changes by editing the corresponding file located at:
 `C:/Program Files/CabbageAudio/SavageCabbage/SavageCabbage.csd`.
+
+<!-- TODO(G): this path says Program Files, the list above says ProgramData (as does the What is new page). Confirm which is right and use one path in all three places. -->
 
 After making changes, you must remove and re-add the plugin in your plugin host (DAW) to see the updates. Once the plugin is removed and reinstated on the track, the changes will be reflected. The simplest approach here is to simply reload your plugin project in your DAW. In almost all cases this is quicker than removing the track and re-adding it. However, if you have added new parameters to your plugin, you may have problems opening a saved session, as the DAW will expect a certain number of parameters. In this case you will need to start a new session to test. 
  
-📃 **Note:** The design choice to keep plugin resources in a separate location was made to simplify development and maintenance: it avoids complications with operating system permissions and plugin signing, allows resources to be updated or replaced without rebuilding the plugin, and keeps the plugin binary self-contained while leaving its assets easily accessible for inspection or modification.
+:::note
+The design choice to keep plugin resources in a separate location was made to simplify development and maintenance: it avoids complications with operating system permissions and plugin signing, allows resources to be updated or replaced without rebuilding the plugin, and keeps the plugin binary self-contained while leaving its assets easily accessible for inspection or modification.
+:::

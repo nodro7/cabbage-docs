@@ -1,5 +1,6 @@
 ---
 title: "cabbageHasKey"
+description: "Checks whether a widget has a given property key."
 ---
 
 This opcode checks whether a named widget has a given property key. It supports dot-notation for nested JSON properties (e.g., `"bounds.left"`). Returns 1 if the key exists, 0 otherwise. It can run at init-time or k-time.

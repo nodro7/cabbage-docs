@@ -1,5 +1,6 @@
 ---
 title: "cabbageAraGetUpdate"
+description: "Returns a counter that increments whenever ARA model data changes."
 ---
 
 Returns a monotonic counter that increments whenever ARA model data changes.

@@ -1,5 +1,6 @@
 ---
 title: "cabbageJsonHas"
+description: "Checks whether a dot-notation path exists in a JSON document."
 ---
 
 This opcode checks whether a dot-notation path exists in a JSON document (`nodes.0.params.rate`, where numeric segments index arrays). Unlike a query that returns an empty value, it distinguishes "missing" from "present but null/zero". See also [cabbageJsonType](/docs/opcodes/cabbagejsontype/) and [cabbageJsonGet](/docs/opcodes/cabbagejsonget/).

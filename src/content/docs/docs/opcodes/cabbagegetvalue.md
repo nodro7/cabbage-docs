@@ -1,5 +1,6 @@
 ---
 title: "cabbageGetValue"
+description: "Queries the current value of a widget."
 ---
 
 This opcode queries the current value of a widget. It can run at init-time or k-time and includes an optional output argument that triggers a value of 1 for one k-cycle whenever the widget value is updated or changed.

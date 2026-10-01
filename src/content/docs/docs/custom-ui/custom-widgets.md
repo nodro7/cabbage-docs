@@ -9,7 +9,9 @@ If a custom widget folder does not already exist, the extension will prompt for 
 
 Custom widget classes must be placed in the `widgets` subdirectory within `src`, i.e. `CustomWidgetFolder/src/widgets`. This ensures that the extension can locate and load them via the property panel. The file name also serves as the class name.
 
-📃 **Note:** The custom widget folder must contain a top-level `cabbage` directory (i.e. the directory that contains the `widgets` subfolder). Maintaining this structure ensures that all paths are correctly resolved by Cabbage.
+:::note
+The custom widget folder must contain a top-level `cabbage` directory (i.e. the directory that contains the `widgets` subfolder). Maintaining this structure ensures that all paths are correctly resolved by Cabbage.
+:::
 
 By convention, Cabbage classes use *UpperCamelCase*, while widget types use lowerCamelCase. The backend handles all value normalization required by the host DAW, allowing frontends to send and receive values in their full ranges (e.g., 20–20000 Hz for filter frequency, rather than normalized 0.0–1.0 values).
 
@@ -33,10 +35,10 @@ At a minimum, the props object must include:
 
 ### Event Listener Methods
 
-- **`addVsCodeEventListeners(widgetDiv, vs)`**: Called when Cabbage is running from VS Code. Initialise your vscode API instance here.
+- **`addVsCodeEventListeners(widgetDiv, vs)`**: Called when Cabbage is running from VS Code. Initialise your VS Code API instance here.
 - **`addEventListeners()`**: Called when Cabbage is running as a plugin.
 
-Both methods need to be implemented to ensure compatibility with different environments. The simplest pattern is to put all the event handler code into `addEventListener()`, and then call it from `addVsCodeEventListeners()`.
+Both methods need to be implemented to ensure compatibility with different environments. The simplest pattern is to put all the event handler code into `addEventListeners()`, and then call it from `addVsCodeEventListeners()`.
 
 ### `getInnerHTML()`
 
@@ -52,7 +54,7 @@ If you need a canvas for drawing, add a `createCanvas()` function that initialis
 
 If you need to listen for changes to widget properties, wrap `this.props` with `CabbageUtils.createReactiveProps()`. This creates a Proxy that automatically handles common widget behaviours (like toggling pointer-events when `visible` or `active` change) and can notify you of property changes. Call it in your constructor:
 
-```csound
+```js
 this.props = CabbageUtils.createReactiveProps(this, this.props, {
     onPropertyChange: (change) => {
         // change.key      - the property name
@@ -74,7 +76,7 @@ The `opts` parameter is optional — you can call `CabbageUtils.createReactivePr
 
 To send data from your widget to the Cabbage backend, use `Cabbage.sendControlData()`:
 
-```csound
+```js
 Cabbage.sendControlData({ channel: "myChannel", value: 42, gesture: "complete" }, this.vscode);
 ```
 
@@ -86,7 +88,7 @@ Cabbage.sendControlData({ channel: "myChannel", value: 42, gesture: "complete" }
 
 The backend automatically determines whether the channel is automatable and routes accordingly. For non-automatable data you can also call `sendChannelData()` directly:
 
-```csound
+```js
 Cabbage.sendChannelData("myStringChannel", "hello", this.vscode);
 Cabbage.sendChannelData("myNumberChannel", 3.14, this.vscode);
 ```
@@ -102,25 +104,25 @@ For multi-channel widgets (like an EQ controller with separate frequency and gai
 
 ## CabbageUtils Helper Functions
 
-#### `CabbageUtils.getWidgetDivId(props)`
+### `CabbageUtils.getWidgetDivId(props)`
 Returns the DOM ID for the widget's div element. Prioritises `props.id`, then falls back to `channels[0].id`.
 
-```csound
+```js
 const divId = CabbageUtils.getWidgetDivId(this.props);
 ```
 
-#### `CabbageUtils.getWidgetDiv(channelOrProps)`
+### `CabbageUtils.getWidgetDiv(channelOrProps)`
 Returns the actual DOM element for the widget div. Accepts either a props object or a string div ID. Returns `null` if not found.
 
-```csound
+```js
 const widgetDiv = CabbageUtils.getWidgetDiv(this.props);
 const widgetDiv = CabbageUtils.getWidgetDiv("myWidgetId");
 ```
 
-#### `CabbageUtils.getChannelId(props, index)`
+### `CabbageUtils.getChannelId(props, index)`
 Returns the ID string of the nth channel from the `channels` array. Throws an error if the channel or its ID is not set.
 
-```csound
+```js
 const firstChannelId  = CabbageUtils.getChannelId(this.props, 0);
 const secondChannelId = CabbageUtils.getChannelId(this.props, 1);
 ```
