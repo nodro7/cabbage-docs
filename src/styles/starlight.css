@@ -111,8 +111,13 @@ site-search > button[data-open-modal]:hover {
 }
 
 /* Menu button on narrow screens: same look as the header's icon button.
-   The sidebar is a popover, so "open" is the popover's state. */
+   The sidebar is a popover, so "open" is the popover's state.
+   Starlight's padding suits its own 32px button. This one is 44px, so the
+   icon is centred with the flex alignment instead. */
 .sl-menu-button {
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   border-radius: var(--cb-radius);
   background-color: transparent;
   color: var(--cb-muted);
