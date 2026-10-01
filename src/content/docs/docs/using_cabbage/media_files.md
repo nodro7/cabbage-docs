@@ -36,13 +36,7 @@ Audio files are read by Csound, hence they don't need and special considerations
 
 
 
-<!-- #### Quick access to audio input
-
-Testing arbitrary input signals when working in standalone mode can be cumbersome. The simplest approach is to set up a live microphone input, but this may not always be feasible. If you prefer to route audio files to your standalone plugin, you can do so easily. Right-click the audio file in the VS Code file explorer panel and select the desired channel routing. Once routed, the audio file can be accessed in your code just like any live input, using the inch opcode.
-
-The channel routing will persist across compiles unless manually disabled in the settings. If you'd like to remove all file routing at any time, simply re-select an audio input device. -->
-
-### Bundling Media Files 
+### Packaging Media Files 
 
 When exporting your instrument as a plugin you can use the `package` object from the `form` widget to ensure all files are correctly copied over to the plugin resource direcyory. For example, the following `form` widget will copy all sample from samples from `"/Users/me/cabbage3-recipes/samples/*.wav"` to a folder called `audioSamples` in the exported plugin's resource directory.
 

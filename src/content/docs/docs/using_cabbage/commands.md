@@ -21,7 +21,7 @@ description: "Available commands and settings in Cabbage 3"
 
 ## Command Palette Access
 
-**Ctrl+S** and **Ctrl+E** are the default shortcuts for compiling and entering edit mode. All other commands are accessible from the command palette:
+All commands are accessible from the command palette:
 
 - **Windows/Linux**: Press `Ctrl + Shift + P`
 - **macOS**: Press `Cmd + Shift + P`
@@ -42,7 +42,7 @@ Once open, type "Cabbage" to filter extension commands.
 
 **Commands:**
 - **Compile Cabbage Instrument** (`cabbage.compile`)
-  - Saves the current .csd file and launches the instrument in a dedicated webview tab if it contains valid Cabbage JSON
+  - Saves the current .csd file and launches the instrument in a dedicated webview tab if it contains valid Cabbage JSON. Use this to compile manually when Compile On Save is disabled.
 
 - **Start Cabbage Server** (`cabbage.startServer`)
   - Manually starts the Cabbage backend server (can also be started from the bottom right of the status panel)
@@ -61,6 +61,10 @@ Once open, type "Cabbage" to filter extension commands.
 <br/>
 
 **Settings:**
+- **Compile On Save** (`cabbage.compileOnSave`)
+  - Default: `true`
+  - Automatically compile .csd instruments when saving. Disable to compile manually via the Compile Cabbage Instrument command.
+
 - **Clear Console On Compile** (`cabbage.clearConsoleOnCompile`)
   - Default: `true`
   - Clear the console output each time Csound is compiled
@@ -99,11 +103,6 @@ Once open, type "Cabbage" to filter extension commands.
 <br/>
 
 **Settings:**
-- **Default JSON Formatting** (`cabbage.defaultJsonFormatting`)
-  - Default: `"Single line objects"`
-  - Options: `"Single line objects"` | `"Multiline objects"`
-  - Choose how widget objects are formatted in the `<Cabbage>` section
-
 - **JSON Indent Spaces** (`cabbage.jsonIndentSpaces`)
   - Default: `4`
   - Range: 2-8
@@ -191,15 +190,6 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
 
 - **Select MIDI Output Device** (`cabbage.selectMidiOutputDevice`)
   - Choose which MIDI output device to use
-
-- **Send file to stereo inputs** (`cabbage.sendFileToChannel1and2`)
-  - Routes an audio file to both input channels 1 and 2
-
-- **Send file to input 1** (`cabbage.sendFileToChannel1`)
-  - Routes an audio file to input channel 1
-
-- **Send file to input 2** (`cabbage.sendFileToChannel2`)
-  - Routes an audio file to input channel 2
 
 #### Audio Recording
 
@@ -325,10 +315,6 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
 
 **Settings:**
 
-- **Bundle Resources** (`cabbage.bundleResources`)
-  - Default: `false`
-  - When enabled, all resources (audio files, images, etc.) are bundled into the plugin directory. When disabled, resources are placed in the CabbageAudio resources folder
-
 - **Property Panel Position** (`cabbage.propertyPanelPosition`)
   - Default: `"right"`
   - Options: `"right"` | `"left"`
@@ -440,7 +426,7 @@ Commands for building Csound code for the [Electrosmith Daisy](https://www.elect
 
 **Commands:**
 
-- **Open an widget example** (`cabbage.openCabbageExample`)
+- **Open a widget example** (`cabbage.openCabbageExample`)
   - Browse and open example .csd files demonstrating various widgets and techniques
 
 - **Opens the Csound 7 opcode reference page** (`cabbage.openOpcodeReference`)

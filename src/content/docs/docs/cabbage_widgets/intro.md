@@ -58,7 +58,7 @@ This example copies all `.wav` files from the samples folder into an audioSample
 
 Defines the preferred audio I/O bus configuration for the plugin. In this example, the plugin indicates that both stereo and mono layouts are supported. 
 
-See the [Audio Channel Configuration](../using_cabbage/channels) documentation for detailed information.
+See the [Audio Channel Configuration](../using_cabbage/audio_channels) documentation for detailed information.
 
 ### Developer Tools
 

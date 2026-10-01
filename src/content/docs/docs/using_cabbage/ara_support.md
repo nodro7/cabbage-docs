@@ -7,7 +7,7 @@ description: "Using ARA (Audio Random Access) with Cabbage 3"
    
 In an ARA document, you'll find references to several key entities:
 
-* **Audio Sources (`AudioSource`):** Provide the low-level PCM data and properties for any audio asset loaded into a DAW session. 📃 **Note:** AudioSource's have their own playbackRegions, don't confuse these with the higer level PlaybackRegions listed below. 
+* **Audio Sources (`AudioSource`):** Provide the low-level PCM data and properties for any audio asset loaded into a DAW session. 📃 **Note:** Audio sources have their own regions — don't confuse these with the higher-level PlaybackRegions listed below.
 * **Playback Regions (`PlaybackRegion`):** Represent how an audio source is mapped onto the DAW timeline as a clip. It contains information about the region's duration, its start time on the DAW timeline, and its internal start time/offset relative to the raw audio file. Cropping the start or end of an audio clip in the DAW will modify this `PlaybackRegion` structure. Note that duplicating an audio source across multiple tracks will increase the number of regions, but not the number of audio sources. 
 * **Region Sequences (`RegionSequence`):** Represent a collection of playback regions grouped together, typically mapping to tracks, lanes, or channels in the host. Each region sequence belongs to a musical context.
 * **Musical Contexts (`MusicalContext`):** Describe the rhythmic and harmonic structure of the music, including tempo, bar signatures, key signatures, and tuning.
@@ -147,8 +147,8 @@ instr ShowAllClips
 endin
 ```
 
-The playback region array is automatically maintained via ARA lifecycle callbacks — clips are added when `playbackRegionAddedToRegionSequence` fires and removed when `playbackRegionRemovedFromRegionSequence` or `playbackRegionWillDestroy` fires. 
-> The difference an audio source region, and a playbackRegion is that a single audio source will only have a single playback region. While a single audio source may have multiple playback regions if it is placed across several tracks. 
+The playback region array is automatically maintained via ARA lifecycle callbacks — clips are added when `playbackRegionAddedToRegionSequence` fires and removed when `playbackRegionRemovedFromRegionSequence` or `playbackRegionWillDestroy` fires.
+> An `audioSource.region` describes the active portion of a single audio source (queried by source index, see `audioSource.region.*`). A `playbackRegion` is one clip on the timeline mapping a source to an arrangement position (queried by playback-region index, see `playbackRegion.*`). A single audio source can have zero, one, or many playback regions — e.g. the same audio placed on several tracks or split into clips — while duplicating never creates additional audio sources.
 
 ### EditorView selection
 
