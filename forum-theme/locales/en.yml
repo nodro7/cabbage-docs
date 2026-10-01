@@ -1,0 +1,9 @@
+en:
+  theme_metadata:
+    description: "Makes the forum match cabbageaudio.com: the same logo, two colour palettes, type and links."
+    settings:
+      install_url: "The Install link in the footer line."
+      docs_url: "The Docs link in the footer line."
+      learn_url: "The Learn link in the footer line."
+      cabbage2_url: "The Cabbage 2 link in the footer line."
+      github_url: "The GitHub link in the footer line."

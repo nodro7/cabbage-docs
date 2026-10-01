@@ -1,0 +1,404 @@
+// Cabbage forum theme.
+//
+// Colours come from the two palettes in about.json and from
+// common/color_definitions.scss. This file sets the type, the header, the
+// buttons, code blocks, focus rings and the footer line. It changes how
+// things look, never how the forum is laid out.
+//
+// It loads after Discourse's own stylesheet, so a rule here wins over a
+// core rule of the same weight.
+
+// ---------------------------------------------------------------- fonts
+// The same two variable fonts as the site, shipped with the theme.
+// Each has a second file for extended Latin, fetched only when a page
+// needs it.
+
+$latin: "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD";
+$latin-ext: "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF";
+
+@font-face {
+  font-family: "Instrument Sans Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  font-stretch: 75% 100%;
+  src: url($instrument_sans) format("woff2");
+  unicode-range: #{$latin};
+}
+
+@font-face {
+  font-family: "Instrument Sans Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 700;
+  font-stretch: 75% 100%;
+  src: url($instrument_sans_ext) format("woff2");
+  unicode-range: #{$latin-ext};
+}
+
+@font-face {
+  font-family: "JetBrains Mono Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url($jetbrains_mono) format("woff2");
+  unicode-range: #{$latin};
+}
+
+@font-face {
+  font-family: "JetBrains Mono Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url($jetbrains_mono_ext) format("woff2");
+  unicode-range: #{$latin-ext};
+}
+
+// ---------------------------------------------------------------- variables
+// Discourse reads most of its look from variables. These replace its
+// defaults; the colours they point at are in color_definitions.scss.
+
+:root {
+  --font-family: "Instrument Sans Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --heading-font-family: var(--font-family);
+  --d-font-family--monospace: "JetBrains Mono Variable", ui-monospace, menlo, consolas, monospace;
+
+  // 8px corners on buttons and inputs, 12px on panels, as on the site.
+  --d-border-radius: 8px;
+  --d-border-radius-large: 12px;
+
+  // Focus: white on dark, near-black on light, as on the site.
+  --d-input-focused-color: var(--cb-focus);
+
+  // Primary buttons: green fill, dark ink.
+  --d-button-primary-bg-color: var(--cb-green);
+  --d-button-primary-bg-color--hover: var(--cb-green-hover);
+  --d-button-primary-text-color: var(--cb-green-ink);
+  --d-button-primary-text-color--hover: var(--cb-green-ink);
+  --d-button-primary-icon-color: var(--cb-green-ink);
+  --d-button-primary-icon-color--hover: var(--cb-green-ink);
+
+  // Default buttons: quiet, with a 1px border. (.btn-default is made
+  // transparent below; a button with no style class keeps this fill.)
+  --d-button-default-bg-color: var(--cb-raise);
+  --d-button-default-bg-color--hover: var(--cb-line);
+  --d-button-default-text-color: var(--primary);
+  --d-button-default-text-color--hover: var(--primary);
+  --d-button-default-icon-color: var(--primary-high);
+  --d-button-default-icon-color--hover: var(--primary);
+  --d-button-default-border: 1px solid var(--cb-line);
+  --d-button-default-border--hover: 1px solid var(--cb-line);
+
+  // Flat buttons keep readable text when hovered.
+  --d-button-flat-text-color--hover: var(--primary);
+
+  // The sidebar sits on the same ground as the header.
+  --d-sidebar-background: var(--cb-chrome);
+  --d-sidebar-footer-fade: var(--cb-chrome);
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-variant-ligatures: none;
+}
+
+// Topic titles and category headings are condensed, like the site's headings.
+#topic-title h1,
+.extra-info-wrapper .topic-link,
+.category-list h3,
+.category-boxes h3 {
+  font-weight: 600;
+  font-stretch: 85%;
+}
+
+// ---------------------------------------------------------------- header
+// Ground and bottom line come from the palette and --shadow-header.
+
+.d-header .title a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.cabbage-logo__mark {
+  display: block;
+  flex: none;
+  width: 36px;
+  height: 34px;
+}
+
+.cabbage-logo__name {
+  color: var(--header_primary);
+  font-size: 1.3125rem;
+  font-weight: 700;
+  font-stretch: 85%;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+// "Forum" tells people where they are.
+.cabbage-logo__section {
+  padding-left: 10px;
+  border-left: 1px solid var(--cb-line);
+  color: var(--header_primary-high);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+// Hidden from view, still read out. Used for the words when there is only
+// room for the mark.
+@mixin cabbage-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: rect(0 0 0 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+// A topic title has taken over the header: only the mark stays.
+.d-header .title--minimized {
+  .cabbage-logo__name,
+  .cabbage-logo__section {
+    @include cabbage-visually-hidden;
+  }
+}
+
+// Narrow phones: the mark and "Forum".
+@media (max-width: 30rem) {
+  .cabbage-logo__name {
+    @include cabbage-visually-hidden;
+  }
+
+  .cabbage-logo__section {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+// The site links, from the Custom Header Links component. Its stylesheet
+// loads after this one, so these rules carry one more class than its own.
+.d-header .custom-header-links .headerLink a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: var(--header_primary-high);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+
+  .discourse-no-touch &:hover {
+    background: var(--cb-raise);
+    color: var(--header_primary);
+  }
+}
+
+// Install is the one green button. The component gives each link a class
+// made from its text, so the link has to be called "Install". The second
+// selector catches it by address if the text ever changes.
+.d-header .custom-header-links .headerLink.install-custom-header-links a,
+.d-header .custom-header-links .headerLink a[href$="/install/"] {
+  margin-left: 8px;
+  padding: 0 18px;
+  background: var(--cb-green);
+  color: var(--cb-green-ink);
+  font-weight: 600;
+
+  .discourse-no-touch &:hover {
+    background: var(--cb-green-hover);
+    color: var(--cb-green-ink);
+  }
+}
+
+// The component hides its links on phones with a class that Discourse sets
+// when the page loads. A narrowed desktop window never gets that class, so
+// hide them by width too, before they crowd the logo.
+@media (max-width: 44.999rem) {
+  .d-header .custom-header-links {
+    display: none;
+  }
+}
+
+// Install is the only green button in the header, as on the site. Sign up
+// and Log in are quiet buttons there.
+.d-header .header-buttons .btn-primary {
+  border: 1px solid var(--cb-line);
+  background-color: transparent;
+  color: var(--header_primary);
+
+  .d-icon {
+    color: var(--header_primary-high);
+  }
+
+  .discourse-no-touch &:hover,
+  &:focus-visible {
+    border-color: var(--cb-line);
+    background-color: var(--cb-raise);
+    color: var(--header_primary);
+
+    .d-icon {
+      color: var(--header_primary);
+    }
+  }
+}
+
+// ---------------------------------------------------------------- buttons
+// Colours are set with the variables at the top of this file.
+
+.btn-primary,
+.btn-default {
+  font-weight: 600;
+}
+
+.btn-default {
+  background-color: transparent;
+
+  .discourse-no-touch &:hover,
+  &:focus-visible {
+    background-color: var(--cb-raise);
+  }
+}
+
+// ---------------------------------------------------------------- lists
+// Rows keep Discourse's structure. Hovered rows take the raised colour.
+
+.discourse-no-touch .topic-list-item:hover,
+.discourse-no-touch .latest-topic-list-item:hover {
+  background-color: var(--d-hover);
+}
+
+// Discourse colours the counts of busy topics with fixed oranges, marked
+// !important. These are the same idea in shades that can be read.
+.heatmap-high,
+.heatmap-high a,
+.heatmap-high .d-icon,
+.heatmap-high .d-button-label {
+  color: var(--cb-heat-high) !important;
+}
+
+.heatmap-med,
+.heatmap-med a,
+.heatmap-med .d-icon,
+.heatmap-med .d-button-label {
+  color: var(--cb-heat-med) !important;
+}
+
+.heatmap-low,
+.heatmap-low a,
+.heatmap-low .d-icon,
+.heatmap-low .d-button-label {
+  color: var(--cb-heat-low) !important;
+}
+
+// ---------------------------------------------------------------- code
+
+pre > code {
+  border: 1px solid var(--cb-line);
+  border-radius: 8px;
+}
+
+p > code,
+li > code,
+strong > code,
+em > code,
+a > code {
+  border-radius: 4px;
+}
+
+// Marked text keeps the main text colour, so it stays readable on the
+// highlight colour whatever it sits inside.
+mark {
+  color: var(--primary);
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+// The warning for hidden direction marks in code is red text. Put it on
+// the pale red ground, where red text is readable in both palettes.
+pre .bidi-warning,
+pre .bidi-warning span {
+  background-color: var(--danger-low);
+}
+
+// The warning icon in a toast is drawn in the highlight colour, which is a
+// soft tint here. Give it a colour that can be seen.
+.-warning .fk-d-default-toast__icon-container .d-icon {
+  color: var(--primary-high);
+}
+
+// ---------------------------------------------------------------- focus
+// 2px ring, 3px away from the element: white on dark, near-black on light.
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+.btn:focus-visible,
+[role="button"]:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 2px solid var(--cb-focus);
+  outline-offset: 3px;
+}
+
+// These sit in boxes that clip, so the ring is drawn inside the element.
+.d-header .title a:focus-visible,
+.sidebar-section-link:focus-visible,
+.sidebar-section-header:focus-visible,
+.menu-panel a:focus-visible,
+.select-kit-row:focus-visible {
+  outline-offset: -2px;
+}
+
+// ---------------------------------------------------------------- footer
+
+.cabbage-footer {
+  margin-top: 3rem;
+  border-top: 1px solid var(--cb-line);
+  background: var(--cb-chrome);
+  color: var(--primary-high);
+  font-size: 0.875rem;
+}
+
+.cabbage-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  box-sizing: border-box;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.cabbage-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    color: var(--primary);
+
+    .discourse-no-touch &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.cabbage-footer__line {
+  margin: 0;
+}

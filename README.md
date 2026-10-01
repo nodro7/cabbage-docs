@@ -21,6 +21,7 @@ The dev server prints its address, usually http://localhost:4321.
 | `npm run check` | Builds, then checks every internal link, anchor, redirect and sitemap entry. The deploy runs this. |
 | `npm run title-cards` | Regenerates the video title cards, thumbnails and social images. |
 | `npm run icons` | Regenerates the favicon and app icons from the logo. |
+| `npm run forum-theme` | Refreshes the forum theme's fonts and logo, checks its colours and writes `forum-theme.zip`. |
 
 ## Where things are
 
@@ -34,8 +35,9 @@ The dev server prints its address, usually http://localhost:4321.
 | `src/scripts/` | The browser scripts, one small module per interactive piece. |
 | `src/syntax/` | The Csound grammar and the code colours. |
 | `public/examples/` | The `.csd` examples shown on the widget pages. |
-| `scripts/` | Node scripts: link checker, title cards, icons and examples. |
+| `scripts/` | Node scripts: link checker, title cards, icons, examples and the forum theme. |
 | `title-cards/` | The 1920 x 1080 title cards, for the video editor and YouTube. |
+| `forum-theme/` | The Discourse theme that makes forum.cabbageaudio.com match this site. Its own README has the install steps. |
 
 ## Common jobs
 
@@ -96,6 +98,10 @@ Rename the file, then add the old path to `src/data/redirects.mjs` so old links 
 ### Change a colour or a type size
 
 Edit `src/styles/tokens.css`. The site, the docs and the code blocks all read from it. Run `npm run title-cards` and `npm run icons` afterwards if the change should show in the generated images.
+
+### Change the forum theme
+
+The theme lives in `forum-theme/` and is installed by a forum admin, not by the site deploy. After a change, run `npm run forum-theme` and follow `forum-theme/README.md`. If a colour in `src/styles/tokens.css` changes, change it in the theme's palettes too.
 
 ## The release shown on the Install page
 

@@ -1,0 +1,32 @@
+// Colours the theme needs beyond the palettes in about.json.
+//
+// Discourse compiles this file once for each palette, so
+// dark-light-choose(light value, dark value) follows whichever palette is
+// active. The values are the tokens of cabbageaudio.com.
+//
+// This file loads before Discourse's own stylesheet. It is the place for
+// colour values. Anything that changes one of Discourse's own variables
+// (buttons, focus, sidebar) belongs in common.scss, which loads after it.
+
+:root {
+  --cb-chrome: var(--header_background);
+  --cb-raise: #{dark-light-choose(#ebebeb, #2a2a2a)};
+  --cb-line: #{dark-light-choose(#d9d9d9, #363636)};
+  --cb-focus: #{dark-light-choose(#1f1f1f, #ffffff)};
+
+  // The brand green is for fills only. --quaternary is the green for text.
+  --cb-green: #93d200;
+  --cb-green-hover: #a6e31c;
+  --cb-green-ink: #142000;
+
+  // The reply and view counts of busy topics. Discourse's own oranges are
+  // too pale to read on a light ground, and one is too dim on a dark one.
+  --cb-heat-high: #{dark-light-choose(#ad4500, #ff8a3d)};
+  --cb-heat-med: #{dark-light-choose(#9c5300, #e08a3c)};
+  --cb-heat-low: #{dark-light-choose(#7d5c3c, #c79a6b)};
+
+  // Borders and dividers. Discourse sets these two in its colour
+  // definitions, which come just before this file, so they can change here.
+  --content-border-color: var(--cb-line);
+  --shadow-header: 0 1px 0 var(--cb-line);
+}

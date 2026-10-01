@@ -1,0 +1,25 @@
+# The site links used in the footer line. Change them here, or in the
+# theme's settings in the Discourse admin, without touching any code.
+#
+# The Docs, Learn and Install links in the header come from the official
+# Custom Header Links component, which has its own setting (see README.md).
+
+install_url:
+  type: string
+  default: "https://cabbageaudio.com/install/"
+
+docs_url:
+  type: string
+  default: "https://cabbageaudio.com/docs/"
+
+learn_url:
+  type: string
+  default: "https://cabbageaudio.com/learn/"
+
+cabbage2_url:
+  type: string
+  default: "https://v2.cabbageaudio.com/"
+
+github_url:
+  type: string
+  default: "https://github.com/rorywalsh/vscabbage"
