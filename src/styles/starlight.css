@@ -23,8 +23,9 @@
   --sl-color-accent: #3f9fe0;
   --sl-color-accent-high: var(--cb-blue);
 
-  /* Header bar: 44px targets plus 10px padding, the same at every width. */
-  --sl-nav-height: 4rem;
+  /* Header bar: 44px targets, 10px above and below, and the 1px line under
+     it. 65px, the same as the marketing header, at every width. */
+  --sl-nav-height: calc(4rem + 1px);
   --sl-nav-pad-y: 0.625rem;
   --sl-nav-pad-x: var(--cb-gutter);
   --sl-menu-button-size: 2.75rem;
@@ -50,6 +51,33 @@
 header.header {
   border-bottom: 1px solid var(--cb-line);
   background-color: var(--cb-chrome);
+}
+
+/* ---------- The frame ---------- */
+
+/*
+ * On a window wider than 1440px the header row, the sidebar and the content
+ * stay in one centred frame (--cb-frame, 90rem). The marketing header row
+ * uses the same frame, so nothing in the header moves between the site and
+ * the docs. The bar's background and the line under it still span the
+ * window. The percentages are of the window width without its scrollbar.
+ */
+@media (min-width: 90rem) {
+  header.header {
+    padding-inline: calc((100% - var(--cb-frame)) / 2 + var(--sl-nav-pad-x));
+  }
+  .sidebar-pane {
+    inset-inline-start: calc((100% - var(--cb-frame)) / 2);
+    /* A line on the outer side too, now that there is page beside it. It is
+       a shadow so that the sidebar keeps its width. */
+    box-shadow: -1px 0 0 var(--cb-line);
+  }
+  .main-frame {
+    padding-inline: calc((100% - var(--cb-frame)) / 2);
+  }
+  [data-has-sidebar] .main-frame {
+    padding-inline-start: calc((100% - var(--cb-frame)) / 2 + var(--sl-sidebar-width));
+  }
 }
 
 /* Search trigger: an icon button until there is room for the field-like
@@ -115,6 +143,7 @@ site-search > button[data-open-modal]:hover {
    Starlight's padding suits its own 32px button. This one is 44px, so the
    icon is centred with the flex alignment instead. */
 .sl-menu-button {
+  top: var(--sl-nav-pad-y);
   align-items: center;
   justify-content: center;
   padding: 0;

@@ -51,6 +51,7 @@
 
   /* ---------- Layout ---------- */
   --cb-container: 75rem;                               /* 1200px content width */
+  --cb-frame: 90rem;                                   /* 1440px: the header row on every page, and the docs layout */
   --cb-gutter: clamp(1.25rem, 4vw, 2rem);              /* inline page padding */
   --cb-section-y: clamp(3.5rem, 7vw, 6rem);            /* section block padding */
   --cb-section-y-sm: clamp(3rem, 6vw, 5rem);

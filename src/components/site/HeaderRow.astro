@@ -60,8 +60,11 @@ const installCurrent = isCurrent(install, path) ? 'page' : undefined;
     justify-content: space-between;
     gap: 8px 24px;
   }
+  /* The row sits in the same frame as on the docs, so the wordmark and the
+     links stay where they are when a visitor moves between the two. The
+     page content below it is narrower (--cb-container). */
   .cb-header--site {
-    max-width: calc(var(--cb-container) + 2 * var(--cb-gutter));
+    max-width: var(--cb-frame);
     margin: 0 auto;
     padding: 10px var(--cb-gutter);
   }
