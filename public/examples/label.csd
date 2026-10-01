@@ -34,7 +34,7 @@ nchnls = 2
 ;
 ; License: CC0 1.0 Universal
 ; You can copy, modify, and distribute this file,
-; even for co mmercial purposes, all without asking permission.
+; even for commercial purposes, all without asking permission.
 
 instr 1
     kLabel  = cabbageGetValue:k("label2")
