@@ -10,6 +10,32 @@ import csoundGrammar from './src/syntax/csound-grammar.mjs';
 import jsonGrammar from './src/syntax/json-grammar.mjs';
 import { cbDark, cbLight } from './src/syntax/theme.mjs';
 
+/**
+ * Lets every code block take keyboard focus, so a block that scrolls sideways
+ * can be scrolled without a mouse, with or without JavaScript.
+ *
+ * Expressive Code's own script then removes the focus stop from blocks that
+ * do not scroll. Left to itself, that script would instead mark each
+ * scrolling block as a region with no name; several of those on one page are
+ * landmarks that screen reader users cannot tell apart. A block that can
+ * already take focus is left alone.
+ */
+const focusableCode = {
+	name: 'cabbage-focusable-code',
+	hooks: {
+		postprocessRenderedBlock: ({ renderData }) => {
+			const visit = (node) => {
+				if (node.type === 'element' && node.tagName === 'pre') {
+					node.properties.tabindex = '0';
+					return true;
+				}
+				return node.children?.some(visit) ?? false;
+			};
+			visit(renderData.blockAst);
+		},
+	},
+};
+
 export default defineEcConfig({
 	themes: [cbDark, cbLight],
 	// The lenient JSON grammar replaces the bundled one (see json-grammar.mjs).
@@ -17,7 +43,7 @@ export default defineEcConfig({
 	// The token colours are already checked for AA contrast in tokens.css,
 	// so they are used exactly as given.
 	minSyntaxHighlightingColorContrast: 0,
-	plugins: [pluginLineNumbers()],
+	plugins: [pluginLineNumbers(), focusableCode],
 	defaultProps: { showLineNumbers: false },
 	styleOverrides: {
 		borderRadius: '12px',

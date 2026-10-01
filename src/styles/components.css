@@ -17,6 +17,20 @@ samp {
   outline-offset: 3px;
 }
 
+/* Nothing moves on load anywhere. For people who ask for less motion, this
+   also removes the few transitions that are left (copy buttons, the arrows
+   of the docs sidebar). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

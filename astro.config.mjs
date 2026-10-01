@@ -4,12 +4,16 @@ import starlight from '@astrojs/starlight';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import { favicon, iconLinks } from './src/data/icons.mjs';
 import { redirects } from './src/data/redirects.mjs';
+import rehypeCalloutRole from './src/lib/rehype-callout-role.mjs';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://cabbageaudio.com',
 	// Old URLs keep working: Astro writes a small redirect page for each entry.
 	redirects,
+	markdown: {
+		rehypePlugins: [rehypeCalloutRole],
+	},
 	integrations: [
 		starlight({
 			title: 'Cabbage',

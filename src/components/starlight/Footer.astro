@@ -9,3 +9,8 @@ import SiteFooter from '../site/Footer.astro';
   <Pagination />
   <SiteFooter variant="compact" />
 </footer>
+
+<script>
+  // Runs on every docs page: keeps wide tables reachable from the keyboard.
+  import '../../scripts/table-focus.js';
+</script>

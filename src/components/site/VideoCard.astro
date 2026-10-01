@@ -45,6 +45,7 @@ const sizes = featured ? '(min-width: 62rem) 570px, 100vw' : '(min-width: 62rem)
           width="640"
           height="360"
           loading={featured ? 'eager' : 'lazy'}
+          fetchpriority={featured ? 'high' : undefined}
           decoding="async"
         />
       ) : (

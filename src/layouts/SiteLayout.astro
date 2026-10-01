@@ -1,6 +1,7 @@
 ---
 // Shared shell for the marketing pages: head, skip link, header, main, footer.
 // The docs get the same header row and tokens through the Starlight overrides.
+// A page can add to <head> through the "head" slot.
 import '@fontsource-variable/instrument-sans/wdth.css';
 import '@fontsource-variable/jetbrains-mono/index.css';
 import '../styles/tokens.css';
@@ -38,6 +39,7 @@ const { title, description, ogImage = '/og/default.png', fullTitle, noindex } = 
     {iconLinks.map((attrs) => <link {...attrs} />)}
     <link rel="preload" href={sansFontUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFontUrl} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
     <noscript>
       <style>
         [data-theme-toggle] {

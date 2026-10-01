@@ -1,5 +1,6 @@
 ---
-import { Aside, Code } from '@astrojs/starlight/components';
+import { Code } from '@astrojs/starlight/components';
+import Callout from '../docs/Callout.astro';
 ---
 
 <div class="property-section">
@@ -21,10 +22,10 @@ import { Aside, Code } from '@astrojs/starlight/components';
     </li>
     <li>String channels are excluded from DAW automation (automation requires numeric channels).</li>
   </ul>
-  <Aside>
+  <Callout>
     <p>
       The operative key is the per-channel <code>type</code> inside <code>channels[]</code>, not a widget-level
       property.
     </p>
-  </Aside>
+  </Callout>
 </div>

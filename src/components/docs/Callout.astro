@@ -1,0 +1,25 @@
+---
+// A callout for use inside components. It looks the same as a :::note
+// block in a Markdown page and, like those, has the role "note" rather than
+// being a page landmark (see src/lib/rehype-callout-role.mjs).
+import { Icon } from '@astrojs/starlight/components';
+
+interface Props {
+  type?: 'note' | 'tip' | 'caution' | 'danger';
+  /** Shown above the text. Defaults to the name of the type, for example "Note". */
+  title?: string;
+}
+
+const icons = { note: 'information', tip: 'rocket', caution: 'warning', danger: 'error' } as const;
+const { type = 'note' } = Astro.props;
+const title = Astro.props.title ?? Astro.locals.t(`aside.${type}`);
+---
+
+<aside role="note" aria-label={title} class={`starlight-aside starlight-aside--${type}`}>
+  <p class="starlight-aside__title" aria-hidden="true">
+    <Icon name={icons[type]} class="starlight-aside__icon" />{title}
+  </p>
+  <div class="starlight-aside__content">
+    <slot />
+  </div>
+</aside>

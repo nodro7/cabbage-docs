@@ -1,35 +1,24 @@
-// Install page: show the steps for one operating system and let the visitor
-// switch. Without this script all three systems are listed, each under its
-// own heading. Nothing is fetched here.
+// Install page: let the visitor switch between operating systems.
+//
+// The page names the visitor's own system in <head>, before the first paint
+// (data-os on <html>), and the styles show only that one. This script marks
+// the matching button and handles the switch. Without it all three systems
+// are listed, each under its own heading. Nothing is fetched here.
 
-const page = document.querySelector('[data-install]');
 const control = document.querySelector('[data-os-control]');
 
-if (page && control) {
-	const sections = [...page.querySelectorAll('[data-os]')];
+if (control) {
+	const root = document.documentElement;
 	const buttons = [...control.querySelectorAll('[data-value]')];
 	const hint = control.querySelector('[data-os-hint]');
 
-	// The visitor's system, or null on phones, tablets and anything unknown.
-	function detect() {
-		const platform = navigator.userAgentData?.platform ?? '';
-		const agent = navigator.userAgent ?? '';
-		const text = `${platform} ${agent}`;
-		if (/Android|iPhone|iPad|iPod|CrOS|Chrome OS/i.test(text)) return null;
-		if (/Win/i.test(text)) return 'windows';
-		if (/Mac/i.test(text)) return 'macos';
-		if (/Linux|X11/i.test(text)) return 'linux';
-		return null;
-	}
-
 	function select(os) {
-		for (const section of sections) section.hidden = section.dataset.os !== os;
+		root.dataset.os = os;
 		for (const button of buttons) button.setAttribute('aria-pressed', String(button.dataset.value === os));
-		page.dataset.selected = os;
 	}
 
-	control.hidden = false;
-	const detected = detect();
+	// Set in <head>. Missing on phones, tablets and anything unknown.
+	const detected = root.dataset.os;
 	if (detected) select(detected);
 	else if (hint) hint.textContent = 'Choose your operating system.';
 

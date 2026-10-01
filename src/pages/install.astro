@@ -1,9 +1,11 @@
 ---
 // Install: three installs and a check, for macOS, Windows and Linux.
 //
-// All three systems are rendered. The script shows the visitor's own and
-// lets them switch; without JavaScript all three are listed one after the
-// other. Release data is looked up when the site is built (src/lib/release.ts).
+// All three systems are rendered. A few lines in <head> name the visitor's
+// system before the first paint, so the page opens on it and nothing moves;
+// the script then lets them switch. Without JavaScript all three are listed
+// one after the other. Release data is looked up when the site is built
+// (src/lib/release.ts).
 import Step from '../components/install/Step.astro';
 import Button from '../components/site/Button.astro';
 import SegmentedControl from '../components/site/SegmentedControl.astro';
@@ -22,6 +24,26 @@ const viaMarketplace = install.marketplaceUrl !== '';
   description="Install Csound 7, the Cabbage extension for VS Code and the Csound language extension, then check that they can talk to each other."
   ogImage="/og/install.png"
 >
+  <Fragment slot="head">
+    {/* Sets data-os on <html> for Windows, macOS and Linux. Phones, tablets and anything unknown get all three systems. */}
+    <script is:inline>
+      (function () {
+        var data = navigator.userAgentData;
+        var text = ((data && data.platform) || '') + ' ' + (navigator.userAgent || '');
+        var os = /Android|iPhone|iPad|iPod|CrOS|Chrome OS/i.test(text)
+          ? ''
+          : /Win/i.test(text)
+            ? 'windows'
+            : /Mac/i.test(text)
+              ? 'macos'
+              : /Linux|X11/i.test(text)
+                ? 'linux'
+                : '';
+        if (os) document.documentElement.dataset.os = os;
+      })();
+    </script>
+  </Fragment>
+
   <section class="cb-section cb-section--chrome">
     <div class="container install-head">
       <h1 class="cb-title">Install Cabbage 3</h1>
@@ -29,7 +51,7 @@ const viaMarketplace = install.marketplaceUrl !== '';
         Three installs, then a quick check that they can talk to each other. You need Visual Studio Code before you
         start.
       </p>
-      <div class="install-head__os" data-os-control hidden>
+      <div class="install-head__os" data-os-control>
         <SegmentedControl
           label="Operating system"
           size="lg"
@@ -45,7 +67,7 @@ const viaMarketplace = install.marketplaceUrl !== '';
   </section>
 
   <section class="cb-section">
-    <div class="container install-body" data-install>
+    <div class="container install-body">
       <div class="install-main">
         {
           systems.map((system) => {
@@ -188,7 +210,8 @@ const viaMarketplace = install.marketplaceUrl !== '';
     font-size: var(--cb-text-small);
     color: var(--cb-muted);
   }
-  .install-head__os[hidden] {
+  /* The switch needs the script. */
+  :global(html:not(.js)) .install-head__os {
     display: none;
   }
   .install-head .cb-meta {
@@ -211,6 +234,14 @@ const viaMarketplace = install.marketplaceUrl !== '';
     max-width: 760px;
   }
 
+  /* One system is chosen: data-os on <html> names it and the other two are
+     not shown. */
+  :global(html[data-os='macos']) .install-os:not([data-os='macos']),
+  :global(html[data-os='windows']) .install-os:not([data-os='windows']),
+  :global(html[data-os='linux']) .install-os:not([data-os='linux']) {
+    display: none;
+  }
+
   /* Each system's heading is shown when all three are listed (no JavaScript,
      or a system we could not detect). Once one is chosen, the control names
      it, so the heading is kept for screen readers only. */
@@ -221,7 +252,7 @@ const viaMarketplace = install.marketplaceUrl !== '';
     font-weight: 600;
     font-stretch: 88%;
   }
-  [data-install][data-selected] .install-os__title {
+  :global(html[data-os]) .install-os__title {
     position: absolute;
     width: 1px;
     height: 1px;
