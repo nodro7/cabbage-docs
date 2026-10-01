@@ -15,7 +15,8 @@ const movedSections = {
 			csound7: 'csound7',
 			exporting_instruments: 'exporting',
 			media_files: 'media-files',
-			multichannel: 'multichannel',
+			// Merged into the Audio Channel Configuration page.
+			multichannel: 'audio-channels',
 			overview: 'overview',
 			reserved_channels: 'reserved-channels',
 			running_cabbage: 'running-cabbage',
@@ -95,6 +96,10 @@ const movedPages = {
 	'/docs/introduction': '/docs/',
 	'/docs/intro': '/docs/',
 	'/docs/cabbage3': '/docs/whats-new/',
+	// The Multichannel page was merged into Audio Channel Configuration.
+	'/docs/using/multichannel': '/docs/using/audio-channels/',
+	// The name the channel page had for a while on the old site.
+	'/docs/using_cabbage/audio_channels': '/docs/using/audio-channels/',
 };
 
 /** @type {Record<string, string>} */

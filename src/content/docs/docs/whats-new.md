@@ -58,14 +58,14 @@ In summary, the changes in Cabbage 3, particularly the shift to using JSON objec
 
 ## 6. Exporting instruments
 
-<!-- TODO(G): two things to confirm in this section. (1) The Bundle Resources option is not in the extension manifest: was it removed or renamed? (2) The Windows resource path: this page and the Exporting page list ProgramData, while the Exporting page later says Program Files. -->
-
-Although the process of exporting has remained largely unchanged, the sequence of events during export has undergone some updates. The most significant change is that all instrument resources are now exported to a set resource folder by default. All assets, including images, .csd files, and other related resources, will be placed in the following locations (unless you enable the 'Bundle Resources' option in the Cabbage VS Code settings):
+Although the process of exporting has remained largely unchanged, the sequence of events during export has undergone some updates. The most significant change is that all instrument resources are now exported to a set resource folder by default. All assets, including images, .csd files, and other related resources, will be placed in the following locations. Use the `package` object in your `form` widget to include any extra files your instrument needs:
 
 * macOS
     `/Library/CabbageAudio/PLUGIN_NAME/`
 * Windows
     `C:/ProgramData/CabbageAudio/PLUGIN_NAME/`
+* Linux
+    `~/.config/CabbageAudio/PLUGIN_NAME/`
 
 Cabbage automatically searches these directories when it starts, so it’s essential not to move them to another location.
 

@@ -5,8 +5,7 @@ description: "Every Cabbage command in the VS Code command palette and every ext
 
 ## Command Palette Access
 
-<!-- TODO(G): the extension manifest declares no keybindings. Confirm whether Ctrl+S and Ctrl+E are real defaults, and what they are on macOS. -->
-**Ctrl+S** and **Ctrl+E** are the default shortcuts for compiling and entering edit mode. All other commands are accessible from the command palette:
+All commands are accessible from the command palette:
 
 - **Windows/Linux**: Press `Ctrl + Shift + P`
 - **macOS**: Press `Cmd + Shift + P`
@@ -23,7 +22,7 @@ Assign custom shortcuts to any command by clicking the cogwheel icon next to the
 
 **Commands:**
 - **Compile Cabbage Instrument** (`cabbage.compile`)
-  - Saves the current .csd file and launches the instrument in a dedicated webview tab if it contains valid Cabbage JSON
+  - Saves the current .csd file and launches the instrument in a dedicated webview tab if it contains valid Cabbage JSON. Use this to compile manually when Compile On Save is disabled.
 
 - **Start Cabbage Server** (`cabbage.startServer`)
   - Manually starts the Cabbage backend server (can also be started from the bottom right of the status panel)
@@ -41,6 +40,10 @@ Assign custom shortcuts to any command by clicking the cogwheel icon next to the
   - Runs the installation check. Use it when nothing appears on screen after you compile
 
 **Settings:**
+- **Compile On Save** (`cabbage.compileOnSave`)
+  - Default: `true`
+  - Automatically compile .csd instruments when saving. Disable to compile manually via the Compile Cabbage Instrument command.
+
 - **Clear Console On Compile** (`cabbage.clearConsoleOnCompile`)
   - Default: `true`
   - Clear the console output each time Csound is compiled
@@ -91,11 +94,6 @@ Assign custom shortcuts to any command by clicking the cogwheel icon next to the
   - Moves the existing `<Cabbage>` section to the top or bottom of the .csd file
 
 **Settings:**
-- **Default JSON Formatting** (`cabbage.defaultJsonFormatting`)
-  - Default: `"Single line objects"`
-  - Options: `"Single line objects"` | `"Multiline objects"`
-  - Choose how widget objects are formatted in the `<Cabbage>` section
-
 - **JSON Indent Spaces** (`cabbage.jsonIndentSpaces`)
   - Default: `4`
   - Range: 2-8
@@ -178,16 +176,6 @@ Custom-UI plugin projects (no Cabbage widgets, full `.vst3` bundle + resources):
 
 - **Select MIDI Output Device** (`cabbage.selectMidiOutputDevice`)
   - Choose which MIDI output device to use
-
-<!-- TODO(G): the manifest titles these three "to stereo inputs", "to input 1" and "to input 2". Confirm how they appear in the palette before the names here are changed. -->
-- **Send file to stereo inputs** (`cabbage.sendFileToChannel1and2`)
-  - Routes an audio file to both input channels 1 and 2
-
-- **Send file to input 1** (`cabbage.sendFileToChannel1`)
-  - Routes an audio file to input channel 1
-
-- **Send file to input 2** (`cabbage.sendFileToChannel2`)
-  - Routes an audio file to input channel 2
 
 #### Audio Recording
 
@@ -278,13 +266,6 @@ Recording captures the final processed audio output (post-Csound processing) at 
 
 - **Export as AUv2 MidiFx** (`cabbage.exportAUMidiFx`)
   - Exports the current instrument as an AUv2 MidiFx plugin (macOS only)
-
-**Settings:**
-
-<!-- TODO(G): cabbage.bundleResources is not in the extension manifest. Confirm whether it was removed or renamed. The What is new page refers to it too. -->
-- **Bundle Resources** (`cabbage.bundleResources`)
-  - Default: `false`
-  - When enabled, all resources (audio files, images, etc.) are bundled into the plugin directory. When disabled, resources are placed in the CabbageAudio resources folder
 
 #### Pro Plugin Export
 
@@ -419,11 +400,15 @@ The Cabbage source folder and the Cabbage binary folder are set automatically by
   - Default: `""`
   - Folder containing Cabbage Javascript on Linux. Leave empty to use default location
 
+- **Custom Comment Decoration Color** (`cabbage.customCommentDecorationColor`)
+  - Default: `"#666666"`
+  - Color for `//` comment properties in Cabbage JSON sections. Use the Set Custom Comment Decoration Color command to pick a color
+
 ### Utilities
 
 **Commands:**
 
-- **Open an widget example** (`cabbage.openCabbageExample`)
+- **Open a widget example** (`cabbage.openCabbageExample`)
   - Browse and open example .csd files demonstrating various widgets and techniques
 
 - **Opens the Csound 7 opcode reference page** (`cabbage.openOpcodeReference`)

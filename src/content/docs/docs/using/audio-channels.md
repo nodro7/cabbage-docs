@@ -1,6 +1,6 @@
 ---
 title: "Audio Channel Configuration"
-description: "How to declare the channel layouts a plugin supports with channelConfig, and how hosts choose between them."
+description: "How to set the channel layouts a plugin supports, with channelConfig or the Csound header, and how hosts choose between them."
 ---
 
 Managing channel layouts presents a unique challenge because a developer cannot assume a host will honor the plugin's preferred configuration. For instance, a plugin designed for Stereo (2-in/2-out) might be forced onto a Mono or even a 5.1 track by the host. If the plugin attempts to access a channel index that the host hasn't allocated, it can result in a memory access violation or undefined behavior. Therefore, developers must implement defensive I/O logic (see below), verifying the actual channel count at runtime and gracefully handling any configuration the host provides. 
@@ -8,7 +8,7 @@ Managing channel layouts presents a unique challenge because a developer cannot 
 
 ## Defining channel configuration
 
-In Cabbage 3, the number of input and output channels is controlled exclusively by the `channelConfig` property within the JSON header. If no `channelConfig` is defined, the plugin defaults to a standard stereo configuration (2 in, 2 out). 
+In Cabbage 3, the number of input and output channels is controlled primarily by the `channelConfig` property within the JSON header. If no `channelConfig` is defined, Cabbage falls back to the `nchnls` / `nchnls_i` declarations in your Csound orchestra header, so a plain multichannel `.csd` without any `channelConfig` still works. If neither is defined, the plugin defaults to 1 input and 2 outputs.
 
 Cabbage dynamically overrides Csound’s internal channel settings to match the layout requested by the `channelConfig` or, more importantly, the host DAW. This ensures that Csound’s channel count always aligns perfectly with the DAW’s signal path or the hardware device when running in standalone mode. You can still query `nchnls` or `nchnls_i` within your orchestra code. They will always return the number of channels set by the host. 
 
@@ -22,9 +22,27 @@ Cabbage dynamically overrides Csound’s internal channel settings to match the 
 ```
 
 The first entry is used on initial load. The host can switch between configurations at runtime. Cabbage will restart Csound with the correct channel count automatically if the user changes the channel config. This could result in internal buffers being destroyed, but there is no way to avoid this.
+
 :::note
-While `channelConfig` object can be used to indicate the preferred channel configuration for a plugin, the host has the final say. So it's important to check `nchnls` and `nchnls_i` within your code to make sure your instrument can correctly handle the channel layout.
+While the `channelConfig` object can be used to indicate the preferred channel configuration for a plugin, the host has the final say. So it's important to check `nchnls` and `nchnls_i` within your code to make sure your instrument can correctly handle the channel layout.
 :::
+
+## Working without `channelConfig`
+
+If you omit `channelConfig` entirely, Cabbage reads the channel counts straight from your Csound orchestra header. Use `nchnls` for outputs and `nchnls_i` for inputs:
+
+```csound
+ksmps = 32
+nchnls = 2      // stereo output
+nchnls_i = 4    // quadraphonic input
+0dbfs = 1
+```
+
+:::note
+The value given for `nchnls` is taken as the number of input channels *if* `nchnls_i` is not defined.
+:::
+
+This covers simple multichannel instruments — anything with more than two channels — without needing any JSON configuration. Add an explicit `channelConfig` only when you want to offer the host multiple switchable layouts or multi-bus routings such as sidechains.
 
 ## Instruments with sidechains
 
