@@ -1,0 +1,82 @@
+---
+// One step on the Install page: a number (or a tick for the final check),
+// a rail down to the next step, a heading and the step's content.
+interface Props {
+  /** The step number. Leave out for the final check, which shows a tick. */
+  number?: number;
+  title: string;
+  /** The last step has no rail under it. */
+  last?: boolean;
+}
+const { number, title, last = false } = Astro.props;
+---
+
+<li class:list={['cb-step', last && 'cb-step--last']}>
+  <div class="cb-step__marker">
+    {
+      number ? (
+        <span class="cb-step__number">{number}</span>
+      ) : (
+        <span class="cb-step__tick">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12.5l4.5 4.5L19 7.5" />
+          </svg>
+        </span>
+      )
+    }
+    {!last && <span class="cb-step__rail" aria-hidden="true" />}
+  </div>
+  <div class="cb-step__body">
+    <h3 class="cb-step__title">{title}</h3>
+    <slot />
+  </div>
+</li>
+
+<style>
+  .cb-step {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 0 16px;
+    padding-bottom: 40px;
+  }
+  .cb-step--last {
+    padding-bottom: 0;
+  }
+  .cb-step__marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .cb-step__number {
+    font-family: var(--cb-font-mono);
+    font-size: var(--cb-text-small);
+    line-height: 32px;
+    color: var(--cb-green-text);
+  }
+  .cb-step__tick {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--cb-green);
+    color: var(--cb-green-ink);
+  }
+  .cb-step__rail {
+    flex-grow: 1;
+    width: 1px;
+    background: var(--cb-line);
+  }
+  .cb-step__body {
+    min-width: 0;
+  }
+  .cb-step__title {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 32px;
+    font-weight: 600;
+    font-stretch: 88%;
+  }
+</style>

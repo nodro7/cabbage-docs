@@ -1,0 +1,63 @@
+---
+// A row of buttons where one is pressed. Used for the operating system on
+// the Install page and the interface on the Home demo.
+//
+// The page's own script handles the clicks: each button carries its value in
+// data-value and its state in aria-pressed.
+interface Props {
+  /** Accessible name of the group, for example "Operating system". */
+  label: string;
+  options: { value: string; label: string }[];
+  /** Value of the option that starts pressed, if any. */
+  selected?: string;
+  /** Larger text and padding, as on the Install page. */
+  size?: 'md' | 'lg';
+  [attribute: string]: unknown;
+}
+const { label, options, selected, size = 'md', ...rest } = Astro.props;
+---
+
+<div class:list={['cb-seg', size === 'lg' && 'cb-seg--lg']} role="group" aria-label={label} {...rest}>
+  {
+    options.map((option) => (
+      <button type="button" class="cb-seg__btn" data-value={option.value} aria-pressed={option.value === selected ? 'true' : 'false'}>
+        {option.label}
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .cb-seg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 3px;
+    border: 1px solid var(--cb-line);
+    border-radius: 9px;
+    background: var(--cb-bg);
+  }
+  .cb-seg__btn {
+    min-height: var(--cb-target);
+    padding: 0 14px;
+    border: 0;
+    border-radius: var(--cb-radius-sm);
+    background: transparent;
+    color: var(--cb-muted);
+    font: inherit;
+    font-size: var(--cb-text-meta);
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .cb-seg--lg .cb-seg__btn {
+    padding: 0 16px;
+    font-size: var(--cb-text-small);
+  }
+  .cb-seg__btn:hover {
+    color: var(--cb-fg);
+  }
+  .cb-seg__btn[aria-pressed='true'] {
+    background: var(--cb-fg);
+    color: var(--cb-bg);
+  }
+</style>

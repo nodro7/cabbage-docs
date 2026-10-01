@@ -51,7 +51,6 @@ export default defineConfig({
 			// sidebar.order in its frontmatter.
 			sidebar: [
 				{ label: 'Introduction', slug: 'docs' },
-				{ label: 'Download and Install', slug: 'docs/download' },
 				{ label: 'What is new in v3', slug: 'docs/whats-new' },
 				{ label: 'FAQs', slug: 'docs/faqs' },
 				{ label: 'Using Cabbage 3', collapsed: true, autogenerate: { directory: 'docs/using' } },

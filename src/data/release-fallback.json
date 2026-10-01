@@ -1,0 +1,22 @@
+{
+  "version": "1.0.209-alpha",
+  "date": "2026-09-28T10:31:36Z",
+  "url": "https://github.com/rorywalsh/vscabbage/releases/tag/1.0.209-alpha",
+  "assets": {
+    "macos": {
+      "url": "https://github.com/rorywalsh/vscabbage/releases/download/1.0.209-alpha/vscabbage-1.0.209-alpha-macos.vsix",
+      "name": "vscabbage-1.0.209-alpha-macos.vsix",
+      "size": 19800000
+    },
+    "windows": {
+      "url": "https://github.com/rorywalsh/vscabbage/releases/download/1.0.209-alpha/vscabbage-1.0.209-alpha-windows.vsix",
+      "name": "vscabbage-1.0.209-alpha-windows.vsix",
+      "size": 21500000
+    },
+    "linux": {
+      "url": "https://github.com/rorywalsh/vscabbage/releases/download/1.0.209-alpha/vscabbage-1.0.209-alpha-linux.vsix",
+      "name": "vscabbage-1.0.209-alpha-linux.vsix",
+      "size": 6900000
+    }
+  }
+}

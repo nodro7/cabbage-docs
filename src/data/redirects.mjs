@@ -87,6 +87,8 @@ const movedSections = {
 
 /** Single pages, old path to new path. */
 const movedPages = {
+	'/download': '/install/',
+	'/docs/download': '/install/',
 	'/faq': '/docs/faqs/',
 	'/docs/introduction': '/docs/',
 	'/docs/intro': '/docs/',

@@ -16,15 +16,15 @@ export type NavGroup = {
   items: NavItem[];
 };
 
-// Learn and Install point at the routes that exist today. They move to
-// /learn/ and /install/ as those pages land.
+// Learn points at the route that exists today. It moves to /learn/ when
+// that page lands.
 const docs: NavItem = { label: 'Docs', href: '/docs/' };
 const learn: NavItem = { label: 'Learn', href: '/videos/' };
 const forum: NavItem = { label: 'Forum', href: site.forumUrl, external: true };
 const github: NavItem = { label: 'GitHub', href: site.githubUrl, external: true };
 
 /** The one primary action on every page. */
-export const install: NavItem = { label: 'Install', href: '/download/' };
+export const install: NavItem = { label: 'Install', href: '/install/' };
 
 /** Header links, in order. */
 export const primary: NavItem[] = [docs, learn, forum, github];
