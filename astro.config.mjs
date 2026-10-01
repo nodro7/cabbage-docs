@@ -13,6 +13,10 @@ export default defineConfig({
 		starlight({
 			title: 'Cabbage',
 			description: 'A framework for audio software development.',
+			// The social image for docs pages. A page can set its own in frontmatter.
+			head: [
+				{ tag: 'meta', attrs: { property: 'og:image', content: 'https://cabbageaudio.com/og/default.png' } },
+			],
 			plugins: [
 				// /llms.txt, /llms-full.txt and /llms-small.txt: the docs in a form that
 				// AI assistants can read. Most of them know Cabbage 2 syntax and get

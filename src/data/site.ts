@@ -1,5 +1,7 @@
 // Facts and lines of copy that appear in more than one place.
 
+import { playlistUrl } from './videos';
+
 export const site = {
   name: 'Cabbage',
   tagline: 'A framework for audio software development.',
@@ -9,7 +11,7 @@ export const site = {
   forumUrl: 'https://forum.cabbageaudio.com/',
   githubUrl: 'https://github.com/rorywalsh/vscabbage',
   releasesUrl: 'https://github.com/rorywalsh/vscabbage/releases',
-  playlistUrl: 'https://www.youtube.com/playlist?list=PLPHJAwcqO_C0',
+  playlistUrl,
   v2Url: 'https://v2.cabbageaudio.com/',
 } as const;
 

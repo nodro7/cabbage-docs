@@ -16,10 +16,8 @@ export type NavGroup = {
   items: NavItem[];
 };
 
-// Learn points at the route that exists today. It moves to /learn/ when
-// that page lands.
 const docs: NavItem = { label: 'Docs', href: '/docs/' };
-const learn: NavItem = { label: 'Learn', href: '/videos/' };
+const learn: NavItem = { label: 'Learn', href: '/learn/' };
 const forum: NavItem = { label: 'Forum', href: site.forumUrl, external: true };
 const github: NavItem = { label: 'GitHub', href: site.githubUrl, external: true };
 

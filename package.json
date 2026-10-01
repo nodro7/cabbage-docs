@@ -8,6 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro build && node scripts/check-links.mjs",
+    "title-cards": "node scripts/title-cards.mjs",
     "astro": "astro"
   },
   "dependencies": {
@@ -18,5 +19,9 @@
     "astro": "^5.6.1",
     "sharp": "^0.34.2",
     "starlight-llms-txt": "0.7.0"
+  },
+  "devDependencies": {
+    "satori": "0.33.5",
+    "subset-font": "2.9.0"
   }
 }

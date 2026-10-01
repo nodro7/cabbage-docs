@@ -1,0 +1,173 @@
+---
+// A video card: a link to the video on YouTube, with our own title card as
+// its thumbnail. Nothing is requested from YouTube when the page loads.
+//
+// With `embed`, a click swaps the card for the player (src/scripts/video-embed.js).
+// Without JavaScript, or without `embed`, it is a plain link.
+//
+// The thumbnail is public/img/videos/<id>.webp, made by `npm run title-cards`.
+// If a video has no thumbnail yet, the card is drawn in HTML instead, so
+// adding a video to src/data/videos.ts is enough for it to appear.
+import { lessonLabel, numberedTitle, watchUrl, type Video } from '../../data/videos';
+
+interface Props {
+  video: Video;
+  /** The large card at the top of the Learn page: play badge, no caption. */
+  featured?: boolean;
+  /** Play in place on click. */
+  embed?: boolean;
+}
+const { video, featured = false, embed = false } = Astro.props;
+
+const thumbnails = import.meta.glob('/public/img/videos/*.webp');
+const hasThumbnail = `/public/img/videos/${video.id}.webp` in thumbnails;
+const hasLarge = `/public/img/videos/${video.id}-1280.webp` in thumbnails;
+const src = `/img/videos/${video.id}.webp`;
+const srcset = hasLarge ? `${src} 640w, /img/videos/${video.id}-1280.webp 1280w` : undefined;
+const sizes = featured ? '(min-width: 62rem) 570px, 100vw' : '(min-width: 62rem) 230px, (min-width: 32rem) 50vw, 100vw';
+---
+
+<a
+  class:list={['cb-video', featured && 'cb-video--featured']}
+  href={watchUrl(video)}
+  data-video-id={embed ? video.id : undefined}
+  data-video-title={video.title}
+  aria-label={featured ? `Watch ${video.title}` : undefined}
+>
+  <span class="cb-video__frame">
+    {
+      hasThumbnail ? (
+        <img
+          src={src}
+          srcset={srcset}
+          sizes={srcset ? sizes : undefined}
+          alt=""
+          width="640"
+          height="360"
+          loading={featured ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      ) : (
+        <span class="cb-video__drawn">
+          <span class="cb-video__drawn-brand">
+            <img src="/img/cabbage-mark.svg" alt="" width="20" height="19" />
+            <span>Cabbage 3</span>
+          </span>
+          <span class="cb-video__drawn-text">
+            <span class="cb-video__drawn-label">{lessonLabel(video)}</span>
+            <span class="cb-video__drawn-title">{video.shortTitle}</span>
+          </span>
+        </span>
+      )
+    }
+    {
+      featured && (
+        <span class="cb-video__play" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      )
+    }
+  </span>
+  {!featured && <span class="cb-video__title">{numberedTitle(video)}</span>}
+</a>
+
+<style is:global>
+  /* Global, because the embed script builds the player from these classes. */
+  .cb-video {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    color: var(--cb-fg);
+    text-decoration: none;
+  }
+  .cb-video:hover {
+    text-decoration: none;
+  }
+  .cb-video:hover .cb-video__title {
+    text-decoration: underline;
+  }
+
+  /* The card is a picture of a video title, so its colours do not follow the theme. */
+  .cb-video__frame {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid #363636;
+    border-radius: 10px;
+    background: #141414;
+  }
+  .cb-video--featured .cb-video__frame {
+    border-radius: var(--cb-radius-lg);
+  }
+  .cb-video__frame > img,
+  .cb-video__frame > iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+
+  .cb-video__title {
+    font-size: var(--cb-text-small);
+    font-weight: 500;
+    color: var(--cb-fg);
+  }
+  a.cb-video__title {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+
+  .cb-video__play {
+    position: absolute;
+    top: clamp(18px, 2.4vw, 28px);
+    right: clamp(18px, 2.4vw, 28px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #93d200;
+    color: #142000;
+  }
+
+  /* Drawn card, for a video that has no thumbnail file yet. */
+  .cb-video__drawn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 14px;
+    color: #f2f2f2;
+  }
+  .cb-video__drawn-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .cb-video__drawn-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .cb-video__drawn-label {
+    font-family: var(--cb-font-mono);
+    font-size: 0.75rem;
+    color: #a5e02b;
+  }
+  .cb-video__drawn-title {
+    font-size: 1.1875rem;
+    line-height: 1.1;
+    font-weight: 600;
+    font-stretch: 82%;
+  }
+</style>

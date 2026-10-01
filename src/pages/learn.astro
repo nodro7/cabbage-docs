@@ -1,0 +1,125 @@
+---
+// Learn: the overview video, then the ten lessons in order. The list is in
+// src/data/videos.ts.
+import Button from '../components/site/Button.astro';
+import VideoCard from '../components/site/VideoCard.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { site } from '../data/site';
+import { videos } from '../data/videos';
+
+const overview = videos.find((video) => video.lesson === 'Overview');
+const lessons = videos.filter((video) => video.lesson !== 'Overview');
+---
+
+<SiteLayout
+  title="Learn Cabbage 3"
+  description="Eleven videos take you from a fresh install to a synth plugin with its own interface."
+  ogImage="/og/learn.png"
+>
+  <section class="cb-section cb-section--chrome">
+    <div class="container learn-head">
+      <div class="learn-head__text">
+        <h1 class="cb-title">Learn Cabbage 3</h1>
+        <p class="cb-lead">
+          Eleven videos take you from a fresh install to a synth plugin with its own interface. Start with the overview,
+          then work through the lessons in order.
+        </p>
+        <div class="learn-head__links">
+          <a class="textlink" href={site.playlistUrl}>Full playlist on YouTube</a>
+          <a class="textlink" href="/docs/">Prefer reading? Open the docs</a>
+        </div>
+      </div>
+      {overview && <VideoCard video={overview} featured embed />}
+    </div>
+  </section>
+
+  <section class="cb-section">
+    <div class="container learn-lessons">
+      <h2>The ten lessons</h2>
+      <ol role="list">
+        {
+          lessons.map((video) => (
+            <li>
+              <VideoCard video={video} embed />
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="cb-section cb-section--chrome">
+    <div class="container learn-forum">
+      <div>
+        <h2 class="cb-h3-lg">Got a question the videos do not answer?</h2>
+        <p class="cb-muted">
+          Ask on the forum. It is where Cabbage users and developers trade fixes, recipes and finished plugins.
+        </p>
+      </div>
+      <Button href={site.forumUrl} variant="quiet">Go to the forum</Button>
+    </div>
+  </section>
+</SiteLayout>
+
+<script>
+  import '../scripts/video-embed.js';
+</script>
+
+<style>
+  .learn-head {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr));
+    gap: 32px 64px;
+    align-items: center;
+    padding-block: clamp(40px, 5vw, 64px);
+  }
+  .learn-head__text {
+    min-width: 0;
+  }
+  .learn-head .cb-lead {
+    max-width: 520px;
+    margin-top: 16px;
+  }
+  .learn-head__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 28px;
+    margin-top: 20px;
+  }
+
+  .learn-lessons {
+    padding-block: clamp(40px, 5vw, 64px) clamp(56px, 7vw, 96px);
+  }
+  .learn-lessons h2 {
+    font-size: clamp(1.625rem, 2.6vw, 2.125rem);
+    line-height: 1.1;
+    font-weight: 600;
+    font-stretch: var(--cb-stretch-h2);
+  }
+  .learn-lessons ol {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+    gap: 32px 20px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .learn-lessons li {
+    min-width: 0;
+  }
+
+  .learn-forum {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 40px;
+    padding-block: clamp(40px, 5vw, 64px);
+  }
+  .learn-forum > div {
+    min-width: 0;
+  }
+  .learn-forum p {
+    margin-top: 8px;
+  }
+</style>

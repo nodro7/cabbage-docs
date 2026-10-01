@@ -48,7 +48,7 @@ Can I sell plugins made with Cabbage?
 <summary>
 Do I need to know Csound?
 </summary>
-<p>Yes, if you want to write your own instruments. A Cabbage instrument is written in Csound, and its interface talks to that code through named channels. Lessons 3 to 6 of the <a href="/videos/">videos</a> cover the basics of Csound 7, and <a href="/docs/using/csound7/">Csound 7</a> lists what is new in the language.</p>
+<p>Yes, if you want to write your own instruments. A Cabbage instrument is written in Csound, and its interface talks to that code through named channels. Lessons 3 to 6 of the <a href="/learn/">videos</a> cover the basics of Csound 7, and <a href="/docs/using/csound7/">Csound 7</a> lists what is new in the language.</p>
 </details>
 
 <details>
