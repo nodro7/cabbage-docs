@@ -56,21 +56,22 @@ header.header {
 /* ---------- The frame ---------- */
 
 /*
- * On a window wider than 1440px the header row, the sidebar and the content
- * stay in one centred frame (--cb-frame, 90rem). The marketing header row
- * uses the same frame, so nothing in the header moves between the site and
- * the docs. The bar's background and the line under it still span the
- * window. The percentages are of the window width without its scrollbar.
+ * On a window wider than 1440px the header row, the sidebar's contents and
+ * the page content stay in one centred frame (--cb-frame, 90rem). The
+ * marketing header row uses the same frame, so nothing in the header moves
+ * between the site and the docs. The bar's background and the line under it
+ * still span the window. The percentages are of the window width without
+ * its scrollbar.
  */
 @media (min-width: 90rem) {
   header.header {
     padding-inline: calc((100% - var(--cb-frame)) / 2 + var(--sl-nav-pad-x));
   }
+  /* The sidebar stays against the window edge, so its colour runs all the
+     way to it. Only its contents move in, to line up with the wordmark. */
   .sidebar-pane {
-    inset-inline-start: calc((100% - var(--cb-frame)) / 2);
-    /* A line on the outer side too, now that there is page beside it. It is
-       a shadow so that the sidebar keeps its width. */
-    box-shadow: -1px 0 0 var(--cb-line);
+    width: calc((100% - var(--cb-frame)) / 2 + var(--sl-sidebar-width));
+    padding-inline-start: calc((100% - var(--cb-frame)) / 2);
   }
   .main-frame {
     padding-inline: calc((100% - var(--cb-frame)) / 2);
