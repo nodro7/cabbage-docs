@@ -103,6 +103,22 @@ Edit `src/styles/tokens.css`. The site, the docs and the code blocks all read fr
 
 The theme lives in `forum-theme/` and is installed by a forum admin, not by the site deploy. After a change, run `npm run forum-theme` and follow `forum-theme/README.md`. If a colour in `src/styles/tokens.css` changes, change it in the theme's palettes too.
 
+### Update the dependencies
+
+```bash
+npm outdated
+```
+
+Astro, Starlight and Expressive Code depend on each other, so update them together and read their upgrade guides first. Then run the checks:
+
+```bash
+npm run check
+```
+
+Run `npm run icons`, `npm run title-cards` and `npm run forum-theme` as well. They should leave `git status` clean. If a file changes, look at it before you commit it.
+
+`package.json` has one entry under `overrides`. The title card tool pins an old release of `fflate` that has a known advisory, and the entry lifts it to the fixed release. Remove the entry once `npm audit` stays clean without it.
+
 ## The release shown on the Install page
 
 The version number, date and download links are read from the GitHub releases of [rorywalsh/vscabbage](https://github.com/rorywalsh/vscabbage) when the site is built. Nothing is fetched in the visitor's browser. The site rebuilds every day, so a new release appears within a day, or at once if you run the deploy workflow by hand.

@@ -1,18 +1,36 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { satteri } from '@astrojs/markdown-satteri';
 import starlight from '@astrojs/starlight';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import { favicon, iconLinks } from './src/data/icons.mjs';
 import { redirects } from './src/data/redirects.mjs';
-import rehypeCalloutRole from './src/lib/rehype-callout-role.mjs';
+import calloutRole from './src/lib/callout-role.mjs';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://cabbageaudio.com',
 	// Old URLs keep working: Astro writes a small redirect page for each entry.
 	redirects,
+	// Spaces between inline elements are kept as written in the components.
+	// Astro 7's default strips them the way JSX does, which glues a word to
+	// the link or code element on the next line.
+	compressHTML: true,
 	markdown: {
-		rehypePlugins: [rehypeCalloutRole],
+		// Sätteri is Astro's Markdown processor. Starlight adds its own plugins
+		// (callouts, heading links) to whatever is configured here.
+		processor: satteri({ hastPlugins: [calloutRole()] }),
+	},
+	vite: {
+		build: {
+			rolldownOptions: {
+				// Astro marks each .mdx page with a "use astro:head-inject" directive
+				// for its own use, and the bundler then warns, once per page, that it
+				// drops it. Nothing needs the directive to survive, so that check is
+				// off and real warnings stay visible.
+				checks: { moduleLevelDirective: false },
+			},
+		},
 	},
 	integrations: [
 		starlight({
@@ -22,7 +40,7 @@ export default defineConfig({
 			disable404Route: true,
 			favicon,
 			head: [
-				...iconLinks.map((attrs) => ({ tag: 'link', attrs })),
+				...iconLinks.map((attrs) => ({ tag: /** @type {const} */ ('link'), attrs })),
 				// The social image for docs pages. A page can set its own in frontmatter.
 				{ tag: 'meta', attrs: { property: 'og:image', content: 'https://cabbageaudio.com/og/default.png' } },
 			],
@@ -66,10 +84,10 @@ export default defineConfig({
 				{ label: 'Introduction', slug: 'docs' },
 				{ label: 'What is new in v3', slug: 'docs/whats-new' },
 				{ label: 'FAQs', slug: 'docs/faqs' },
-				{ label: 'Using Cabbage 3', collapsed: true, autogenerate: { directory: 'docs/using' } },
-				{ label: 'Widgets', collapsed: true, autogenerate: { directory: 'docs/widgets' } },
-				{ label: 'Custom interfaces', collapsed: true, autogenerate: { directory: 'docs/custom-ui' } },
-				{ label: 'Opcodes', collapsed: true, autogenerate: { directory: 'docs/opcodes' } },
+				{ label: 'Using Cabbage 3', collapsed: true, items: [{ autogenerate: { directory: 'docs/using' } }] },
+				{ label: 'Widgets', collapsed: true, items: [{ autogenerate: { directory: 'docs/widgets' } }] },
+				{ label: 'Custom interfaces', collapsed: true, items: [{ autogenerate: { directory: 'docs/custom-ui' } }] },
+				{ label: 'Opcodes', collapsed: true, items: [{ autogenerate: { directory: 'docs/opcodes' } }] },
 			],
 		}),
 	],

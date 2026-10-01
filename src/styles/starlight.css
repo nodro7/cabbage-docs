@@ -110,24 +110,16 @@ site-search > button[data-open-modal]:hover {
   }
 }
 
-/* Menu button on narrow screens: same look as the header's icon button. */
-starlight-menu-button button {
+/* Menu button on narrow screens: same look as the header's icon button.
+   The sidebar is a popover, so "open" is the popover's state. */
+.sl-menu-button {
   border-radius: var(--cb-radius);
   background-color: transparent;
   color: var(--cb-muted);
   box-shadow: none;
 }
-starlight-menu-button button:hover,
-starlight-menu-button[aria-expanded='true'] button {
-  background-color: var(--cb-raise);
-  color: var(--cb-fg);
-}
-[data-theme='light'] starlight-menu-button button {
-  background-color: transparent;
-  color: var(--cb-muted);
-}
-[data-theme='light'] starlight-menu-button button:hover,
-[data-theme='light'] starlight-menu-button[aria-expanded='true'] button {
+.sl-menu-button:hover,
+.sl-menu-button:has(~ :popover-open) {
   background-color: var(--cb-raise);
   color: var(--cb-fg);
 }
@@ -174,7 +166,9 @@ starlight-menu-button[aria-expanded='true'] button {
   border-top: 0;
   padding-top: 1rem;
 }
-.content-panel:first-child {
+/* The first panel holds the title. Written this way, not with :first-child,
+   so a script or banner placed before it does not switch the rule off. */
+.content-panel:not(.content-panel ~ .content-panel) {
   padding-top: clamp(1.75rem, 4vw, 3rem);
   padding-bottom: 0;
 }

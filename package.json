@@ -14,17 +14,21 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.37.6",
-    "@expressive-code/plugin-line-numbers": "0.41.7",
+    "@astrojs/markdown-satteri": "^0.4.2",
+    "@astrojs/starlight": "^0.42.5",
+    "@expressive-code/plugin-line-numbers": "0.44.2",
     "@fontsource-variable/instrument-sans": "5.3.0",
     "@fontsource-variable/jetbrains-mono": "5.3.0",
-    "astro": "^5.6.1",
-    "astro-expressive-code": "0.41.7",
-    "sharp": "^0.34.2",
-    "starlight-llms-txt": "0.7.0"
+    "astro": "^7.3.5",
+    "astro-expressive-code": "0.44.2",
+    "sharp": "^0.35.5",
+    "starlight-llms-txt": "0.12.0"
   },
   "devDependencies": {
     "satori": "0.33.5",
     "subset-font": "2.9.0"
+  },
+  "overrides": {
+    "fflate": "0.7.5"
   }
 }
