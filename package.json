@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "check": "astro build && node scripts/check-links.mjs",
     "title-cards": "node scripts/title-cards.mjs",
+    "icons": "node scripts/icons.mjs",
     "astro": "astro"
   },
   "dependencies": {

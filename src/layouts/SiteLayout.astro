@@ -11,6 +11,7 @@ import sansFontUrl from '@fontsource-variable/instrument-sans/files/instrument-s
 import monoFontUrl from '@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2?url';
 import themeInit from '../scripts/theme-init.js?raw';
 
+import { favicon, iconLinks } from '../data/icons.mjs';
 import Footer from '../components/site/Footer.astro';
 import Header from '../components/site/Header.astro';
 import Meta from '../components/site/Meta.astro';
@@ -21,8 +22,9 @@ interface Props {
   description: string;
   ogImage?: string;
   fullTitle?: string;
+  noindex?: boolean;
 }
-const { title, description, ogImage = '/og/default.png', fullTitle } = Astro.props;
+const { title, description, ogImage = '/og/default.png', fullTitle, noindex } = Astro.props;
 ---
 
 <!doctype html>
@@ -31,8 +33,9 @@ const { title, description, ogImage = '/og/default.png', fullTitle } = Astro.pro
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline set:html={themeInit} />
-    <Meta title={title} description={description} ogImage={ogImage} fullTitle={fullTitle} />
-    <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+    <Meta title={title} description={description} ogImage={ogImage} fullTitle={fullTitle} noindex={noindex} />
+    <link rel="icon" href={favicon} type="image/svg+xml" />
+    {iconLinks.map((attrs) => <link {...attrs} />)}
     <link rel="preload" href={sansFontUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={monoFontUrl} as="font" type="font/woff2" crossorigin />
     <noscript>

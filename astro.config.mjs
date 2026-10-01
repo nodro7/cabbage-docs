@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightLlmsTxt from 'starlight-llms-txt';
+import { favicon, iconLinks } from './src/data/icons.mjs';
 import { redirects } from './src/data/redirects.mjs';
 
 // https://astro.build/config
@@ -13,8 +14,12 @@ export default defineConfig({
 		starlight({
 			title: 'Cabbage',
 			description: 'A framework for audio software development.',
-			// The social image for docs pages. A page can set its own in frontmatter.
+			// src/pages/404.astro is the page for every unknown address, docs included.
+			disable404Route: true,
+			favicon,
 			head: [
+				...iconLinks.map((attrs) => ({ tag: 'link', attrs })),
+				// The social image for docs pages. A page can set its own in frontmatter.
 				{ tag: 'meta', attrs: { property: 'og:image', content: 'https://cabbageaudio.com/og/default.png' } },
 			],
 			plugins: [

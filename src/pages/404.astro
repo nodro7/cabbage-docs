@@ -1,0 +1,58 @@
+---
+// The page for every unknown address, docs included. GitHub Pages serves it
+// from /404.html, so everything it links to uses a root-relative URL.
+import Button from '../components/site/Button.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { site } from '../data/site';
+---
+
+<SiteLayout title="Page not found" description="That page does not exist." noindex>
+  <section class="cb-section">
+    <div class="container notfound">
+      <p class="notfound__code">404</p>
+      <h1 class="cb-display">Nothing growing here.</h1>
+      <p class="cb-lead">
+        That page does not exist. If you followed an old link, it may have pointed at the Cabbage 2 site, which now
+        lives at v2.cabbageaudio.com.
+      </p>
+      <div class="notfound__actions">
+        <Button href="/">Go to the home page</Button>
+        <Button href="/docs/" variant="quiet">Search the docs</Button>
+        <a class="textlink" href={site.v2Url}>Open the Cabbage 2 site</a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .notfound {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 480px;
+    padding-block: clamp(56px, 8vw, 112px);
+  }
+  .notfound__code {
+    font-family: var(--cb-font-mono);
+    font-size: var(--cb-text-small);
+    color: var(--cb-green-text);
+  }
+  h1 {
+    margin-top: 12px;
+  }
+  .cb-lead {
+    max-width: 600px;
+    margin-top: 20px;
+  }
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+    margin-top: 32px;
+  }
+  .notfound__actions .textlink {
+    padding: 0 8px;
+  }
+</style>

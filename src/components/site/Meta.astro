@@ -10,8 +10,10 @@ interface Props {
   ogImage?: string;
   /** The whole <title>, when "Page | Cabbage" is not what is wanted. */
   fullTitle?: string;
+  /** Keeps the page out of search results. It then has no canonical URL either. */
+  noindex?: boolean;
 }
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, noindex = false } = Astro.props;
 const fullTitle = Astro.props.fullTitle ?? (title === site.name ? title : `${title} | ${site.name}`);
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const image = ogImage ? new URL(ogImage, Astro.site).href : undefined;
@@ -19,11 +21,11 @@ const image = ogImage ? new URL(ogImage, Astro.site).href : undefined;
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+{noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={site.name} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:url" content={canonical} />
+{!noindex && <meta property="og:url" content={canonical} />}
 {image && <meta property="og:image" content={image} />}
 <meta name="twitter:card" content="summary_large_image" />

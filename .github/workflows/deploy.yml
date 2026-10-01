@@ -1,0 +1,58 @@
+# Builds the site and publishes it to GitHub Pages.
+#
+# Runs on every push to main, once a day (so the Install page picks up new
+# Cabbage releases), and by hand from the Actions tab.
+#
+# One-time setup in the repository settings: Pages > Build and deployment >
+# Source: GitHub Actions. The custom domain comes from public/CNAME.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 05:17 UTC every day.
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. A run in progress is allowed to finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Lets the build read the latest release from the GitHub API without
+      # hitting the anonymous rate limit. If the request fails, the build
+      # uses src/data/release-fallback.json instead.
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Install, build, check links and upload the site
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+          # Builds the site, then fails the run if any internal link,
+          # redirect or sitemap entry is broken. Nothing is deployed then.
+          build-cmd: npm run check
+          # The build takes seconds; a fresh one each time avoids stale data.
+          cache: false
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

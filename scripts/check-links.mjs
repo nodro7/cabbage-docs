@@ -87,8 +87,6 @@ for (const file of pages) {
 				continue;
 			}
 			if (target.origin !== SITE) continue; // external
-			// The 404 page is served for any unknown path, so it has no URL of its own.
-			if (target.pathname === '/404/' || target.pathname === '/404') continue;
 			checked++;
 
 			const targetFile = resolve(target.pathname);
