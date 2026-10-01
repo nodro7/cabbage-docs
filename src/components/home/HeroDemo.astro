@@ -10,7 +10,16 @@
 import { Code } from 'astro-expressive-code/components';
 import SegmentedControl from '../site/SegmentedControl.astro';
 import { cabbageJson, mainJs, savoyCsd } from '../../data/hero-samples';
-import { curveFillPath, curvePath, cutoffText, knobDegrees, qText, resonanceText } from '../../scripts/filter-curve.js';
+import {
+  builtInArcPath,
+  curveFillPath,
+  curvePath,
+  cutoffNumber,
+  cutoffText,
+  knobDegrees,
+  qText,
+  resonanceNumber,
+} from '../../scripts/filter-curve.js';
 import '../../styles/hero-faces.css';
 
 const cutoff = 0.6;
@@ -100,26 +109,25 @@ const knobs = [
           </div>
         </div>
 
-        {/* TODO(G): this is a stand-in drawing of the built-in widgets. Replace it with an accurate recreation, or a screenshot of the real widgets, once one is supplied. */}
+        {/* The built-in widgets with their default styles, as cabbageJson in hero-samples.ts lays them out. */}
         <div class="stock" data-face-stock hidden>
-          <div class="stock__titlebar">Savoy</div>
-          <div class="stock__knobs">
-            {
-              knobs.map((knob) => (
-                <div class="stock__knobcol">
-                  <div class="knob knob--stock" data-knob={knob.name} data-label={knob.name}>
-                    <div class="knob__dial" data-dial style={`transform: rotate(${knobDegrees(knob.value)}deg)`}>
-                      <div class="knob__pointer" />
-                    </div>
-                  </div>
-                  <span>{knob.name}</span>
-                  <span class="stock__value" data-readout={knob.name}>
-                    {knob.name === 'cutoff' ? cutoffText(knob.value) : resonanceText(knob.value)}
-                  </span>
+          {
+            knobs.map((knob) => (
+              <div class="stock__widget">
+                <span class="stock__label">{knob.label}</span>
+                <div class="knob knob--stock" data-knob={knob.name} data-label={knob.label}>
+                  <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+                    <path class="stock__track" d={builtInArcPath(1)} />
+                    <path class="stock__arc" data-arc d={builtInArcPath(knob.value)} />
+                    <circle class="stock__thumb" cx="32" cy="32" r="19" />
+                  </svg>
                 </div>
-              ))
-            }
-          </div>
+                <span class="stock__value" data-readout={`${knob.name}-number`}>
+                  {knob.name === 'cutoff' ? cutoffNumber(knob.value) : resonanceNumber(knob.value)}
+                </span>
+              </div>
+            ))
+          }
         </div>
 
         <p class="demo__caption" data-caption>
@@ -433,51 +441,66 @@ const knobs = [
     background: var(--p-pointer);
   }
 
-  /* The built-in widgets: plain on purpose. */
+  /* The built-in widgets, as Cabbage draws them when the .csd sets no styles.
+     The colours and the font are the defaults listed on the widget pages
+     (properties/form.style.astro and rotarySlider.style.astro). The sizes
+     follow the form and the bounds in the JSON sample. */
   .stock {
     box-sizing: border-box;
-    width: 100%;
-    max-width: 440px;
-    margin: 0 auto;
-    border: 1px solid #555555;
-    background: #2b2b2b;
-    color: #dddddd;
-    font-family: system-ui, sans-serif;
-  }
-  .stock__titlebar {
-    padding: 6px 10px;
-    border-bottom: 1px solid #555555;
-    background: #202020;
-    font-size: 0.75rem;
-    line-height: 16px;
-  }
-  .stock__knobs {
     display: flex;
     justify-content: center;
-    gap: 48px;
-    padding: 40px 20px 36px;
+    gap: 40px;
+    width: 100%;
+    max-width: 440px;
+    height: 200px;
+    margin: 0 auto;
+    padding-top: 40px;
+    border-radius: 4px;
+    background: #004c6b;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+    line-height: 16px;
   }
-  .stock__knobcol {
+  .stock__widget {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    font-size: 0.75rem;
-    line-height: 16px;
+    justify-content: space-between;
+    width: 90px;
+    height: 110px;
+  }
+  .stock__label {
+    color: #dddddd;
+    text-align: center;
   }
   .stock__value {
-    color: #b5b5b5;
+    color: #aaaaaa;
   }
-  .knob--stock .knob__dial {
-    border: 2px solid #9a9a9a;
-    background: transparent;
+  .knob--stock {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
   }
-  .knob--stock .knob__pointer {
-    top: 6px;
-    width: 2px;
-    height: 22px;
-    margin-left: -1px;
-    border-radius: 0;
-    background: #dddddd;
+  .knob--stock svg {
+    display: block;
+    width: 64px;
+    height: 64px;
+  }
+  .stock__track,
+  .stock__arc {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+  .stock__track {
+    stroke: #393939;
+  }
+  .stock__arc {
+    stroke: #93d200;
+  }
+  .stock__thumb {
+    fill: #0295cf;
+    stroke: #525252;
+    stroke-width: 2;
   }
 </style>

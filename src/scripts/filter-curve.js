@@ -25,6 +25,28 @@ export const qText = (resonance) => `Q ${filterQ(resonance).toFixed(1)}`;
 /** Knob rotation: 270 degrees of travel, centred on straight up. */
 export const knobDegrees = (value) => Math.round(-135 + value * 270);
 
+/** The built-in widgets show plain numbers: "1262" for the cutoff in Hz. */
+export const cutoffNumber = (cutoff) => String(Math.round(cutoffHz(cutoff)));
+
+/** "0.500" */
+export const resonanceNumber = (resonance) => resonance.toFixed(3);
+
+/**
+ * The arc of a built-in rotary slider as an SVG path, for a 64 x 64 viewBox.
+ * It is centred, has a radius of 28 and covers 270 degrees, open at the
+ * bottom. It starts at the bottom left and runs clockwise for the given
+ * share of that sweep: 1 is the whole track, 0 is no arc at all.
+ */
+export function builtInArcPath(value) {
+	if (value <= 0) return '';
+	const point = (degrees) => {
+		const angle = (degrees * Math.PI) / 180;
+		return `${(32 + 28 * Math.cos(angle)).toFixed(2)} ${(32 + 28 * Math.sin(angle)).toFixed(2)}`;
+	};
+	const sweep = Math.min(1, value) * 270;
+	return `M${point(135)} A28 28 0 ${sweep > 180 ? 1 : 0} 1 ${point(135 + sweep)}`;
+}
+
 /**
  * The response curve as an SVG path, for a 400 x 130 viewBox: 81 points
  * across the frequency range, with the level clamped to -40 dB and +24 dB.

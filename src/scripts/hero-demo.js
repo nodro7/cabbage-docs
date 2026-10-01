@@ -7,7 +7,18 @@
 // Without this script the page shows the Ink interface and main.js, and the
 // switch is hidden.
 
-import { curveFillPath, curvePath, cutoffHz, cutoffText, knobDegrees, qText, resonanceText } from './filter-curve.js';
+import {
+	builtInArcPath,
+	curveFillPath,
+	curvePath,
+	cutoffHz,
+	cutoffNumber,
+	cutoffText,
+	knobDegrees,
+	qText,
+	resonanceNumber,
+	resonanceText,
+} from './filter-curve.js';
 
 const demo = document.querySelector('[data-demo]');
 
@@ -17,7 +28,7 @@ if (demo) {
 	const CUSTOM_FACES = ['bone', 'ink', 'pop'];
 	const CAPTIONS = {
 		custom: 'The same instrument with an interface of its own. It is a web page.',
-		stock: 'Built-in widgets: a few lines of JSON and you have sound. Plain on purpose.',
+		stock: 'Built-in widgets: a few lines of JSON and you have sound. Made for prototyping.',
 	};
 
 	const all = (selector) => [...demo.querySelectorAll(selector)];
@@ -62,12 +73,17 @@ if (demo) {
 		for (const knob of knobs) {
 			const name = knob.dataset.knob;
 			const param = PARAMS[name];
-			knob.querySelector('[data-dial]').style.transform = `rotate(${knobDegrees(state[name])}deg)`;
+			// A custom knob turns its pointer. A built-in one draws an arc.
+			const dial = knob.querySelector('[data-dial]');
+			if (dial) dial.style.transform = `rotate(${knobDegrees(state[name])}deg)`;
+			const arc = knob.querySelector('[data-arc]');
+			if (arc) arc.setAttribute('d', builtInArcPath(state[name]));
 			knob.setAttribute('aria-valuenow', String(param.now(state[name])));
 			knob.setAttribute('aria-valuetext', param.text(state[name]));
 		}
 		for (const el of all('[data-readout="cutoff"]')) el.textContent = cutoffText(state.cutoff);
-		for (const el of all('[data-readout="resonance"]')) el.textContent = resonanceText(state.resonance);
+		for (const el of all('[data-readout="cutoff-number"]')) el.textContent = cutoffNumber(state.cutoff);
+		for (const el of all('[data-readout="resonance-number"]')) el.textContent = resonanceNumber(state.resonance);
 		for (const el of all('[data-readout="q"]')) el.textContent = qText(state.resonance);
 
 		const line = curvePath(state.cutoff, state.resonance);

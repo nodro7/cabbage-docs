@@ -12,20 +12,20 @@ export const savoyCsd = `instr Savoy
   outs(sig, sig)
 endin`;
 
-/** Savoy.csd: the interface, as built-in widgets. */
+/** Savoy.csd: the interface, as built-in widgets. The Built-in face in HeroDemo.astro draws exactly this. */
 export const cabbageJson = `<Cabbage>{
   "pluginId": "Svoy",
   "widgets": [
     { "type": "form", "caption": "Savoy",
       "size": { "width": 440, "height": 200 } },
-    { "type": "rotarySlider", "channels": [ {
-      "id": "cutoff",
-      "range": { "min": 20, "max": 20000, "defaultValue": 1200 }
-    } ] },
-    { "type": "rotarySlider", "channels": [ {
-      "id": "resonance",
-      "range": { "min": 0, "max": 1, "defaultValue": 0.5 }
-    } ] }
+    { "type": "rotarySlider", "label": { "text": "Cutoff" },
+      "bounds": { "left": 110, "top": 40, "width": 90, "height": 110 },
+      "channels": [ { "id": "cutoff",
+      "range": { "min": 20, "max": 20000, "defaultValue": 1200 } } ] },
+    { "type": "rotarySlider", "label": { "text": "Resonance" },
+      "bounds": { "left": 240, "top": 40, "width": 90, "height": 110 },
+      "channels": [ { "id": "resonance",
+      "range": { "min": 0, "max": 1, "defaultValue": 0.5 } } ] }
   ]
 }</Cabbage>`;
 
