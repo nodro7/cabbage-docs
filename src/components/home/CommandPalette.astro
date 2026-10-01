@@ -37,7 +37,6 @@ const current = commands[defaultCommand];
                 data-link-href={command.link.href}
               >
                 <span>Cabbage: {command.title}</span>
-                {command.key && <span class="palette__key">{command.key}</span>}
               </button>
             ))
           }
@@ -127,8 +126,6 @@ const current = commands[defaultCommand];
   .palette__command {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
     box-sizing: border-box;
     width: 100%;
     min-height: var(--cb-target);
@@ -147,12 +144,6 @@ const current = commands[defaultCommand];
   }
   .palette__command[aria-pressed='true'] {
     background: var(--cb-raise);
-  }
-  .palette__key {
-    font-family: var(--cb-font-mono);
-    font-size: 0.75rem;
-    color: var(--cb-muted);
-    white-space: nowrap;
   }
   .palette__detail {
     display: flex;

@@ -17,8 +17,7 @@ export const install = {
 	// Set this to true to remove the unsigned-installer notes for macOS and Windows.
 	installersSigned: false,
 
-	// TODO(G): the exact label of the status bar item that starts the server.
-	// The docs call it "Run Cabbage".
+	// The status bar item that starts the server.
 	statusBarLabel: 'Run Cabbage',
 };
 
@@ -31,8 +30,8 @@ export type System = {
 	csoundNote?: string;
 	/** An unsigned-installer note: left out when installersSigned is true. */
 	noteIsAboutSigning?: boolean;
-	/** A command to run in a terminal, shown with the note. */
-	command?: { intro: string; text: string };
+	/** The number of a lesson in src/data/videos.ts that shows the steps in the note. */
+	noteLesson?: number;
 };
 
 export const systems: System[] = [
@@ -43,10 +42,7 @@ export const systems: System[] = [
 		csoundNote:
 			'The Csound installer is not code-signed yet. If macOS blocks it, open System Settings, go to Privacy & Security, scroll to the bottom and choose Open Anyway.',
 		noteIsAboutSigning: true,
-		command: {
-			intro: 'You may also need to sign the Csound framework yourself. Run this in Terminal:',
-			text: 'codesign -s - /Applications/Csound/CsoundLib64.framework --timestamp --force --deep',
-		},
+		noteLesson: 1,
 	},
 	{
 		id: 'windows',

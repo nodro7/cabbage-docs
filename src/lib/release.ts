@@ -32,8 +32,8 @@ export type Release = {
 
 const API_URL = 'https://api.github.com/repos/rorywalsh/vscabbage/releases?per_page=10';
 
-// TODO(G): asset names are matched as vscabbage-<version>-<os>.vsix, which is
-// how the alpha releases are named. Confirm the naming for stable releases.
+// Release assets are named vscabbage-<version>-<os>.vsix, with windows,
+// macos or linux as the system.
 const ASSET_PATTERN = /-(windows|macos|linux)\.vsix$/i;
 
 type GitHubAsset = { name: string; size: number; browser_download_url: string };

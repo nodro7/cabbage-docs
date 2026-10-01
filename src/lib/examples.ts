@@ -2,9 +2,8 @@
 // docs pages render them with <ExampleCode> and link to them for download
 // with <WidgetExample>, so the page and the file are always the same text.
 //
-// TODO(G): pluginId sits at the top level of each example, as the widgets
-// overview documents. If Rory decides it belongs in the form widget, run
-// `node scripts/examples.mjs plugin-id form`.
+// pluginId sits at the top level of each example, as the widgets overview
+// documents.
 
 const files = import.meta.glob<string>('/public/examples/*.csd', {
 	query: '?raw',

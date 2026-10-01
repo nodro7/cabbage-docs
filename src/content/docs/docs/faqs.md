@@ -36,12 +36,12 @@ Who makes Cabbage?
 <p>Cabbage is developed by Rory Walsh. You can reach him, and other Cabbage users, on the <a href="https://forum.cabbageaudio.com/">forum</a>.</p>
 </details>
 
-<!-- TODO(G): the next answer touches on licence terms. Confirm it with Rory before launch. It says no more than the Home page does. -->
+<!-- TODO(G): wording awaiting Rory's approval. -->
 <details>
 <summary>
 Can I sell plugins made with Cabbage?
 </summary>
-<p>Instruments you build with Cabbage are yours to distribute and sell. In a standard export, end users can read your Csound code. If you need to ship it encrypted, Cabbage Pro adds protected exports. Message rorywalsh on the <a href="https://forum.cabbageaudio.com/">forum</a> for details.</p>
+<p>Yes, you can sell instruments built with Cabbage. Two things to know first: the Cabbage framework inside every exported plugin is GPLv3, and in a standard export end users can read your Csound code. For protected exports and commercial terms, message rorywalsh on the <a href="https://forum.cabbageaudio.com/">forum</a> about Cabbage Pro.</p>
 </details>
 
 <details>
@@ -58,10 +58,9 @@ Why Csound?
 <p>Csound is one of the oldest and most extensive audio programming languages, and it is still actively developed. Cabbage 3 is built on Csound 7, its latest major release.</p>
 </details>
 
-<!-- TODO(G): MIT is used for now. Confirm the licence with Rory before launch. -->
 <details>
 <summary>
 Where is the source code?
 </summary>
-<p>The Cabbage extension for VS Code is developed in the open on <a href="https://github.com/rorywalsh/vscabbage">GitHub</a>. Cabbage 3 is open source, released under the MIT licence.</p>
+<p>The Cabbage extension for VS Code is developed in the open on <a href="https://github.com/rorywalsh/vscabbage">GitHub</a>. Cabbage 3 is open source. The extension is MIT, the framework is GPLv3.</p>
 </details>

@@ -12,6 +12,7 @@ import SegmentedControl from '../components/site/SegmentedControl.astro';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { install, systems } from '../data/install';
 import { site } from '../data/site';
+import { videos, watchUrl } from '../data/videos';
 import { formatDate, formatSize, getRelease } from '../lib/release';
 
 const release = await getRelease();
@@ -73,6 +74,7 @@ const viaMarketplace = install.marketplaceUrl !== '';
           systems.map((system) => {
             const asset = release.source === 'github' ? release.assets[system.id] : null;
             const showNote = system.csoundNote && !(system.noteIsAboutSigning && install.installersSigned);
+            const noteVideo = videos.find((video) => video.lesson === system.noteLesson);
             return (
               <section class="install-os" data-os={system.id} aria-labelledby={`install-${system.id}`}>
                 <h2 class="install-os__title" id={`install-${system.id}`}>
@@ -89,13 +91,15 @@ const viaMarketplace = install.marketplaceUrl !== '';
                     </Button>
                     {showNote && (
                       <div class="install-note">
-                        <p>{system.csoundNote}</p>
-                        {system.command && (
-                          <>
-                            <p>{system.command.intro}</p>
-                            <pre class="install-command" tabindex="0"><code>{system.command.text}</code></pre>
-                          </>
-                        )}
+                        <p>
+                          {system.csoundNote}
+                          {noteVideo && (
+                            <>
+                              Lesson {noteVideo.lesson}, <a href={watchUrl(noteVideo)}>{noteVideo.title}</a>, shows the
+                              steps.
+                            </>
+                          )}
+                        </p>
                       </div>
                     )}
                   </Step>
@@ -287,21 +291,6 @@ const viaMarketplace = install.marketplaceUrl !== '';
     background: var(--cb-chrome);
     font-size: var(--cb-text-body-sm);
     color: var(--cb-muted);
-  }
-  .install-note p + p {
-    margin-top: 12px;
-  }
-  .install-command {
-    margin: 8px 0 0;
-    padding: 10px 14px;
-    overflow-x: auto;
-    border: 1px solid var(--cb-line);
-    border-radius: var(--cb-radius);
-    background: var(--cb-bg);
-    font-size: var(--cb-text-code);
-    line-height: 22px;
-    white-space: nowrap;
-    color: var(--cb-fg);
   }
 
   .install-download {
