@@ -42,14 +42,14 @@ cabbageSet:k(kTrig, SChannel, SProperty, kValue[])
         { "type": "form", "caption": "GetSet Opcodes", "size": {"height": 500, "width": 580} },
         {
             "type"   : "rotarySlider",
-            "channel": "gain",
+            "channels": [{"event": "valueChanged", "id": "gain", "range": {"min": 0, "max": 2, "defaultValue": 1, "skew": 1, "increment": 0.1}}],
             "bounds" : {"left": 150, "top": 10, "width": 100, "height": 100},
             "range"  : {"min": 0, "max": 2, "defaultValue": 1, "skew": 1, "increment": 0.1},
             "text"   : "Gain"
         },
         {
             "type"   : "button",
-            "channel": "button1",
+            "channels": [{"event": "valueChanged", "id": "button1"}],
             "bounds" : {"left": 0, "top": 10, "width": 100, "height": 30},
             "colour" : {
                 "on" : { "fill": [255, 0, 0] },
@@ -60,13 +60,13 @@ cabbageSet:k(kTrig, SChannel, SProperty, kValue[])
         {
             "type"      : "textEditor",
             "bounds"    : {"left": 17, "top": 169, "width": 341, "height": 40},
-            "channel"   : "infoText",
+            "channels"   : [{"event": "valueChanged", "id": "infoText"}],
             "readOnly"  : 1,
             "wrap"      : 1,
             "scrollbars": 1,
             "text"      : "This instrument shows an example..."
         },
-        { "type": "comboBox", "channel": "combo1", "bounds": {"left": 200, "top": 200, "width": 100, "height": 30}, "items": ["One", "Two", "Three"] }
+        { "type": "comboBox", "channels": [{"event": "valueChanged", "id": "combo1"}], "bounds": {"left": 200, "top": 200, "width": 100, "height": 30}, "items": ["One", "Two", "Three"] }
     ]
 }
 

@@ -9,7 +9,7 @@ import Callout from '../docs/Callout.astro';
     {
         "id": "channelName",
         "label": { "name": "Channel Name", "prefix": "", "suffix": "" },
-        "eventType": "valueChanged",
+        "event": "valueChanged",
         "type": "number",
         "range": {"min":0, "max":100, "defaultValue":0, "skew":1, "increment":0.1}
     }
@@ -20,7 +20,7 @@ import Callout from '../docs/Callout.astro';
     In Cabbage 3, widgets use an array of channels instead of a single channel string. Each channel object includes an
     <code>id</code> that defines a unique channel name. Widgets in Cabbage 3 can have any number of channels attached to
     them. An optional <code>label</code> object controls how the parameter appears in DAW parameter editors and
-    automation lanes; if omitted, the <code>id</code> is used. An optional <code>eventType</code> property specifies the
+    automation lanes; if omitted, the <code>id</code> is used. An optional <code>event</code> property specifies the type of interaction.
     type of interaction. A <code>range</code> object can define the minimum, maximum, and default values, along with the
     skew and step increment. The <code>type</code> is set to <code>number</code> by default. Each widget sets its own
     type, <code>number</code> or <code>string</code>. A <code>"string"</code> channel carries text (readable with the

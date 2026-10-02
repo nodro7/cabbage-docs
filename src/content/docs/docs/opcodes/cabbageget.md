@@ -3,15 +3,16 @@ title: "cabbageGet"
 description: "Queries the current value of a widget property."
 ---
 
-This opcode queries the current value of a widget property, i.e,`colour`, `bounds.top`, `height`, etc. It can run at init-time or k-time and includes an optional output argument that triggers a value of 1 for one k-cycle whenever the widget value is updated or changed.
+This opcode queries the current value of a widget property, i.e,`colour`, `bounds.top`, `height`, etc. It can run at init-time or k-time and includes an optional output argument that triggers a value of 1 for one k-cycle whenever the widget value is updated or changed. String results can also be returned as a single [built-in trigger struct](/docs/using/csound7/#built-in-trigger-structs) variable.
 
 ## Syntax
 ```csound
 value:k = cabbageGet(SChannel, SProperty)
 value:i = cabbageGet(SChannel, SProperty)
 value:S = cabbageGet(SChannel, SProperty)
-value:k [, kTrig] = cabbageGet(SChannel, SProperty)
-value:k [, kTrig] = cabbageGet(SChannel, SProperty)
+value:k, kTrig = cabbageGet(SChannel, SProperty)
+value:S, kTrig = cabbageGet(SChannel, SProperty)
+res:CabbageStrTrig = cabbageGet(SChannel, SProperty)
 ```
 
 ### Initialization
@@ -23,15 +24,15 @@ value:k [, kTrig] = cabbageGet(SChannel, SProperty)
 * *kValue* - the current value of the widget property
 * *SValue* - the current string value of the widget property
 * *kTrig* - a trigger signal that will return 1 for a single k-cycle whenever the value has been updated/changed
+* *res:CabbageStrTrig* - `res.val` mirrors *SValue* and `res.trig` mirrors *kTrig*. k-rate only; the trigger fires when the property value changes.
 
 ## Example
-
-<!-- TODO(G): the example below calls cabbageGetValue, not cabbageGet. Rory to supply an example for this opcode. -->
 
 ```csound
 <Cabbage>[
     {"type":"form","caption":"Simple Instrument","size":{"width":1000,"height":520},"pluginId":"RMSy"},
-    {"type":"rotarySlider", "channel":"gain", "bounds":{"left":150, "top":10, "width":100, "height":100}, "range":{"min":0, "max":2, "value":1, "skew":1, "increment":0.1}, "text":"Gain"},
+    {"type":"rotarySlider", "channels":[{"event":"valueChanged", "id":"gain", "range":{"min":0, "max":2, "value":1, "skew":1, "increment":0.1}}], "bounds":{"left":150, "top": 10, "width":100, "height":100}, "text":"Gain"},
+    {"type":"label", "channels":[{"event":"valueChanged", "id":"status"}], "bounds":{"left":150, "top": 130, "width":300, "height":30}, "text":"idle"}
 ]
 </Cabbage>
 <CsoundSynthesizer>
@@ -44,15 +45,28 @@ ksmps = 16
 nchnls = 2
 0dbfs = 1
 
-instr 1 
-    kSliderValue, kTrig cabbageGetValue "gain"
-    //print value of 'gain' slider each time its updated
-    printf "Value of %s widget is now %f", kTrig, kSliderValue
+instr 1
+    ; read a widget property as a string
+    SStatus cabbageGet "status", "text"
+    printf "status label now reads %s\n", 1, SStatus
+
+    ; the same query using a trigger struct: fires when the text changes
+    res:CabbageStrTrig cabbageGet "gain", "text"
+    if res.trig == 1 then
+        printf "gain label changed to %s\n", 1, res.val
+    endif
 endin
 
-</CsInstruments>  
+instr 2
+    ; change the property so the trigger above fires
+    cabbageSet "status", "text", "running"
+endin
+
+</CsInstruments>
 <CsScore>
 i1 0 z
+i2 1 1
 </CsScore>
 </CsoundSynthesizer>
 ```
+

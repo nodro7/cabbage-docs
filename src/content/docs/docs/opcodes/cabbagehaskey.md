@@ -24,7 +24,7 @@ hasKey:k = cabbageHasKey(SChannel, SProperty)
 ```csound
 <Cabbage>[
     {"type":"form","caption":"Simple Instrument","size":{"width":600,"height":300},"pluginId":"HKey"},
-    {"type":"rotarySlider","channel":"gain","bounds":{"left":100,"top":50,"width":100,"height":100},"range":{"min":0,"max":1,"value":0.5},"text":"Gain"}
+    {"type":"rotarySlider","channels":[{"event":"valueChanged","id":"gain","range":{"min":0,"max":1,"value":0.5}}],"bounds":{"left":100,"top":50,"width":100,"height":100},"range":{"min":0,"max":1,"value":0.5},"text":"Gain"}
 ]
 </Cabbage>
 <CsoundSynthesizer>

@@ -76,7 +76,7 @@
 <CsoundSynthesizer>
 <CsOptions>
 -n -d
-</CsOptions>
+</CsOptions>e
 <CsInstruments>
 ; Initialize the global variables.
 ksmps = 16

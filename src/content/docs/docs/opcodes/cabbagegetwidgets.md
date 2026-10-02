@@ -19,8 +19,8 @@ SWidgetIds[] = cabbageGetWidgets()
 ```csound
 <Cabbage>[
     {"type":"form","caption":"Simple Instrument","size":{"width":600,"height":300},"pluginId":"GWdt"},
-    {"type":"rotarySlider","channel":"gain","bounds":{"left":50,"top":50,"width":100,"height":100},"range":{"min":0,"max":1,"value":0.5},"text":"Gain"},
-    {"type":"button","channel":"trigger","bounds":{"left":200,"top":80,"width":80,"height":40},"text":{"on":"On","off":"Off"}}
+    {"type":"rotarySlider","channels":[{"event":"valueChanged","id":"gain","range":{"min":0,"max":1,"value":0.5}}],"bounds":{"left":50,"top":50,"width":100,"height":100},"range":{"min":0,"max":1,"value":0.5},"text":"Gain"},
+    {"type":"button","channels":[{"event":"valueChanged","id":"trigger"}],"bounds":{"left":200,"top":80,"width":80,"height":40},"text":{"on":"On","off":"Off"}}
 ]
 </Cabbage>
 <CsoundSynthesizer>
