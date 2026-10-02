@@ -1,0 +1,8 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Index is used internally to track the widget's position in arrays or lists. It is typically set to 0 and not usually modified by users.</p>`;
+---
+<div class="property-section">
+  <Code code={`"index": 0`} lang="json" />
+  <Fragment set:html={description} />
+</div>
