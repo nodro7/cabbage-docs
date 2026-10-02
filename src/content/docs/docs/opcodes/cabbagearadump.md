@@ -43,13 +43,13 @@ The output includes:
 ```csound
 ; Dump once at init
 instr 1
-  cabbageAraDump
+  cabbageAraDump()
 endin
 
 ; Dump on each ARA update
 instr 2
-  kTrig cabbageAraGetUpdate
-  cabbageAraDump kTrig
+  trig:k = cabbageAraGetUpdate()
+  cabbageAraDump(trig)
 endin
 ```
 

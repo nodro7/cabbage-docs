@@ -25,16 +25,16 @@ If you also need to know *what kind of event* fired (for example `"audioSourceAd
 
 ```csound
 instr 1
-  kTrig cabbageAraGetUpdate
-  if kTrig == 1 then
+  trig:k = cabbageAraGetUpdate()
+  if trig == 1 then
     event "i", "ReadAraData", 0, 0.001
   endif
 endin
 
 instr ReadAraData
-  iIdx  cabbageAraGet "currentIndex"
-  iCnt  cabbageAraGet "audioSourceCount"
-  prints("update: source %d of %d\n", iIdx, iCnt)
+  idx:i = cabbageAraGet("currentIndex")
+  cnt:i = cabbageAraGet("audioSourceCount")
+  prints("update: source %d of %d\n", idx, cnt)
 endin
 ```
 

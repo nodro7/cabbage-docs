@@ -35,9 +35,9 @@ Only instruments running inside a host with ARA support see non-empty events. Ou
 
 ```csound
 instr 1
-  SEvent, kTrig cabbageAraGetUpdateEvent
-  if kTrig == 1 then
-    printf "ARA event: %s\n", 1, SEvent
+  event:S, trig:k = cabbageAraGetUpdateEvent()
+  if trig == 1 then
+    printf "ARA event: %s\n", 1, event
   endif
 endin
 ```
@@ -46,7 +46,7 @@ The struct form compiles the two outputs into a single variable:
 
 ```csound
 instr 1
-  res:CabbageStrTrig cabbageAraGetUpdateEvent
+  res:CabbageStrTrig  = cabbageAraGetUpdateEvent()
   if res.trig == 1 then
     printf "ARA event: %s\n", 1, res.val
   endif
