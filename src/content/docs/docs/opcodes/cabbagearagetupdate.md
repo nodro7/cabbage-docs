@@ -7,7 +7,7 @@ Returns a trigger that is `1` for a single k-cycle whenever ARA model data chang
 
 ## Syntax
 ```csound
-kTrig cabbageAraGetUpdate
+kTrig = cabbageAraGetUpdate()
 ```
 
 ### Performance

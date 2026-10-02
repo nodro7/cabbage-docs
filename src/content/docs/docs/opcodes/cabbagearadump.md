@@ -5,7 +5,7 @@ description: "Print the entire ARA state to the Csound output for diagnostics"
 
 Prints a formatted dump of the entire ARA data pool to the Csound output. Useful for debugging and understanding the state of the ARA document model. Supports two output modes: detailed property dump and ASCII timeline view.
 
-## Synopsis
+## Syntax
 
 ```csound
 cabbageAraDump()                             ; i-rate: dump once on init
@@ -109,7 +109,7 @@ It is also quite simple to iterate over the global ARA pool manually by accessin
 
 ```csound
 instr ShowAllInfo
-    cabbageAraDump
+    cabbageAraDump()
     ; --- Top-level state ---
     idx:i      = cabbageAraGet("currentIndex")
     srcCnt:i   = cabbageAraGet("audioSourceCount")

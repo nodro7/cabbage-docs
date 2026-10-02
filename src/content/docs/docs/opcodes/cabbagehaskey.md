@@ -22,10 +22,27 @@ hasKey:k = cabbageHasKey(SChannel, SProperty)
 ## Example
 
 ```csound
-<Cabbage>[
-    {"type":"form","caption":"Simple Instrument","size":{"width":600,"height":300},"pluginId":"HKey"},
-    {"type":"rotarySlider","channels":[{"event":"valueChanged","id":"gain","range":{"min":0,"max":1,"value":0.5}}],"bounds":{"left":100,"top":50,"width":100,"height":100},"range":{"min":0,"max":1,"value":0.5},"text":"Gain"}
-]
+<Cabbage>
+{
+    "pluginId"      : "HKey",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Simple Instrument", "size": {"width": 600, "height": 300} },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 100, "top": 50, "width": 100, "height": 100},
+            "channels": [
+                {
+                    "id"   : "gain",
+                    "event": "valueChanged",
+                    "range": {"min": 0, "max": 1, "defaultValue": 0.5, "skew": 1, "increment": 0.001}
+                }
+            ],
+            "text"   : "Gain"
+        }
+    ]
+}
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>

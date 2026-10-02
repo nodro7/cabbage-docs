@@ -5,11 +5,11 @@ description: "Return the entire ARA state as a JSON string"
 
 Returns the complete ARA data pool as a JSON string. Useful for passing ARA state directly to a web frontend or other JSON consumers.
 
-## Synopsis
+## Syntax
 
 ```csound
-SJson cabbageAraGetStateJson                     ; i-rate: dump once on init
-SJson cabbageAraGetStateJson kTrig               ; k-rate: dump on trigger
+SJson = cabbageAraGetStateJson()                  ; i-rate: dump once on init
+SJson = cabbageAraGetStateJson(kTrig)             ; k-rate: dump on trigger
 ```
 
 ## Description
@@ -75,21 +75,21 @@ The **k-rate** version takes a trigger signal and returns a fresh JSON string ea
 ```csound
 ; Get JSON once at init
 instr 1
-  SJson cabbageAraGetStateJson
+  SJson = cabbageAraGetStateJson()
   printks "JSON: %s\n", 1, SJson
 endin
 
 ; Get JSON on each ARA update
 instr 2
-  kTrig cabbageAraGetUpdate
-  SJson cabbageAraGetStateJson kTrig
+  kTrig = cabbageAraGetUpdate()
+  SJson = cabbageAraGetStateJson(kTrig)
 endin
 
 ; Write JSON to a file for a web frontend
 instr 3
-  kTrig cabbageAraGetUpdate
+  kTrig = cabbageAraGetUpdate()
   if kTrig > 0 then
-    SJson cabbageAraGetStateJson kTrig
+    SJson = cabbageAraGetStateJson(kTrig)
     fprintk 2, SJson  ; print to stderr or a file
   endif
 endin

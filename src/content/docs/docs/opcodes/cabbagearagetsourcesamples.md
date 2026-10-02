@@ -4,13 +4,13 @@ description: "Reads PCM audio data from an ARA source."
 ---
 
 Reads PCM audio data from an ARA source. Available in four variants: a-rate (audio output), k-rate (k-rate output), k-array, and i-array.
-
 ## Syntax
+
 ```csound
-aOut cabbageAraGetSourceSamples aPos, iChan, iSourceIndex
-kOut cabbageAraGetSourceSamples kPos, iChan, iSourceIndex
-kSamples[] cabbageAraGetSourceSamples iStart, iCount, iChan, iSourceIndex
-iSamples[] cabbageAraGetSourceSamples iStart, iCount, iChan, iSourceIndex
+aOut = cabbageAraGetSourceSamples(aPos, iChan, iSourceIndex)
+kOut = cabbageAraGetSourceSamples(kPos, iChan, iSourceIndex)
+kSamples[] = cabbageAraGetSourceSamples(iStart, iCount, iChan, iSourceIndex)
+iSamples[] = cabbageAraGetSourceSamples(iStart, iCount, iChan, iSourceIndex)
 ```
 
 ### Initialization
@@ -36,14 +36,14 @@ Sample positions outside the valid range return 0. Prints warnings if the source
 
 ```csound
 instr 1
-  iIndex cabbageAraGet "currentIndex"
+  iIndex = cabbageAraGet("currentIndex")
 
   ; Read first 100 samples from channel 0 as an array
-  iSamples[] cabbageAraGetSourceSamples 0, 100, 0, iIndex
+  iSamples[] = cabbageAraGetSourceSamples(0, 100, 0, iIndex)
 
   ; Or read sample-by-sample at audio rate
   aphase phasor sr
-  aOut cabbageAraGetSourceSamples aphase, 0, iIndex
+  aOut = cabbageAraGetSourceSamples(aphase, 0, iIndex)
 endin
 ```
 

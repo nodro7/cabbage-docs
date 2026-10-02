@@ -17,11 +17,33 @@ SWidgetIds[] = cabbageGetWidgets()
 ## Example
 
 ```csound
-<Cabbage>[
-    {"type":"form","caption":"Simple Instrument","size":{"width":600,"height":300},"pluginId":"GWdt"},
-    {"type":"rotarySlider","channels":[{"event":"valueChanged","id":"gain","range":{"min":0,"max":1,"value":0.5}}],"bounds":{"left":50,"top":50,"width":100,"height":100},"range":{"min":0,"max":1,"value":0.5},"text":"Gain"},
-    {"type":"button","channels":[{"event":"valueChanged","id":"trigger"}],"bounds":{"left":200,"top":80,"width":80,"height":40},"text":{"on":"On","off":"Off"}}
-]
+<Cabbage>
+{
+    "pluginId"      : "GWdt",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Simple Instrument", "size": {"width": 600, "height": 300} },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 50, "top": 50, "width": 100, "height": 100},
+            "channels": [
+                {
+                    "id"   : "gain",
+                    "event": "valueChanged",
+                    "range": {"min": 0, "max": 1, "defaultValue": 0.5, "skew": 1, "increment": 0.001}
+                }
+            ],
+            "text"   : "Gain"
+        },
+        {
+            "type"    : "button",
+            "bounds"  : {"left": 200, "top": 80, "width": 80, "height": 40},
+            "channels": [ {"id": "trigger", "event": "valueChanged"} ],
+            "label"   : { "text": {"on": "On", "off": "Off"} }
+        }
+    ]
+}
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>

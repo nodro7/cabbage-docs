@@ -31,10 +31,27 @@ res:CabbageStrTrig = cabbageGetValue(SChannel)
 ## Example:
 
 ```csound
-<Cabbage>[
-    {"type":"form","caption":"Simple Instrument","size":{"width":1000,"height":520},"pluginId":"RMSy"},
-    {"type":"rotarySlider", "channels":[{"event":"valueChanged", "id":"gain", "range":{"min":0, "max":2, "value":1, "skew":1, "increment":0.1}}], "bounds":{"left":150, "top": 10, "width":100, "height":100}, "text":"Gain"},
-]
+<Cabbage>
+{
+    "pluginId"      : "RMSy",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Simple Instrument", "size": {"width": 1000, "height": 520} },
+        {
+            "type"    : "rotarySlider",
+            "bounds"  : {"left": 150, "top": 10, "width": 100, "height": 100},
+            "channels": [
+                {
+                    "id"   : "gain",
+                    "event": "valueChanged",
+                    "range": {"min": 0, "max": 2, "defaultValue": 1, "skew": 1, "increment": 0.1}
+                }
+            ],
+            "text"   : "Gain"
+        }
+    ]
+}
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>
