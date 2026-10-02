@@ -7,7 +7,7 @@ Returns the type of the most recent ARA lifecycle event together with a trigger 
 
 ## Syntax
 ```csound
-SEvent, kTrig = cabbageAraGetUpdateEvent()
+event:S, trig:k = cabbageAraGetUpdateEvent()
 res:CabbageStrTrig = cabbageAraGetUpdateEvent()
 ```
 

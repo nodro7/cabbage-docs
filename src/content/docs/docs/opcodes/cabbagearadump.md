@@ -111,8 +111,8 @@ It is also quite simple to iterate over the global ARA pool manually by accessin
 instr ShowAllInfo
     cabbageAraDump()
     ; --- Top-level state ---
-    idx:i      = cabbageAraGet("currentIndex")
-    srcCnt:i   = cabbageAraGet("audioSourceCount")
+    idx:i = cabbageAraGet("currentIndex")
+    srcCnt:i = cabbageAraGet("audioSourceCount")
     lastEvent:S = cabbageAraGet("lastEvent")
 
     ; Print the header block
@@ -122,16 +122,16 @@ instr ShowAllInfo
     printfi("[Status]  Last Event:   %s\n", 1, lastEvent)
 
     ; --- Selection properties ---
-    regCnt:i    = cabbageAraGet("playbackRegionCount")
-    mcCnt:i     = cabbageAraGet("musicalContextCount")
-    rsCnt:i     = cabbageAraGet("regionSequenceCount")
-    modCnt:i    = cabbageAraGet("audioModificationCount")
+    regCnt:i = cabbageAraGet("playbackRegionCount")
+    mcCnt:i = cabbageAraGet("musicalContextCount")
+    rsCnt:i = cabbageAraGet("regionSequenceCount")
+    modCnt:i = cabbageAraGet("audioModificationCount")
     selRegCnt:i = cabbageAraGet("editorView.selectedPlaybackRegionCount")
     printfi("[Metrics] Sources: %d  |  Regions: %d  |  Contexts: %d  |  Sequences: %d  |  Modifications: %d  |  Selected: %d  |  Current Index: %d\n", 1, srcCnt, regCnt, mcCnt, rsCnt, modCnt, selRegCnt, idx)
 
     ; --- Time Range Calculations ---
     trStart:i = cabbageAraGet("editorView.timeRange.start")
-    trDur:i   = cabbageAraGet("editorView.timeRange.duration")
+    trDur:i = cabbageAraGet("editorView.timeRange.duration")
     printfi("[Time]    Host Range:   %.3f to %.3f (%.3fs)\n\n", 1, trStart, trStart + trDur, trDur)
 
     ; --- Musical Contexts Loop ---
@@ -141,11 +141,11 @@ instr ShowAllInfo
     else
         mcIdx:i = 0
         while mcIdx < mcCnt do
-            mcName:S  = cabbageAraGet("musicalContext.name", mcIdx)
+            mcName:S = cabbageAraGet("musicalContext.name", mcIdx)
             mcOrder:i = cabbageAraGet("musicalContext.orderIndex", mcIdx)
-            mcColR:i  = cabbageAraGet("musicalContext.color.r", mcIdx)
-            mcColG:i  = cabbageAraGet("musicalContext.color.g", mcIdx)
-            mcColB:i  = cabbageAraGet("musicalContext.color.b", mcIdx)
+            mcColR:i = cabbageAraGet("musicalContext.color.r", mcIdx)
+            mcColG:i = cabbageAraGet("musicalContext.color.g", mcIdx)
+            mcColB:i = cabbageAraGet("musicalContext.color.b", mcIdx)
 
             printfi("[%d] '%s'\n", mcIdx + 1, mcIdx, mcName)
             printfi("    Order:  %d\n", 1, mcOrder)
@@ -162,12 +162,12 @@ instr ShowAllInfo
     else
         rsIdx:i = 0
         while rsIdx < rsCnt do
-            rsName:S  = cabbageAraGet("regionSequence.name", rsIdx)
+            rsName:S = cabbageAraGet("regionSequence.name", rsIdx)
             rsOrder:i = cabbageAraGet("regionSequence.orderIndex", rsIdx)
             rsMcIdx:i = cabbageAraGet("regionSequence.musicalContextIndex", rsIdx)
-            rsColR:i  = cabbageAraGet("regionSequence.color.r", rsIdx)
-            rsColG:i  = cabbageAraGet("regionSequence.color.g", rsIdx)
-            rsColB:i  = cabbageAraGet("regionSequence.color.b", rsIdx)
+            rsColR:i = cabbageAraGet("regionSequence.color.r", rsIdx)
+            rsColG:i = cabbageAraGet("regionSequence.color.g", rsIdx)
+            rsColB:i = cabbageAraGet("regionSequence.color.b", rsIdx)
 
             printfi("[%d] '%s'\n", rsIdx + 1, rsIdx, rsName)
             printfi("    Order:     %d\n", 1, rsOrder)
@@ -185,12 +185,12 @@ instr ShowAllInfo
     else
         selIdx:i = 0
         while selIdx < regCnt do
-            selName:S    = cabbageAraGet("playbackRegion.name", selIdx)
-            pbStart:i    = cabbageAraGet("playbackRegion.start", selIdx)
-            pbDur:i      = cabbageAraGet("playbackRegion.duration", selIdx)
-            pbColR:i     = cabbageAraGet("playbackRegion.color.r", selIdx)
-            pbColG:i     = cabbageAraGet("playbackRegion.color.g", selIdx)
-            pbColB:i     = cabbageAraGet("playbackRegion.color.b", selIdx)
+            selName:S = cabbageAraGet("playbackRegion.name", selIdx)
+            pbStart:i = cabbageAraGet("playbackRegion.start", selIdx)
+            pbDur:i = cabbageAraGet("playbackRegion.duration", selIdx)
+            pbColR:i = cabbageAraGet("playbackRegion.color.r", selIdx)
+            pbColG:i = cabbageAraGet("playbackRegion.color.g", selIdx)
+            pbColB:i = cabbageAraGet("playbackRegion.color.b", selIdx)
 
             printfi("[%d] '%s'\n", selIdx + 1, selIdx, selName)
             printfi("    Start:    %.3fs\n", 1, pbStart)
@@ -208,11 +208,11 @@ instr ShowAllInfo
     else
         activeSelIdx:i = 0
         while activeSelIdx < selRegCnt do
-            selRegName:S    = cabbageAraGet("editorView.selectedRegion.name", activeSelIdx)
+            selRegName:S = cabbageAraGet("editorView.selectedRegion.name", activeSelIdx)
             selTimelineStart:i = cabbageAraGet("editorView.selectedPlayback.start", activeSelIdx)
-            selTimelineDur:i   = cabbageAraGet("editorView.selectedPlayback.duration", activeSelIdx)
-            selSrcStartSamp:i  = cabbageAraGet("editorView.selectedRegion.startInSamples", activeSelIdx)
-            selSrcDurSamp:i    = cabbageAraGet("editorView.selectedRegion.durationInSamples", activeSelIdx)
+            selTimelineDur:i = cabbageAraGet("editorView.selectedPlayback.duration", activeSelIdx)
+            selSrcStartSamp:i = cabbageAraGet("editorView.selectedRegion.startInSamples", activeSelIdx)
+            selSrcDurSamp:i = cabbageAraGet("editorView.selectedRegion.durationInSamples", activeSelIdx)
 
             printfi("[%d] '%s'\n", activeSelIdx + 1, activeSelIdx, selRegName)
             printfi("    Timeline Pos: %.3fs (Dur: %.3fs)\n", 1, selTimelineStart, selTimelineDur)
@@ -230,7 +230,7 @@ instr ShowAllInfo
         modIdx:i = 0
         while modIdx < modCnt do
             modName:S = cabbageAraGet("audioModification.name", modIdx)
-            modId:S   = cabbageAraGet("audioModification.persistentId", modIdx)
+            modId:S = cabbageAraGet("audioModification.persistentId", modIdx)
 
             printfi("[%d] '%s'\n", modIdx + 1, modIdx, modName)
             printfi("    Persistent ID: '%s'\n", 1, modId)
@@ -246,13 +246,13 @@ instr ShowAllInfo
     else
         srcIdx:i = 0
         while srcIdx < srcCnt do
-            name:S      = cabbageAraGet("audioSource.name", srcIdx)
-            channels:i  = cabbageAraGet("audioSource.channels", srcIdx)
-            sampCnt:i   = cabbageAraGet("audioSource.sampleCount", srcIdx)
-            sr:i        = cabbageAraGet("audioSource.sampleRate", srcIdx)
-            duration:i  = cabbageAraGet("audioSource.duration", srcIdx)
-            regStart:i  = cabbageAraGet("audioSource.region.startInSamples", srcIdx)
-            regDur:i    = cabbageAraGet("audioSource.region.durationInSamples", srcIdx)
+            name:S = cabbageAraGet("audioSource.name", srcIdx)
+            channels:i = cabbageAraGet("audioSource.channels", srcIdx)
+            sampCnt:i = cabbageAraGet("audioSource.sampleCount", srcIdx)
+            sr:i = cabbageAraGet("audioSource.sampleRate", srcIdx)
+            duration:i = cabbageAraGet("audioSource.duration", srcIdx)
+            regStart:i = cabbageAraGet("audioSource.region.startInSamples", srcIdx)
+            regDur:i = cabbageAraGet("audioSource.region.durationInSamples", srcIdx)
 
             printfi("[%d] '%s'\n", srcIdx + 1, srcIdx, name)
             printfi("    Channels: %d\n", 1, channels)

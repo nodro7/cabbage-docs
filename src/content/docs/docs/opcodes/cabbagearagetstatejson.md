@@ -8,8 +8,8 @@ Returns the complete ARA data pool as a JSON string. Useful for passing ARA stat
 ## Syntax
 
 ```csound
-SJson = cabbageAraGetStateJson()                  ; i-rate: dump once on init
-SJson = cabbageAraGetStateJson(kTrig)             ; k-rate: dump on trigger
+json:S = cabbageAraGetStateJson()                  ; i-rate: dump once on init
+json:S = cabbageAraGetStateJson(kTrig)             ; k-rate: dump on trigger
 ```
 
 ## Description
@@ -75,22 +75,22 @@ The **k-rate** version takes a trigger signal and returns a fresh JSON string ea
 ```csound
 ; Get JSON once at init
 instr 1
-  SJson = cabbageAraGetStateJson()
-  printks "JSON: %s\n", 1, SJson
+  json:S = cabbageAraGetStateJson()
+  printks "JSON: %s\n", 1, json
 endin
 
 ; Get JSON on each ARA update
 instr 2
-  kTrig = cabbageAraGetUpdate()
-  SJson = cabbageAraGetStateJson(kTrig)
+  trig:k = cabbageAraGetUpdate()
+  json:S = cabbageAraGetStateJson(kTrig)
 endin
 
 ; Write JSON to a file for a web frontend
 instr 3
-  kTrig = cabbageAraGetUpdate()
-  if kTrig > 0 then
-    SJson = cabbageAraGetStateJson(kTrig)
-    fprintk 2, SJson  ; print to stderr or a file
+  trig:k = cabbageAraGetUpdate()
+  if trig > 0 then
+    json:S = cabbageAraGetStateJson(kTrig)
+    fprintk 2, json  ; print to stderr or a file
   endif
 endin
 ```
