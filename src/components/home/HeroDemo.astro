@@ -299,6 +299,9 @@ const knobs = [
     justify-content: center;
     gap: 20px;
     padding: 32px 24px;
+    /* Dragging a knob should never select the text around it. */
+    -webkit-user-select: none;
+    user-select: none;
   }
   .demo__caption {
     max-width: 400px;
