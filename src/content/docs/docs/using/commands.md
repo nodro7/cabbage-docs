@@ -2,7 +2,7 @@
 title: "Commands & Settings"
 description: "Every Cabbage command in the VS Code command palette and every extension setting, grouped by task."
 sidebar:
-  order: 4
+  order: 9
 ---
 
 ## Command Palette Access

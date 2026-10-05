@@ -2,7 +2,7 @@
 title: "Csound 7"
 description: "The Csound 7 features that matter most in Cabbage 3: explicit types, structs, better UDOs, oversampling and opcode arrays."
 sidebar:
-  order: 5
+  order: 1
 ---
 
 Cabbage 3 is built on Csound 7, the latest major release of the Csound audio programming language. The improvements it brings make it a much stronger foundation for building audio plugins and instruments. This page highlights the Csound 7 features most relevant to Cabbage users.

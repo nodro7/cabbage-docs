@@ -1,14 +1,16 @@
 ---
 import { Code } from '@astrojs/starlight/components';
-const description = `<p>Defines the channel configuration for the xyPad widget:</p>
+const description = `<p>Defines the channel configuration for the xyPad widget. The X axis is <code>channels[0]</code> and the Y axis is <code>channels[1]</code>:</p>
 <ul>
-<li><strong>id</strong>: Unique identifier for the xyPad widget itself. Use this channel with <code>cabbageSet</code> to update any of the xyPad's attributes. </li>
-<li><strong>x</strong>: Channel name for the X-axis value (used with <code>cabbageGetValue</code> to retrieve the horizontal position)</li>
-<li><strong>y</strong>: Channel name for the Y-axis value (used with <code>cabbageGetValue</code> to retrieve the vertical position)</li>
+<li><strong>id</strong>: Channel name for the axis value (used with <code>cabbageGetValue</code> to retrieve the position)</li>
+<li><strong>event</strong>: Use <code>mouseDragX</code> for the X axis and <code>mouseDragY</code> for the Y axis</li>
 </ul>
-<p>Both X and Y channels can be read independently in your Csound code using <code>cabbageGetValue</code>.</p>`;
+<p>Both channels can be read independently in your Csound code using <code>cabbageGetValue</code>.</p>`;
 ---
 <div class="property-section">
-  <Code code={`"channel": {"id": "xyPad1", "x": "channelX", "y": "channelY"}`} lang="json" />
+  <Code code={`"channels": [
+    {"id": "bandwidth", "event": "mouseDragX", "range": {"min": 10, "max": 2000, "defaultValue": 200, "skew": 1, "increment": 0.001}},
+    {"id": "cutoff", "event": "mouseDragY", "range": {"min": 100, "max": 8000, "defaultValue": 1000, "skew": 1, "increment": 0.001}}
+]`} lang="json" />
   <Fragment set:html={description} />
 </div>

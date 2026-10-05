@@ -2,7 +2,7 @@
 title: "Running Cabbage"
 description: "How the Cabbage server runs inside VS Code and loads an instrument each time you save a .csd file."
 sidebar:
-  order: 1
+  order: 2
 ---
 
 The Cabbage VS Code extension includes a background service that acts as a server for Cabbage 3 instruments and effects within the IDE. After you install the extension, a Run Cabbage icon appears in the lower‑right corner of the VS Code status bar. Clicking it starts the background service and sets up a communication protocol between Cabbage and VS Code.

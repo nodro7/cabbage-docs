@@ -58,12 +58,6 @@ In summary, the changes in Cabbage 3, particularly the shift to using JSON objec
 
 ## 6. Exporting instruments
 
-## 7. New trigger structs and ARA updates
-
-- Cabbage now provides built-in trigger struct overloads for , , , and . These return  (numeric) or  (string) values together with a 0/1 edge-trigger that fires for a single k-cycle on value change.
-- The ARA update opcode  now returns a 0/1 edge trigger instead of a monotonic counter; the legacy -workaround pattern is no longer needed.
-- Two new opcode pages document the struct forms: [cabbagearagetupdateevent](/docs/opcodes/cabbagearagetupdateevent/) and the updated [cabbagearagetupdate](/docs/opcodes/cabbagearaget/).
-
 Although the process of exporting has remained largely unchanged, the sequence of events during export has undergone some updates. The most significant change is that all instrument resources are now exported to a set resource folder by default. All assets, including images, .csd files, and other related resources, will be placed in the following locations. Use the `package` object in your `form` widget to include any extra files your instrument needs:
 
 * macOS
@@ -84,3 +78,12 @@ Although keeping mutable artifacts outside of the plugin bundle represents a dep
 * No notarization is required for non-executable assets
 * Faster iteration, especially during development
 * A cleaner separation between code and data
+
+## 7. New trigger structs and ARA support
+
+- Cabbage now provides built-in trigger struct `CabbageNumTrig` and `CabbageStrTrig`. These return numeric or string values together with a 0/1 edge-trigger that fires for a single k-cycle on value change.
+
+- ARA (Audio Random Access) is now fully supported. This gives a plugin direct, offline access to a host’s audio material without having to process it in real time.
+
+- Widgets now support abitrary numbers of channels.
+
