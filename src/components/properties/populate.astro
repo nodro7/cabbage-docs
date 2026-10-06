@@ -16,12 +16,12 @@ import { Code } from '@astrojs/starlight/components';
   />
   <p>
     Sets the type of file to search for, and the directories to look in. You can specify multiple file types by using
-    the following pattern <code>*.txt;*.csv;*.dat</code>. If no directories are specified, the file browser will try to
-    access the current working directory. Note it's always best to set the <code>directories</code> property from your
-    Csound code in order to make sure the path is correct. For example, the following code will set the directory to
-    that of the current .csd file.
+    the following pattern <code>*.txt;*.csv;*.dat</code>. 
   </p>
-  <Code code={`cabbageSet "presetCombo", "populate.directory", chnget:S("CSD_PATH")`} lang="csound" />
+  <p>
+    Because the web-based frontend has no access to the local file system, file scanning is performed by the backend. Therefore, the <code>populate.directories</code> property <strong>must</strong> be set at runtime from your Csound code. For example, the following Csound code sets the target directory to that of the current <code>.csd</code> file:
+  </p>
+  <Code code={`cabbageSet "presetCombo", "populate.directories", chnget:S("CSD_PATH")`} lang="csound" />
   <p>
     The items can be ordered by "date", "size" or "alphabetically". "defaultLabel" sets the initial text when the
     combobox first appears. If it's empty, the first item on the list will appear by default.
