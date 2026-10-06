@@ -18,10 +18,13 @@ import { Code } from '@astrojs/starlight/components';
     Sets the type of file to search for, and the directories to look in. You can specify multiple file types by using
     the following pattern <code>*.txt;*.csv;*.dat</code>. 
   </p>
-  <p>
-    Because the web-based frontend has no access to the local file system, file scanning is performed by the backend. Therefore, the <code>populate.directories</code> property <strong>must</strong> be set at runtime from your Csound code. For example, the following Csound code sets the target directory to that of the current <code>.csd</code> file:
+<p>
+    Because the web-based frontend has no access to the local file system, file scanning is performed by the backend. A static <code>populate</code> block in your CSD is scanned automatically when the instrument loads (and again on every recompile), so in most cases you only need to declare the directories up front. Setting <code>populate.directories</code> at runtime from your Csound code remains useful when the target directory must be chosen dynamically, or to guarantee a correct absolute path — for example, the following Csound code sets the target directory to that of the current <code>.csd</code> file:
   </p>
-  <Code code={`cabbageSet "presetCombo", "populate.directories", chnget:S("CSD_PATH")`} lang="csound" />
+  <Code code={`cabbageSet("presetCombo", "populate.directories", chnget:S("CSD_PATH"))`} lang="csound" />
+  <p>
+    Relative directory paths resolve against the Cabbage application folder rather than the folder holding your <code>.csd</code>, which is why the absolute <code>CSD_PATH</code> pattern above is recommended whenever files must be found reliably.
+  </p>
   <p>
     The items can be ordered by "date", "size" or "alphabetically". "defaultLabel" sets the initial text when the
     combobox first appears. If it's empty, the first item on the list will appear by default.
