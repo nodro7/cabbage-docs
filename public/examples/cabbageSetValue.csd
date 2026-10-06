@@ -125,8 +125,8 @@ instr TestGetValueOpcodes
         printk2 kVal
     elseif p4 == 1 then
         prints "Testing cabbageGetValue k-rate, with trigger"
-        kVal, kTrig cabbageGetValue "gain"
-        printf "gain: %f", kTrig, kVal
+        gainRes:CabbageNumTrig cabbageGetValue "gain"
+        printf "gain: %f", gainRes.trig, gainRes.val
     endif
 endin
 

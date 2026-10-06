@@ -268,7 +268,6 @@ nchnls = 2
 numRows@global:i = 8
 numCols@global:i = 16
 presetDirectory@global:S = strcat(chnget:S("CSD_PATH"), "/Presets")
-struct CabbageButton val:k, trig:k
 
 /*------------------------------------------------*/
 /* Create the 16x8 grid of checkboxes dynamically */
@@ -312,8 +311,7 @@ instr SEQUENCER
     scrubberPos:k init 0
     beatCount:k init 0
     bpm:k = cabbageGetValue("bpmSlider")
-    startStop:CabbageButton init 0, 0
-    startStop.val, startStop.trig = cabbageGetValue("startStop")
+    startStop:CabbageNumTrig = cabbageGetValue("startStop")
     noteDuration:k = cabbageGetValue("durationSlider")
     autoShuffle:k = cabbageGetValue("autoShuffle")
 
@@ -342,19 +340,17 @@ instr SEQUENCER
 
     endif
 
-    save:CabbageButton init 0, 0
-    save.val, save.trig = cabbageGetValue("saveStateBtn")
+    save:CabbageNumTrig = cabbageGetValue("saveStateBtn")
     if save.trig==1 then
         event("i", "SAVE_PRESET", 0, .1)
     endif
 
-    loadPreset:S, loadPresetTrig:k = cabbageGetValue:S("presetCombo")
-    if loadPresetTrig==1 then
+    loadPreset:CabbageStrTrig = cabbageGetValue("presetCombo")
+    if loadPreset.trig==1 then
         event("i", "LOAD_PRESET", 0, .1)
     endif
 
-    shuffle:CabbageButton init 0, 0
-    shuffle.val, shuffle.trig = cabbageGetValue("shuffle")
+    shuffle:CabbageNumTrig = cabbageGetValue("shuffle")
     if shuffle.trig==1 then
         event("i", "SHUFFLE", 0, .1)
     endif

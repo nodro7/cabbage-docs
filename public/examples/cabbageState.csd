@@ -187,8 +187,8 @@ instr MainSignal
 
     out(oscMix, oscMix)
 
-    randomButton:k, randomButtonTrig:k = cabbageGetValue:k("randomise")
-    if(randomButtonTrig == 1) then
+    randomButton:CabbageNumTrig = cabbageGetValue("randomise")
+    if(randomButton.trig == 1) then
         event("i", "RandomiseColors", 0, 0.1)
         event("i", "RandomiseValues", 0.1, 0.1)
     endif
@@ -213,19 +213,19 @@ endin
 
 /* Dedicated instrument for handling presets */
 instr PresetManager
-    saveAllButtonValue:k, saveAllButtonTrig:k = cabbageGetValue:k("saveState")
-    saveSelectedButtonValue:k, saveSelectedButtonTrig:k = cabbageGetValue:k("saveSelectedState")
-    loadButtonValue:k, loadButtonTrig:k = cabbageGetValue:k("loadState")
+    saveAllButton:CabbageNumTrig = cabbageGetValue("saveState")
+    saveSelectedButton:CabbageNumTrig = cabbageGetValue("saveSelectedState")
+    loadButton:CabbageNumTrig = cabbageGetValue("loadState")
 
-    if (saveAllButtonTrig == 1) then
+    if (saveAllButton.trig == 1) then
         event("i", "SaveState", 0, 0.1)
     endif
 
-    if (saveSelectedButtonTrig == 1) then
+    if (saveSelectedButton.trig == 1) then
         event("i", "SaveSelectedState", 0, 0.1)
     endif
 
-    if (loadButtonTrig == 1) then
+    if (loadButton.trig == 1) then
         event("i", "LoadState", 0, 0.1)
     endif
 
