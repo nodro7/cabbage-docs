@@ -1,0 +1,24 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<ul>
+<li>Colors accept named CSS colors, hex (e.g., #RRGGBB or #RRGGBBAA), or rgb/rgba strings.</li>
+<li>fontSize: "auto" scales the text to fill the row height; set a number (px) to fix it.</li>
+<li>highlightColor is the background of the currently selected row; backgroundColor is the background of all other rows.</li>
+<li>textAlign controls the alignment of item text within each row ("left", "center" or "right").</li>
+</ul>`;
+---
+<div class="property-section">
+  <Code code={`"style": {
+  "opacity": 1,
+  "borderRadius": 2,
+  "borderWidth": 1,
+  "borderColor": "#222222",
+  "backgroundColor": "#ffffff",
+  "fontFamily": "Verdana",
+  "fontSize": "auto",
+  "fontColor": "#000000",
+  "highlightColor": "#dddddd",
+  "textAlign": "left"
+},`} lang="json" />
+  <Fragment set:html={description} />
+</div>

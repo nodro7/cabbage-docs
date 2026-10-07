@@ -1,5 +1,3 @@
-<!--⚠️ Warning: Any custom formatting (indentation, spacing, or comments) may
-be lost when working with the UI editor. -->
 <Cabbage>
 {
     "pluginId"      : "def1",

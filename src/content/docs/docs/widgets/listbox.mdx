@@ -1,0 +1,75 @@
+---
+title: "ListBox"
+description: "Properties and a complete example for listBox, a scrollable list of items to choose from."
+---
+
+import Active from "../../../../components/properties/active.astro";
+import Automatable from "../../../../components/properties/automatable.astro";
+import Bounds from "../../../../components/properties/bounds.astro";
+import Channel from "../../../../components/properties/channel.astro";
+import Id from "../../../../components/properties/id.astro";
+import Items from "../../../../components/properties/items.astro";
+import Persistence from "../../../../components/properties/persistence.astro";
+import Populate from "../../../../components/properties/populate.astro";
+import Visible from "../../../../components/properties/visible.astro";
+import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleListBox from "../../../../components/properties/listbox.style.astro";
+import WidgetExample from "../../../../components/docs/WidgetExample.astro";
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
+
+`listBox` creates a scrollable list of items which users can choose from. A single click highlights an item without sending anything to Csound. A double-click sends the index of the highlighted item to Csound on the widget's channel.
+
+<WidgetExample name="listBox" />
+
+## Properties
+
+### Active
+<Active />
+
+### Automatable
+<Automatable />
+
+### Bounds
+<Bounds />
+
+### Channel
+<Channel />
+
+The `listBox` channel only sends its value on double-click, so each trigger corresponds to a deliberate user selection.
+
+### Id
+<Id />
+
+### Items
+<Items />
+
+### Persistence
+<Persistence />
+
+### Populate
+<Populate />
+
+### Visible
+<Visible />
+
+### ZIndex
+<ZIndex />
+
+### Style
+<StyleListBox />
+
+## Csound Usage
+
+The `listBox` returns the index of the double-clicked item along with a k-rate trigger value. The trigger value will be 1 for one k-cycle when an item is double-clicked, then return to 0. Read it with the `CabbageNumTrig` struct form of `cabbageGetValue`:
+
+```csound
+sel:CabbageNumTrig = cabbageGetValue("note")
+if sel.trig == 1 then
+    event("i", "Tone", 0, 1, sel.val)
+endif
+```
+
+## Example
+
+<ExampleCode name="listBox" />
