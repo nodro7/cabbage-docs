@@ -1,10 +1,7 @@
 
 <Cabbage>
 {
-    "pluginId"      : "def1",
-    "enableDevTools": true,
-    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
-    "widgets"       : [
+    "widgets": [
         {
             "type"    : "form",
             "id"      : "MainForm",
@@ -25,21 +22,20 @@
             "zIndex"  : -1
         },
         {
-            "//"         : "----------- A button to shuffle the grid pattern randomly ----------",
-            "type"       : "button",
-            "id"         : "randomBtn",
-            "bounds"     : {"left": 9, "top": 334, "width": 100, "height": 30},
-            "channels"   : [ {"id": "shuffle", "range": {}} ],
-            "label"      : { "text": {"on": "Shuffle", "off": "Shuffle"} },
-            "style"      : {
+            "//"      : "----------- A button to shuffle the grid pattern randomly ----------",
+            "type"    : "button",
+            "id"      : "randomBtn",
+            "bounds"  : {"left": 9, "top": 334, "width": 100, "height": 30},
+            "channels": [ {"id": "shuffle", "range": {}} ],
+            "label"   : { "text": {"on": "Shuffle", "off": "Shuffle"} },
+            "style"   : {
                 "on"        : {"backgroundColor": "#ffa71e14", "textColor": "#ffffff"},
                 "off"       : {"backgroundColor": "#ffa71e14", "textColor": "#ffffff"},
                 "hover"     : {"backgroundColor": "#fbfbfb6d"},
                 "fontFamily": "Arial",
                 "fontSize"  : 10,
                 "textAlign" : "centre"
-            },
-            "persistence": {"preset": false, "session": false}
+            }
         },
         {
             "//"      : "---------- A button to start and stop the sequencer ----------",
@@ -222,7 +218,11 @@
             "bounds"     : {"left": 514, "top": 331, "width": 107, "height": 16},
             "channels"   : [ {"id": "autoShuffle", "range": {}} ],
             "label"      : {"text": "Auto Shuffle"},
-            "style"      : { "off": {"textColor": "#dddddd"}, "on": {"textColor": "#ffffff", "backgroundColor": "#ffa71e"}, "textAlign": "right" },
+            "style"      : {
+                "off"      : {"textColor": "#dddddd"},
+                "on"       : {"textColor": "#ffffff", "backgroundColor": "#ffa71e"},
+                "textAlign": "right"
+            },
             "persistence": {"preset": false}
         },
         {
@@ -246,9 +246,16 @@
             "//"         : "----------- A combo box to load presets ----------",
             "type"       : "comboBox",
             "bounds"     : {"left": 546, "top": 296, "width": 76},
-            "channels"   : [ {"id": "presetCombo", "range": {}, "type": "string"} ],
-            "style"      : {"backgroundColor": "#0295cf28", "borderColor": "#0295cf28", "borderRadius": 4, "borderWidth": 0},
-            "persistence": {"preset": false, "session": true},
+            "channels"   : [
+                { "id": "presetCombo", "range": {"increment": 0.001, "max": 1}, "type": "string" }
+            ],
+            "style"      : {
+                "backgroundColor": "#0295cf28",
+                "borderColor"    : "#0295cf28",
+                "borderRadius"   : 4,
+                "borderWidth"    : 0
+            },
+            "persistence": {"preset": false},
             "populate"   : {"fileType": ".json", "labelWhenEmpty": "No Presets", "defaultLabel": "Load Preset"},
             "automatable": false
         }
@@ -268,6 +275,7 @@ nchnls = 2
 numRows@global:i = 8
 numCols@global:i = 16
 presetDirectory@global:S = strcat(chnget:S("CSD_PATH"), "/Presets")
+struct CabbageButton val:k, trig:k
 
 /*------------------------------------------------*/
 /* Create the 16x8 grid of checkboxes dynamically */
@@ -311,7 +319,8 @@ instr SEQUENCER
     scrubberPos:k init 0
     beatCount:k init 0
     bpm:k = cabbageGetValue("bpmSlider")
-    startStop:CabbageNumTrig = cabbageGetValue("startStop")
+    startStop:CabbageButton init 0, 0
+    startStop.val, startStop.trig = cabbageGetValue("startStop")
     noteDuration:k = cabbageGetValue("durationSlider")
     autoShuffle:k = cabbageGetValue("autoShuffle")
 
@@ -340,17 +349,19 @@ instr SEQUENCER
 
     endif
 
-    save:CabbageNumTrig = cabbageGetValue("saveStateBtn")
+    save:CabbageButton init 0, 0
+    save.val, save.trig = cabbageGetValue("saveStateBtn")
     if save.trig==1 then
         event("i", "SAVE_PRESET", 0, .1)
     endif
 
-    loadPreset:CabbageStrTrig = cabbageGetValue("presetCombo")
-    if loadPreset.trig==1 then
+    loadPreset:S, loadPresetTrig:k = cabbageGetValue:S("presetCombo")
+    if loadPresetTrig==1 then
         event("i", "LOAD_PRESET", 0, .1)
     endif
 
-    shuffle:CabbageNumTrig = cabbageGetValue("shuffle")
+    shuffle:CabbageButton init 0, 0
+    shuffle.val, shuffle.trig = cabbageGetValue("shuffle")
     if shuffle.trig==1 then
         event("i", "SHUFFLE", 0, .1)
     endif
