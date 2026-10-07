@@ -76,7 +76,7 @@ The **k-rate** version takes a trigger signal and returns a fresh JSON string ea
 ; Get JSON once at init
 instr 1
   json:S = cabbageAraGetStateJson()
-  printks "JSON: %s\n", 1, json
+  printfi("JSON: %s\n", 1, json)
 endin
 
 ; Get JSON on each ARA update
@@ -90,7 +90,7 @@ instr 3
   trig:k = cabbageAraGetUpdate()
   if trig > 0 then
     json:S = cabbageAraGetStateJson(kTrig)
-    fprintk 2, json  ; print to stderr or a file
+    printf(json, trig);
   endif
 endin
 ```

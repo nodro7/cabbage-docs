@@ -18,3 +18,19 @@ cabbageSaveState:i(SFilePath, SWidgetIds[])
 :::note
 The saved JSON file contains all current widget channel values and can be edited manually if needed. To save multiple presets, use Csound's string formatting to dynamically generate unique filenames, for example: `sprintf("/path/to/presets/preset_%d.json", iPresetNumber)`
 :::
+
+## Example
+
+```csound
+instr SaveState
+    filename:S = sprintf("%s/myPreset.json", chnget:S("CSD_PATH"))
+    cabbageSaveState(filename)
+endin
+```
+
+To restore the state saved here, see [cabbageLoadState](/docs/opcodes/cabbageloadstate/). For a full example, see [Saving and Loading State](/docs/using/saving-and-loading-state/).
+
+## See Also
+
+- [cabbageLoadState](/docs/opcodes/cabbageloadstate/)
+- [Saving and Loading State](/docs/using/saving-and-loading-state/)

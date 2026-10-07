@@ -16,3 +16,19 @@ cabbageLoadState:i(SFilePath)
 :::note
 Only widgets with channels that match those in the saved state file will be updated. Widgets not present in the state file will retain their current values. To load different presets, use Csound's string formatting to dynamically generate filenames, for example: `sprintf("/path/to/presets/preset_%d.json", iPresetNumber)`
 :::
+
+## Example
+
+```csound
+instr LoadState
+    filename:S = sprintf("%s/myPreset.json", chnget:S("CSD_PATH"))
+    cabbageLoadState(filename)
+endin
+```
+
+To create the state file loaded here, see [cabbageSaveState](/docs/opcodes/cabbagesavestate/). For a full example, see [Saving and Loading State](/docs/using/saving-and-loading-state/).
+
+## See Also
+
+- [cabbageSaveState](/docs/opcodes/cabbagesavestate/)
+- [Saving and Loading State](/docs/using/saving-and-loading-state/)

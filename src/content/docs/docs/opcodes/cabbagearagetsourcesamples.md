@@ -42,8 +42,8 @@ instr 1
   samples:i[] = cabbageAraGetSourceSamples(0, 100, 0, iIndex)
 
   ; Or read sample-by-sample at audio rate
-  aphase phasor sr
-  out:a = cabbageAraGetSourceSamples(aphase, 0, iIndex)
+  phase:a = phasor(sr/lenarray(samples))
+  out:a = cabbageAraGetSourceSamples(phase, 0, index)
 endin
 ```
 

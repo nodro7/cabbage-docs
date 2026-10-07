@@ -81,7 +81,7 @@ endin
 
 instr 2
     ; change the property so the trigger above fires
-    cabbageSet "status", "text", "running"
+    cabbageSet("status", "text", "running")
 endin
 
 </CsInstruments>

@@ -64,13 +64,13 @@ nchnls = 2
 0dbfs = 1
 
 instr 1 
-    kSliderValue, kTrig cabbageGetValue "gain"
+    sliderValue:k, trig:k = cabbageGetValue("gain")
     //print value of 'gain' slider each time its updated
-    printf "Value is now %f\n", kTrig, kSliderValue
+    printf("Value is now %f\n", trig, sliderValue)
 
     //the same result using a single trigger struct variable
-    res:CabbageNumTrig cabbageGetValue "gain"
-    printf "Struct form: val %f, trig %f\n", res.trig, res.val, res.trig
+    res:CabbageNumTrig = cabbageGetValue("gain")
+    printf("Struct form: val %f, trig %f\n", res.trig, res.val, res.trig)
 endin
 
 </CsInstruments>  

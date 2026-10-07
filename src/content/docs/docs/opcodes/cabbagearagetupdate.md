@@ -27,7 +27,7 @@ If you also need to know *what kind of event* fired (for example `"audioSourceAd
 instr 1
   trig:k = cabbageAraGetUpdate()
   if trig == 1 then
-    event "i", "ReadAraData", 0, 0.001
+    event("i", "ReadAraData", 0, 0.001)
   endif
 endin
 

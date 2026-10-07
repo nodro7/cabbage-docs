@@ -55,7 +55,7 @@ nchnls = 2
 
 instr 1 
     //print entire JSON object associated with 'gain' widget
-    cabbageDump "gain", 4
+    cabbageDump("gain", 4)
 endin
 
 </CsInstruments>  

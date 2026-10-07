@@ -41,7 +41,7 @@ cabbageSetValue:i(SChannel, iValue)
                 {
                     "id"   : "gain",
                     "event": "valueChanged",
-                    "range": {"min": 0, "max": 2, "defaultValue": 1, "skew": 1, "increment": 0.1}
+                    "range": {"min": 0, "max": 1, "defaultValue": 1, "skew": 1, "increment": 0.1}
                 }
             ],
             "text"   : "Gain"
@@ -60,9 +60,10 @@ nchnls = 2
 0dbfs = 1
 
 instr 1 
-    kSliderValue, kTrig cabbageGetValue "gain"
-    //print value of 'gain' slider each time its updated
-    printf "Value of %s widget is now %f", kTrig, kSliderValue
+    gain:k = abs(oscili:k(1, 1))
+    cabbageSetValue("gain", gain)
+    newGain:CabbageNumTrig = cabbageGetValue("gain")
+    printf("Value of gain widget is now %f", newGain,trig, newGain.val)
 endin
 
 </CsInstruments>  
