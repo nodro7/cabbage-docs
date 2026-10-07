@@ -70,6 +70,21 @@ if sel.trig == 1 then
 endif
 ```
 
+Set the channel `"type"` to `"string"` to receive the double-clicked item text instead of its index:
+
+```json
+"channels": [{"id": "presetCombo", "range": {}, "type": "string"}]
+```
+
+```csound
+sel:CabbageStrTrig = cabbageGetValue("presetCombo")
+if sel.trig == 1 then
+    event("i", "LOAD_PRESET", 0, .1)
+endif
+```
+
+A string channel carries text, persists through session saves, and is excluded from DAW automation.
+
 ## Example
 
 <ExampleCode name="listBox" />

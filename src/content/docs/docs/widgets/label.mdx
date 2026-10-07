@@ -57,6 +57,16 @@ The `label` object inside `channels[]` above only names this widget's parameter 
 ### Style
 <StyleLabel />
 
+## Csound Usage
+
+When a channel is assigned, the `label` reports mouse presses alongside a k-rate trigger value. Read it with the `CabbageNumTrig` struct form of `cabbageGetValue`. Text is updated from Csound with `cabbageSet`:
+
+```csound
+label:CabbageNumTrig = cabbageGetValue("label2")
+printfk("Label Click State:%d\n", label.trig, label.val)
+cabbageSet("infoText", "label.text", "Double-click a note...")
+```
+
 ## Example
 
 <ExampleCode name="label" />

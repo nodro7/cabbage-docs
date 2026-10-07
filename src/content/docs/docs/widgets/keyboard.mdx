@@ -48,6 +48,18 @@ import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 ### Style
 <StyleKeyboard />
 
+## Csound Usage
+
+The `keyboard` widget sends MIDI data to Csound through Csound's MIDI callback functions. This data can be accessed through the interop MIDI command-line flags and parameter fields, as shown in many of the Cabbage synth examples:
+
+```csound
+<CsOptions>
+-m0d --midi-key=4 --midi-velocity-amp=5
+</CsOptions>
+```
+
+With these flags, the note number arrives in `p4` and the velocity in `p5`. The information can also be accessed through Csound's MIDI opcodes. Note velocity is mapped to the vertical axis of the key press: the lower the key is pressed, the louder the note.
+
 ## Example
 
 <ExampleCode name="keyboard" />

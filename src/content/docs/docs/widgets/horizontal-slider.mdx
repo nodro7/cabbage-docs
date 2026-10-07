@@ -65,6 +65,14 @@ The `label` object inside `channels[]` above only names this widget's parameter 
 ### Style
 <StyleHorizontalSlider />
 
+## Csound Usage
+
+The `horizontalSlider` returns its current value as a continuous k-rate signal. Read it with `cabbageGetValue`, smoothing the result with `tonek` when driving audio-rate parameters:
+
+```csound
+harm1:a = oscili(tonek(cabbageGetValue:k("harmonic1"), 10), 50, giWave)
+```
+
 ## Example
 
 <ExampleCode name="horizontalSlider" />

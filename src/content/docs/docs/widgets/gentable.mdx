@@ -69,6 +69,36 @@ import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 ### Style
 <StyleGenTable />
 
+## Csound Usage
+
+The `genTable` display is kept in sync from Csound with `cabbageSet`. Use the trigger value from a widget channel to gate the update so the table only redraws when something changes:
+
+```csound
+fillRes:CabbageNumTrig = cabbageGetValue("fill")
+cabbageSet(fillRes.trig, "gentable1", "fill", fillRes.val)
+cabbageSet("gentable1", "tableNumber", 1)
+```
+
+To fill the table with your own samples, regenerate its function table in Csound and then point the widget at it with `tableNumber`. The example below rebuilds table 1 from five harmonic amplitudes passed as `p4`–`p8`, optionally inverting it, and refreshes the display:
+
+```csound
+instr UpdateTable
+    normal:i = (cabbageGetValue:i("normal") == 0 ? -1 : 1)
+    sumTable = ftgen(1, 0, 1024, 10*normal, p4, p5, p6, p7, p8)
+    cabbageSet("gentable1", "tableNumber", 1) ; update table display
+endin
+```
+
+Related slider values are read at k-rate in the usual way, and a `changed` trigger fires the update instrument only when one moves:
+
+```csound
+harm1:k = cabbageGetValue("harm1")
+trigger:k = changed(harm1, harm2, harm3, harm4, harm5)
+if trigger == 1 then
+    event("i", "UpdateTable", 0, .01, harm1, harm2, harm3, harm4, harm5)
+endif
+```
+
 ## Example
 
 <ExampleCode name="gentable" />

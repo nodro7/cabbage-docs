@@ -57,6 +57,30 @@ import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 ### Style
 <StyleCombo />
 
+## Csound Usage
+
+By default the `comboBox` returns the index of the selected item. The first item sends 0, the second sends 1, and so on. Read it with `cabbageGetValue`:
+
+```csound
+vcoModes:i[] fillarray 0, 10, 12
+vcoOut:a = vco2(env*p5*.5, cpsmidinn:k(p4), vcoModes[cabbageGetValue:i("waveform")])
+```
+
+Set the channel `"type"` to `"string"` to receive the selected item text instead of its index. This is useful with `populate`, where the items are file names only known at runtime:
+
+```json
+"channels": [{"id": "presetCombo", "range": {}, "type": "string"}]
+```
+
+```csound
+loadPreset:CabbageStrTrig = cabbageGetValue("presetCombo")
+if loadPreset.trig == 1 then
+    event("i", "LOAD_PRESET", 0, .1)
+endif
+```
+
+A string channel carries text, persists through session saves, and is excluded from DAW automation.
+
 ## Example
 
 <ExampleCode name="combobox" />

@@ -53,6 +53,27 @@ import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 ### Style
 <StyleButton />
 
+## Csound Usage
+
+The `button` returns its on/off state along with a k-rate trigger value. The trigger value will be 1 for one k-cycle when the button is pressed, then return to 0. Read it with the `CabbageNumTrig` struct form of `cabbageGetValue`:
+
+```csound
+trigger:CabbageNumTrig = cabbageGetValue("trigger")
+if trigger.trig == 1 then
+    if trigger.val == 1 then
+        event("i", "Synth", 0, 3600)
+    else
+        turnoff2(nstrnum("Synth"), 0, 0)
+    endif
+endif
+```
+
+For a simple on/off state without edge detection, read the channel at k-rate:
+
+```csound
+mute:k = cabbageGetValue("mute")
+```
+
 ## Example
 
 <ExampleCode name="button" />

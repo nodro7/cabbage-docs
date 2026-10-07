@@ -65,6 +65,22 @@ import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 ### Style
 <StyleImage />
 
+## Csound Usage
+
+What the `image` channel sends to Csound is determined by the channel `event` type:
+
+- `mouseMoveX` / `mouseMoveY` report the pointer position, normalised across the widget and scaled into the channel range. `mouseDragX` / `mouseDragY` report the same position, but only while a mouse button is held down.
+- `mousePressLeft` sends 1 when the image is pressed; `mouseReleaseLeft` sends 0 on release.
+- `valueChanged` sends a click pulse on press.
+
+The example below uses `mouseMoveX` / `mouseMoveY` position channels. Read each axis with the `CabbageNumTrig` struct form of `cabbageGetValue`:
+
+```csound
+imageX:CabbageNumTrig = cabbageGetValue("image1X")
+imageY:CabbageNumTrig = cabbageGetValue("image1Y")
+printf("Current Mouse X Position: %f\n", imageX.trig, imageX.val)
+```
+
 ## Example
 
 <ExampleCode name="image" />

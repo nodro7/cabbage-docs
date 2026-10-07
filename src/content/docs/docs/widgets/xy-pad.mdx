@@ -65,6 +65,16 @@ import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 ### Style
 <StyleXyPad />
 
+## Csound Usage
+
+The `xyPad` returns the ball position on two independent channels, one for each axis. Read both at k-rate with `cabbageGetValue`:
+
+```csound
+kBW:k = cabbageGetValue("bandwidth")
+kCutoff:k = cabbageGetValue("cutoff")
+aOut:a butterbp aSrc, kCutoff, kBW
+```
+
 ## Example
 
 <ExampleCode name="xyPad" />
