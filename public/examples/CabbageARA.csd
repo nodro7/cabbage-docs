@@ -61,7 +61,7 @@ nchnls = 2
 
 ; This instrument listens for ARA updates and when it detects one
 ; it triggers instrument 99 to process the audio data. No point
-; in trying to procedss anything until an event is received from the host,
+; in trying to process anything until an event is received from the host,
 ; as there will be no audio data to process.
 instr 1
     updated:k = cabbageAraGetUpdate()
