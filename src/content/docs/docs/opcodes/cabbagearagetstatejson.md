@@ -85,7 +85,7 @@ instr 2
   json:S = cabbageAraGetStateJson(trig)
 endin
 
-; Write JSON to a file for a web frontend
+; Write JSON to stdout
 instr 3
   trig:k = cabbageAraGetUpdate()
   if trig > 0 then
