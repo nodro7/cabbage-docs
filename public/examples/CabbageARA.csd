@@ -171,11 +171,11 @@ instr ShowAllInfo
     else
         activeSelIdx:i = 0
         while activeSelIdx < selRegCnt do
-            selRegName:S    = cabbageAraGet("playbackRegion.selectedRegionName", activeSelIdx)
-            selTimelineStart:i = cabbageAraGet("playbackRegion.selectedPlaybackStart", activeSelIdx)
-            selTimelineDur:i   = cabbageAraGet("playbackRegion.selectedPlaybackDuration", activeSelIdx)
-            selSrcStartSamp:i  = cabbageAraGet("playbackRegion.selectedRegionStartInSamples", activeSelIdx)
-            selSrcDurSamp:i    = cabbageAraGet("playbackRegion.selectedRegionDurationInSamples", activeSelIdx)
+            selRegName:S = cabbageAraGet("editorView.selectedRegion.name", activeSelIdx)
+            selTimelineStart:i = cabbageAraGet("editorView.selectedPlayback.start", activeSelIdx)
+            selTimelineDur:i = cabbageAraGet("editorView.selectedPlayback.duration", activeSelIdx)
+            selSrcStartSamp:i = cabbageAraGet("editorView.selectedRegion.startInSamples", activeSelIdx)
+            selSrcDurSamp:i = cabbageAraGet("editorView.selectedRegion.durationInSamples", activeSelIdx)
 
             printfi("[%d] '%s'\n", activeSelIdx + 1, activeSelIdx, selRegName)
             printfi("    Timeline Pos: %.3fs (Dur: %.3fs)\n", 1, selTimelineStart, selTimelineDur)
