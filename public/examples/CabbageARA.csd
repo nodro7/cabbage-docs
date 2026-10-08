@@ -1,12 +1,12 @@
 <Cabbage>
 {
+    "pluginId": "def1",
     "widgets": [
         {
             "type"    : "form",
             "id"      : "MainForm",
             "caption" : "ARA Analyser",
             "size"    : {"width": 864, "height": 600},
-            "pluginId": "def1",
             "style"   : {"backgroundColor": "#2b2b41"},
             "package" : {
                 "include": [ {"dest": "TrackAnalyser.ara.csd", "src": "TrackAnalyser.ara.csd"} ]
