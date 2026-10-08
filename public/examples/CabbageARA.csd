@@ -89,7 +89,7 @@ instr ShowAllInfo
     mcCnt:i     = cabbageAraGet("musicalContextCount")
     rsCnt:i     = cabbageAraGet("regionSequenceCount")
     modCnt:i    = cabbageAraGet("audioModificationCount")
-    selRegCnt:i = cabbageAraGet("selectedPlaybackRegionCount")
+    selRegCnt:i = cabbageAraGet("editorView.selectedPlaybackRegionCount")
     printfi("[Metrics] Sources: %d  |  Regions: %d  |  Contexts: %d  |  Sequences: %d  |  Modifications: %d  |  Selected: %d  |  Current Index: %d\n", 1, srcCnt, regCnt, mcCnt, rsCnt, modCnt, selRegCnt, idx)
 
     ; --- Time Range Calculations ---
