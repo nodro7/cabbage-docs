@@ -3,6 +3,8 @@ title: "cabbageGetValue"
 description: "Queries the current value of a widget."
 ---
 
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
 This opcode queries the current value of a widget. It can run at init-time or k-time and includes an optional output argument that triggers a value of 1 for one k-cycle whenever the widget value is updated or changed. The value and trigger can either be returned as two separate variables, or as a single [built-in trigger struct](/docs/using/csound7/#built-in-trigger-structs) variable.
 
 ## Syntax
@@ -30,53 +32,7 @@ res:CabbageStrTrig = cabbageGetValue(SChannel)
 
 ## Example:
 
-```csound
-<Cabbage>
-{
-    "pluginId"      : "RMSy",
-    "enableDevTools": true,
-    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
-    "widgets"       : [
-        { "type": "form", "caption": "Simple Instrument", "size": {"width": 1000, "height": 520} },
-        {
-            "type"    : "rotarySlider",
-            "bounds"  : {"left": 150, "top": 10, "width": 100, "height": 100},
-            "channels": [
-                {
-                    "id"   : "gain",
-                    "event": "valueChanged",
-                    "range": {"min": 0, "max": 2, "defaultValue": 1, "skew": 1, "increment": 0.1}
-                }
-            ],
-            "label"  : {"text": "Gain"}
-        }
-    ]
-}
-</Cabbage>
-<CsoundSynthesizer>
-<CsOptions>
--dm0 -n -+rtmidi=NULL -M0 --midi-key=4 --midi-velocity=5
-</CsOptions>
-<CsInstruments>
-; sr set by host
-ksmps = 16
-nchnls = 2
-0dbfs = 1
+<ExampleCode name="cabbageGetValue" />
 
-instr 1 
-    sliderValue:k, trig:k = cabbageGetValue("gain")
-    //print value of 'gain' slider each time its updated
-    printf("Value is now %f\n", trig, sliderValue)
-
-    //the same result using a single trigger struct variable
-    res:CabbageNumTrig = cabbageGetValue("gain")
-    printf("Struct form: val %f, trig %f\n", res.trig, res.val, res.trig)
-endin
-
-</CsInstruments>  
-<CsScore>
-i1 0 z
-</CsScore>
-</CsoundSynthesizer>
-```
+[Download cabbageGetValue.csd](/examples/cabbageGetValue.csd)
 

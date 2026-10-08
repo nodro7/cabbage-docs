@@ -1,12 +1,12 @@
 ---
-// The full text of a widget example, rendered from public/examples/<name>.csd.
+// The full text of a shared example, rendered from public/examples/<name>.csd.
 //
-// Usage in MDX: <ExampleCode name="rotarySlider" />
+// Usage in MDX: <ExampleCode name="rotarySlider" /> or <ExampleCode name="cabbageSet" />
 import { Code } from '@astrojs/starlight/components';
 import { getExample } from '../../lib/examples';
 
 interface Props {
-  /** Widget type, matching public/examples/<name>.csd. */
+  /** Example name, matching public/examples/<name>.csd. */
   name: string;
 }
 const { name } = Astro.props;

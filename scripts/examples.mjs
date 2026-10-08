@@ -1,4 +1,4 @@
-// Widget examples: public/examples/<name>.csd is the single source. The docs
+// Widget and opcode examples: public/examples/<name>.csd is the single source. The docs
 // pages render those files and link to them for download, so the page and
 // the file can never drift apart again.
 //
@@ -28,6 +28,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pagesDir = 'src/content/docs/docs/widgets';
+const opcodePagesDir = 'src/content/docs/docs/opcodes';
 const examplesDir = join(root, 'public/examples');
 
 /** The last commit in which the widget pages still contained their example blocks. */
@@ -161,13 +162,15 @@ function formToTop(json) {
 
 // ---------------------------------------------------------------- file lists
 
-/** Example names used by a widget page (<WidgetExample name="..." />). */
+/** Example names used by a widget or opcode page (<WidgetExample|ExampleCode name="..." />). */
 function usedExamples() {
 	const names = new Set();
-	for (const file of readdirSync(join(root, pagesDir))) {
-		if (!file.endsWith('.mdx')) continue;
-		const text = readFileSync(join(root, pagesDir, file), 'utf8');
-		for (const match of text.matchAll(/<(?:WidgetExample|ExampleCode)\s+name="([^"]+)"/g)) names.add(match[1]);
+	for (const dir of [pagesDir, opcodePagesDir]) {
+		for (const file of readdirSync(join(root, dir))) {
+			if (!file.endsWith('.mdx')) continue;
+			const text = readFileSync(join(root, dir, file), 'utf8');
+			for (const match of text.matchAll(/<(?:WidgetExample|ExampleCode)\s+name="([^"]+)"/g)) names.add(match[1]);
+		}
 	}
 	return [...names].sort();
 }

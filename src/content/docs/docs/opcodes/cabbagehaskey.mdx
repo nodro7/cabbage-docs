@@ -1,0 +1,33 @@
+---
+title: "cabbageHasKey"
+description: "Checks whether a widget has a given property key."
+---
+
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
+This opcode checks whether a named widget has a given property key. It supports dot-notation for nested JSON properties (e.g., `"bounds.left"`). Returns 1 if the key exists, 0 otherwise. It can run at init-time or k-time.
+
+## Syntax
+```csound
+hasKey:i = cabbageHasKey(SChannel, SProperty)
+hasKey:k = cabbageHasKey(SChannel, SProperty)
+```
+
+### Initialization
+* *SChannel* – the name of the widget channel to query
+* *SProperty* – the property key to check. Supports dot-notation for nested properties, e.g., `"bounds.left"`
+* *hasKey* – 1 if the property exists on the widget, 0 otherwise
+
+### Performance
+* *hasKey* – 1 if the property exists on the widget, 0 otherwise (evaluated each k-cycle)
+
+## Example
+
+<ExampleCode name="cabbageHasKey" />
+
+[Download cabbageHasKey.csd](/examples/cabbageHasKey.csd)
+
+## Notes
+
+- If the specified channel does not match any widget, 0 is returned.
+- Dot-notation traverses nested JSON objects, so `"bounds.left"` checks that both `bounds` and `left` within it exist.

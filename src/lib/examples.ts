@@ -1,6 +1,6 @@
-// Widget examples. The files in public/examples are the single source: the
-// docs pages render them with <ExampleCode> and link to them for download
-// with <WidgetExample>, so the page and the file are always the same text.
+// Shared .csd examples. The files in public/examples are the single source: the
+// docs pages render them with <ExampleCode> and link to them for download,
+// so the page and the file are always the same text.
 //
 // pluginId sits at the top level of each example, as the widgets overview
 // documents.
@@ -15,7 +15,7 @@ const files = import.meta.glob<string>('/public/examples/*.csd', {
 const screenshots = import.meta.glob('/public/img/widgets/*.png');
 
 export type Example = {
-	/** The widget type, which is also the file name without its extension. */
+	/** The example name, matching public/examples/<name>.csd. */
 	name: string;
 	fileName: string;
 	/** Site path of the downloadable file. */

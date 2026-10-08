@@ -1,26 +1,3 @@
----
-title: "cabbageDump"
-description: "Prints the JSON representation of a widget to the Csound console."
----
-
-This opcode will print the JSON representation of a widget to the Csound console. This can be useful for debugging widgets.
-
-## Syntax
-```csound
-cabbageDump:i(SChannel, iIndent)
-cabbageDump:k(kTrig, SChannel, iIndent)
-```
-
-### Initialization
-* *SChannel* – the name of the channel to query
-* *iIndent* - If *iIndent* is nonnegative, then array elements and object members will be pretty-printed with that indent level. An indent level of 0 will only insert newlines. -1 selects the most compact representation. The default level is 4.
-
-### Performance
-* *kTrig* - a trigger signal that will cause the widget's JSON representation to be printed to the console.
-
-## Example:
-
-```csound
 <Cabbage>
 {
     "pluginId"      : "RMSy",
@@ -54,13 +31,17 @@ nchnls = 2
 0dbfs = 1
 
 instr 1 
-    //print entire JSON object associated with 'gain' widget
-    cabbageDump("gain", 4)
+    sliderValue:k, trig:k = cabbageGetValue("gain")
+    //print value of 'gain' slider each time its updated
+    printf("Value is now %f\n", trig, sliderValue)
+
+    //the same result using a single trigger struct variable
+    res:CabbageNumTrig = cabbageGetValue("gain")
+    printf("Struct form: val %f, trig %f\n", res.trig, res.val, res.trig)
 endin
 
 </CsInstruments>  
 <CsScore>
-i1 0 1
+i1 0 z
 </CsScore>
 </CsoundSynthesizer>
-```

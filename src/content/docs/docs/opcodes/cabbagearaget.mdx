@@ -3,6 +3,8 @@ title: "cabbageAraGet"
 description: "Query ARA source metadata and state from a consolidated JSON store"
 ---
 
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
 Returns metadata about ARA audio sources, region information, and plugin state from a consolidated JSON data store. Available in numeric and string variants.
 
 ## Syntax
@@ -433,3 +435,11 @@ The `"lastEvent"` top-level property returns one of the following strings, indic
 |---|---|
 | `"notifySelection"` | Host sent a new selection (user selected regions/tracks) |
 | `"notifyHideRegionSequences"` | Host updated hidden/shown tracks |
+
+## Full example
+
+The ARA analyser below exercises the ARA opcodes against the host document model:
+
+<ExampleCode name="CabbageARA" />
+
+[Download CabbageARA.csd](/examples/CabbageARA.csd)

@@ -3,6 +3,8 @@ title: "cabbageSetValue"
 description: "Sets the current value of a widget, at init-time or k-time."
 ---
 
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
 This opcode sets the current value of a widget and can be executed at either init-time or k-time. When called, it immediately writes the incoming value to a Csound channel and also places the value into a FIFO queue, which the frontend reads to update the UI.
 
 Because the frontend operates at a much lower frame rate than the audio thread, it cannot process every value update. While all updates are written to the underlying Csound channel, many intermediate values will not make it into the FIFO queue and therefore will not be seen by the frontend. However, the most recent value will always make it through, ensuring the UI remains in sync with the latest state.
@@ -24,51 +26,6 @@ cabbageSetValue:i(SChannel, iValue)
 
 ## Example
 
-{/* TODO(G): the example below calls cabbageGetValue, not cabbageSetValue. Rory to supply an example for this opcode. */}
+<ExampleCode name="cabbageSetValue" />
 
-```csound
-<Cabbage>
-{
-    "pluginId"      : "RMSy",
-    "enableDevTools": true,
-    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
-    "widgets"       : [
-        { "type": "form", "caption": "Simple Instrument", "size": {"width": 1000, "height": 520} },
-        {
-            "type"    : "rotarySlider",
-            "bounds"  : {"left": 150, "top": 10, "width": 100, "height": 100},
-            "channels": [
-                {
-                    "id"   : "gain",
-                    "event": "valueChanged",
-                    "range": {"min": 0, "max": 1, "defaultValue": 1, "skew": 1, "increment": 0.1}
-                }
-            ],
-            "label"  : {"text": "Gain"}
-        }
-    ]
-}
-</Cabbage>
-<CsoundSynthesizer>
-<CsOptions>
--dm0 -n -+rtmidi=NULL -M0 --midi-key=4 --midi-velocity=5
-</CsOptions>
-<CsInstruments>
-; sr set by host
-ksmps = 16
-nchnls = 2
-0dbfs = 1
-
-instr 1 
-    gain:k = abs(oscili:k(1, 1))
-    cabbageSetValue("gain", gain)
-    newGain:CabbageNumTrig = cabbageGetValue("gain")
-    printf("Value of gain widget is now %f", newGain.trig, newGain.val)
-endin
-
-</CsInstruments>  
-<CsScore>
-i1 0 z
-</CsScore>
-</CsoundSynthesizer>
-```
+[Download cabbageSetValue.csd](/examples/cabbageSetValue.csd)
