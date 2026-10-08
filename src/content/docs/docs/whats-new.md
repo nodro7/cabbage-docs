@@ -85,5 +85,5 @@ Although keeping mutable artifacts outside of the plugin bundle represents a dep
 
 - ARA (Audio Random Access) is now fully supported. This gives a plugin direct, offline access to a host’s audio material without having to process it in real time.
 
-- Widgets now support abitrary numbers of channels.
+- Widgets now support arbitrary numbers of channels.
 
