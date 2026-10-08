@@ -80,7 +80,7 @@ These opcodes provide an interface to widget properties.
 */
 instr TestMYFLTSetOpcodes
     switch:k = metro(10)
-    toggle:k1 = (oscili:k(1, 2) > 0 ? 1 : 0)
+    toggle:k = (oscili:k(1, 2) > 0 ? 1 : 0)
     if p4 == 0 then
         cabbageSet(switch, "gain", "bounds.left", abs(randi:k(400, 10)))
     elseif p4 == 1 then
