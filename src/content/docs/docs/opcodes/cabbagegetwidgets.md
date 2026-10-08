@@ -34,7 +34,7 @@ SWidgetIds[] = cabbageGetWidgets()
                     "range": {"min": 0, "max": 1, "defaultValue": 0.5, "skew": 1, "increment": 0.001}
                 }
             ],
-            "text"   : "Gain"
+            "label"  : {"text": "Gain"}
         },
         {
             "type"    : "button",

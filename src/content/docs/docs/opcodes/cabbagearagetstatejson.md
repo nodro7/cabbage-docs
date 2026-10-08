@@ -82,7 +82,7 @@ endin
 ; Get JSON on each ARA update
 instr 2
   trig:k = cabbageAraGetUpdate()
-  json:S = cabbageAraGetStateJson(kTrig)
+  json:S = cabbageAraGetStateJson(trig)
 endin
 
 ; Write JSON to a file for a web frontend

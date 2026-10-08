@@ -67,10 +67,10 @@ cabbageSet:k(kTrig, SChannel, SProperty, kValue[])
             "text"      : "This instrument shows an example..."
         },
         {
-            "type"   : "comboBox",
-            "channel": "combo1",
-            "bounds" : {"left": 200, "top": 200, "width": 100, "height": 30},
-            "items"  : ["One", "Two", "Three"]
+            "type"    : "comboBox",
+            "bounds"  : {"left": 200, "top": 200, "width": 100, "height": 30},
+            "channels": [ {"id": "combo1", "event": "valueChanged", "range": {}} ],
+            "items"   : ["One", "Two", "Three"]
         }
     ]
 }

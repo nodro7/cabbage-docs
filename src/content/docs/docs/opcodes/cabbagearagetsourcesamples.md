@@ -39,11 +39,11 @@ instr 1
   index:i = cabbageAraGet("currentIndex")
 
   ; Read first 100 samples from channel 0 as an array
-  samples:i[] = cabbageAraGetSourceSamples(0, 100, 0, iIndex)
+  samples:i[] = cabbageAraGetSourceSamples(0, 100, 0, index)
 
   ; Or read sample-by-sample at audio rate
-  phase:a = phasor(sr/lenarray(samples))
-  out:a = cabbageAraGetSourceSamples(phase, 0, index)
+  position:a = phasor(sr / lenarray(samples)) * lenarray(samples)
+  out:a = cabbageAraGetSourceSamples(position, 0, index)
 endin
 ```
 
