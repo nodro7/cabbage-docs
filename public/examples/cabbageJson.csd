@@ -1,7 +1,10 @@
 <Cabbage>
-[
-    {"type":"form","caption":"JSON Utilities","size":{"width":500,"height":200},"pluginId":"jsonUtils"}
-]
+{
+    "pluginId": "jsonUtils",
+    "widgets": [
+        {"type":"form","caption":"JSON Utilities","size":{"width":500,"height":200}}
+    ]
+}
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>
