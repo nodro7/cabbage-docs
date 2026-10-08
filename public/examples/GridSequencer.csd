@@ -1,13 +1,13 @@
 
 <Cabbage>
 {
+    "pluginId": "def1",
     "widgets": [
         {
             "type"    : "form",
             "id"      : "MainForm",
             "caption" : "Template Effect",
             "size"    : {"width": 640, "height": 380},
-            "pluginId": "def1",
             "channels": [ {"id": "formChannel"} ]
         },
         {
