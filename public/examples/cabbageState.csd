@@ -1,17 +1,16 @@
 <Cabbage>
 {
-    "pluginId"     : "def1",
-    "channelConfig": [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
-    "widgets"      : [
+    "pluginId"      : "def1",
+    "enableDevTools" : true,
+    "channelConfig"  : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"        : [
         {
-            "type"          : "form",
-            "id"            : "MainForm",
-            "caption"       : "Slider Example",
-            "size"          : {"width": 461, "height": 482},
-            "guiMode"       : "queue",
-            "channels"      : [ {"id": "formChannel"} ],
-            "channelConfig" : "2-2",
-            "enableDevTools": true
+            "type"    : "form",
+            "id"      : "MainForm",
+            "caption" : "Slider Example",
+            "size"    : {"width": 461, "height": 482},
+            "guiMode" : "queue",
+            "channels": [ {"id": "formChannel"} ]
         },
         {
             "type"  : "csoundOutput",
