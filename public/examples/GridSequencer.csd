@@ -379,7 +379,7 @@ instr SYNTH
     aOp2 = oscili(expsegr(0.001, .001, 8, 1*duration, 0.005, 0.3, 0.001), freq*14)
     aOp1 = oscili(expsegr(0.001, .001, p5, 10*duration, 0.5, 0.3, 0.001), aOp2+(freq*1.002))
     aOp4 = oscili(expsegr(0.001, .001, 7, 15*duration, 0.0001, 0.3, 0.001)*freq, freq*7)
-    aOp3 = oscili(expsegr(0.001, .001, p5, 15*duration, 0.5, 0.3, 0.001), aOp3+(freq))
+    aOp3 = oscili(expsegr(0.001, .001, p5, 15*duration, 0.5, 0.3, 0.001), aOp4+freq)
     aOp6 = oscili(expsegr(0.001, .001, 6, 15*duration, 0.0001, 0.3, 0.00001)*freq, freq*1.003)
     aOp5 = oscili(expsegr(0.001, .001, p5, 20*duration, 0.5, 0.3, 0.00001), aOp6+(freq*1.003))
     fmMix:a = (aOp1+aOp3+aOp5)*.25
