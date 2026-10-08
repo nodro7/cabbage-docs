@@ -58,7 +58,7 @@ nchnls = 2
 
 ; This instrument listens for ARA updates and when it detects one
 ; it triggers instrument 99 to process the audio data. No point
-; in trying to procedss anything until an event is received from the host,
+; in trying to process anything until an event is received from the host,
 ; as there will be no audio data to process.
 instr 1
     updated:k = cabbageAraGetUpdate()
@@ -86,7 +86,7 @@ instr ShowAllInfo
     mcCnt:i     = cabbageAraGet("musicalContextCount")
     rsCnt:i     = cabbageAraGet("regionSequenceCount")
     modCnt:i    = cabbageAraGet("audioModificationCount")
-    selRegCnt:i = cabbageAraGet("selectedPlaybackRegionCount")
+    selRegCnt:i = cabbageAraGet("editorView.selectedPlaybackRegionCount")
     printfi("[Metrics] Sources: %d  |  Regions: %d  |  Contexts: %d  |  Sequences: %d  |  Modifications: %d  |  Selected: %d  |  Current Index: %d\n", 1, srcCnt, regCnt, mcCnt, rsCnt, modCnt, selRegCnt, idx)
 
     ; --- Time Range Calculations ---
@@ -168,11 +168,11 @@ instr ShowAllInfo
     else
         activeSelIdx:i = 0
         while activeSelIdx < selRegCnt do
-            selRegName:S    = cabbageAraGet("playbackRegion.selectedRegionName", activeSelIdx)
-            selTimelineStart:i = cabbageAraGet("playbackRegion.selectedPlaybackStart", activeSelIdx)
-            selTimelineDur:i   = cabbageAraGet("playbackRegion.selectedPlaybackDuration", activeSelIdx)
-            selSrcStartSamp:i  = cabbageAraGet("playbackRegion.selectedRegionStartInSamples", activeSelIdx)
-            selSrcDurSamp:i    = cabbageAraGet("playbackRegion.selectedRegionDurationInSamples", activeSelIdx)
+            selRegName:S = cabbageAraGet("editorView.selectedRegion.name", activeSelIdx)
+            selTimelineStart:i = cabbageAraGet("editorView.selectedPlayback.start", activeSelIdx)
+            selTimelineDur:i = cabbageAraGet("editorView.selectedPlayback.duration", activeSelIdx)
+            selSrcStartSamp:i = cabbageAraGet("editorView.selectedRegion.startInSamples", activeSelIdx)
+            selSrcDurSamp:i = cabbageAraGet("editorView.selectedRegion.durationInSamples", activeSelIdx)
 
             printfi("[%d] '%s'\n", activeSelIdx + 1, activeSelIdx, selRegName)
             printfi("    Timeline Pos: %.3fs (Dur: %.3fs)\n", 1, selTimelineStart, selTimelineDur)
