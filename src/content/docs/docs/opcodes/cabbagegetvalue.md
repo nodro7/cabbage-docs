@@ -48,7 +48,7 @@ res:CabbageStrTrig = cabbageGetValue(SChannel)
                     "range": {"min": 0, "max": 2, "defaultValue": 1, "skew": 1, "increment": 0.1}
                 }
             ],
-            "text"   : "Gain"
+            "label"  : {"text": "Gain"}
         }
     ]
 }

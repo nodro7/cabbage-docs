@@ -26,7 +26,7 @@
 <CsoundSynthesizer>
 <CsOptions>
 -n -d -+rtmidi=NULL -M0 -m0d --midi-key=4 --midi-velocity-amp=5
-</CsOptions>e
+</CsOptions>
 <CsInstruments>
 ; Initialize the global variables.
 ksmps = 32
@@ -38,7 +38,7 @@ nchnls = 2
 ;
 ; License: CC0 1.0 Universal
 ; You can copy, modify, and distribute this file,
-; even for co mmercial purposes, all without asking permission.
+; even for commercial purposes, all without asking permission.
 
 instr 1
     label:CabbageNumTrig  = cabbageGetValue("label2")

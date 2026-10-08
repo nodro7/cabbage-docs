@@ -188,12 +188,12 @@ Playback region index is separate from source pool index and selection index. Th
 instr 1
   idx:i = cabbageAraGet("currentIndex")
   cnt:i = cabbageAraGet("audioSourceCount")
-  name:S = cabbageAraGet("audioSource.name", iIdx)
-  ch:i = cabbageAraGet("audioSource.channels", iIdx)
-  sr:i = cabbageAraGet("audioSource.sampleRate", iIdx)
-  dur:i = cabbageAraGet("audioSource.duration", iIdx)
+  name:S = cabbageAraGet("audioSource.name", idx)
+  ch:i = cabbageAraGet("audioSource.channels", idx)
+  sr:i = cabbageAraGet("audioSource.sampleRate", idx)
+  dur:i = cabbageAraGet("audioSource.duration", idx)
 
-  prints("Source '%s': %d ch, %d Hz, %.2f sec\n", SName, iCh, iSr, iDur)
+  prints("Source '%s': %d ch, %d Hz, %.2f sec\n", name, ch, sr, dur)
 endin
 ```
 

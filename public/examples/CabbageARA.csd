@@ -62,9 +62,8 @@ nchnls = 2
 ; as there will be no audio data to process.
 instr 1
     updated:k = cabbageAraGetUpdate()
-    ;cabbageAraDump(changed:k(updated))
-    if changed:k(updated) == 1 then
-        event "i", "ShowAllInfo", 0, 1, updated
+    if updated == 1 then
+        event("i", "ShowAllInfo", 0, 1)
     endif
 endin
 
