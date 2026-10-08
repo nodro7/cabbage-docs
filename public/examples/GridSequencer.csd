@@ -355,7 +355,7 @@ instr SEQUENCER
         event("i", "SAVE_PRESET", 0, .1)
     endif
 
-    loadPreset:S, loadPresetTrig:k = cabbageGetValue:S("presetCombo")
+    loadPreset:S, loadPresetTrig:k = cabbageGetValue("presetCombo")
     if loadPresetTrig==1 then
         event("i", "LOAD_PRESET", 0, .1)
     endif
