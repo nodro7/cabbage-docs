@@ -80,8 +80,8 @@ instr 1
 endin
 
 instr 2
-    ; change the property so the trigger above fires
-    cabbageSet("status", "text", "running")
+    ; change the status label after 1 second
+    cabbageSet("status", "label.text", "running")
 endin
 
 </CsInstruments>
