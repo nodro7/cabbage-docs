@@ -182,7 +182,7 @@ site-search > button[data-open-modal]:hover {
 
 :root {
   --sl-content-width: 47.5rem; /* 760px */
-  --sl-sidebar-width: 18rem; /* 288px */
+  --sl-sidebar-width: 20rem; /* 320px: the longest opcode name fits on one line */
   --sl-line-height: 1.6;
   --sl-color-bg-inline-code: var(--cb-raise);
   --sl-text-h1: clamp(2rem, 3.4vw, 2.875rem); /* 32 to 46px */
