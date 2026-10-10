@@ -3,6 +3,8 @@ title: "cabbageSaveState"
 description: "Saves the current values of all widgets to a JSON file."
 ---
 
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
 This opcode saves the current state of all widget values to a JSON file. The saved state can later be restored using the `cabbageLoadState` opcode. This is useful for creating preset systems or saving/loading configurations. This opcode works at i-time only. Therefore it is best used in an instrument that is called when you want to save state. 
 
 ## Syntax
@@ -18,3 +20,25 @@ cabbageSaveState:i(SFilePath, SWidgetIds[])
 :::note
 The saved JSON file contains all current widget channel values and can be edited manually if needed. To save multiple presets, use Csound's string formatting to dynamically generate unique filenames, for example: `sprintf("/path/to/presets/preset_%d.json", iPresetNumber)`
 :::
+
+## Example
+
+```csound
+instr SaveState
+    filename:S = sprintf("%s/myPreset.json", chnget:S("CSD_PATH"))
+    cabbageSaveState(filename)
+endin
+```
+
+To restore the state saved here, see [cabbageLoadState](/docs/opcodes/cabbageloadstate/). For a full example, see [Saving and Loading State](/docs/using/saving-and-loading-state/).
+
+## Full example
+
+<ExampleCode name="cabbageState" />
+
+[Download cabbageState.csd](/examples/cabbageState.csd)
+
+## See Also
+
+- [cabbageLoadState](/docs/opcodes/cabbageloadstate/)
+- [Saving and Loading State](/docs/using/saving-and-loading-state/)

@@ -1,7 +1,10 @@
 <Cabbage>
 {
-    "widgets": [
-        { "type": "form", "caption": "Gentable Example", "size": {"width": 400, "height": 650}, "guiMode": "queue", "pluginId": "def1" },
+    "pluginId"      : "def1",
+    "enableDevTools": true,
+    "channelConfig" : [ {"name": "0 in 2 out", "ins": "0", "outs": "2"} ],
+    "widgets"       : [
+        { "type": "form", "caption": "Gentable Example", "size": {"width": 400, "height": 650}, "guiMode": "queue" },
         {
             "type"             : "genTable",
             "bounds"           : {"left": 10, "top": 7, "width": 380, "height": 200},
@@ -36,9 +39,9 @@ nchnls 		= 	2
 ; even for commercial purposes, all without asking permission.
 
 instr	1
-    SFile, kTrig = cabbageGetValue("fileToOpen")
-    printf("File selected:%s", kTrig, SFile)
-    cabbageSet(kTrig, "gentable1", "file", SFile)
+    fileRes:CabbageStrTrig = cabbageGetValue("fileToOpen")
+    printf("File selected:%s", fileRes.trig, fileRes.val)
+    cabbageSet(fileRes.trig, "gentable1", "file", fileRes.val)
 endin
 
 </CsInstruments>

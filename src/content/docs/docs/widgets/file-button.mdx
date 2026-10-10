@@ -13,9 +13,13 @@ import Persistence from "../../../../components/properties/persistence.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
 import StyleFileButton from "../../../../components/properties/filebutton.style.astro";
+import WidgetExample from "../../../../components/docs/WidgetExample.astro";
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 
 
 `fileButton` creates a button that opens a native file browser dialog. When clicked, it allows users to select files from their system. The selected file path is sent as a string value through the widget's channel, enabling dynamic audio file loading and other file-based operations in Csound.
+
+<WidgetExample name="fileButton" />
 
 ## Properties
 
@@ -102,6 +106,15 @@ When `true`, the file browser will open at the location of the last selected fil
 
 ## Csound Usage
 
-{/* TODO(G): this page has no example yet. Rory to supply a fileButton example (public/examples/fileButton.csd); then add <WidgetExample name="fileButton" /> and <ExampleCode name="fileButton" /> as on the other widget pages. */}
+The `fileButton` returns a string containing the file path and a k-rate trigger value. The trigger value will be 1 for one k-cycle when a new file is selected, then return to 0. Read it with the `CabbageStrTrig` struct form of `cabbageGetValue`:
 
-The `fileButton` returns a string containing the file path and a k-rate trigger value. The trigger value will be 1 for one k-cycle when a new file is selected, then return to 0.
+```csound
+file:CabbageStrTrig = cabbageGetValue("audioFile")
+if file.trig == 1 then
+    cabbageSet("infoText", "text", file.val)
+endif
+```
+
+## Example
+
+<ExampleCode name="fileButton" />

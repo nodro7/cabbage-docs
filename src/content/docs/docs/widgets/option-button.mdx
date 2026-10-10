@@ -57,6 +57,15 @@ import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 ### Style
 <StyleOptionButton />
 
+## Csound Usage
+
+The `optionButton` returns the index of the current item. Each press steps to the next item. The first item sends 0, the second sends 1, and so on. Read it with `cabbageGetValue`:
+
+```csound
+iVcoModes[] fillarray 0, 10, 12
+aVco = vco2(kEnv*p5*.5, cpsmidinn(p4), iVcoModes[cabbageGetValue:i("waveform")])
+```
+
 ## Example
 
 <ExampleCode name="optionButton" />

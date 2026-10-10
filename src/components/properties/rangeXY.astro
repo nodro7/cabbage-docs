@@ -1,6 +1,6 @@
 ---
 import { Code } from '@astrojs/starlight/components';
-const description = `<p>Defines the ranges for both X and Y axes of the xyPad. Each axis has its own independent range with the following parameters:</p>
+const description = `<p>Each xyPad axis has its own independent range, set on its channel entry (<code>channels[0].range</code> for X, <code>channels[1].range</code> for Y) with the following parameters:</p>
 <ul>
 <li><strong>min</strong>: Minimum value (required)</li>
 <li><strong>max</strong>: Maximum value (required)</li>
@@ -11,9 +11,9 @@ const description = `<p>Defines the ranges for both X and Y axes of the xyPad. E
 <blockquote><p><code>range()</code> cannot be updated or modified once a widget has been declared.</p></blockquote>`;
 ---
 <div class="property-section">
-  <Code code={`"range": {
-    "x": {"min": 0, "max": 100, "defaultValue": 50, "skew": 1, "increment": 0.1},
-    "y": {"min": 0, "max": 100, "defaultValue": 50, "skew": 1, "increment": 0.1}
-}`} lang="json" />
+  <Code code={`"channels": [
+    {"id": "bandwidth", "event": "mouseDragX", "range": {"min": 10, "max": 2000, "defaultValue": 200, "skew": 1, "increment": 0.001}},
+    {"id": "cutoff", "event": "mouseDragY", "range": {"min": 100, "max": 8000, "defaultValue": 1000, "skew": 1, "increment": 0.001}}
+]`} lang="json" />
   <Fragment set:html={description} />
 </div>

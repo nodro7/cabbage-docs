@@ -12,7 +12,7 @@ A `<Cabbage>{...}</Cabbage>` JSON structure is still required to define paramete
 ## Architecture Overview
 
 ### UI → Backend (Outgoing Communication)
-Use `Cabbage.sendControlData()` to send widget value changes to the backend. The backend automatically determines routing based on channel automatable status.
+Three functions cover everything a UI sends to the backend. Use `Cabbage.sendControlData()` to send widget value changes; the backend automatically determines routing based on channel automatable status. Use `Cabbage.sendWidgetUpdate()` to send widget *property* updates (position, visibility, colours, and so on) as extended JSON packets. Use `Cabbage.sendChannelData()` to write a channel directly, bypassing the widget layer.
 
 ### Backend → UI (Incoming Communication)
 Use `Cabbage.addMessageListener(callback)` to receive messages from the backend. This works in all environments — VS Code, native DAW plugins, and custom UI frameworks — without any environment-specific setup.
@@ -131,6 +131,28 @@ Send channel data directly to Csound without DAW automation — bypasses all wid
 - Bypasses DAW automation system
 - Automatically determines string vs numeric data
 
+
+---
+
+#### `Cabbage.sendWidgetUpdate(widget, vscode)`
+
+Send extended JSON widget property packets to the Cabbage backend. The packet is merge-patched into the stored widget object, so this is the recommended way for a custom frontend to update widget properties such as `bounds`, `visible`, or colours at runtime. It is the counterpart to `sendControlData()`: values travel through `sendControlData()`, everything else travels through here.
+
+**Parameters:**
+- `widget` (Object): Widget packet. Must identify the widget with an `id`, either a top-level `id` or any `channels[].id`, plus the properties to change
+- `vscode` (Object|null): VS Code API instance (pass `null` for plugin mode)
+
+**Behavior:**
+- Merge-patch semantics: only the supplied properties are merged, so partial packets are fine, but a `null` value **deletes** its key, and **arrays replace wholesale**, so always send complete arrays (e.g. a full `channels` array, never a fragment of one)
+- Values cannot travel this way: `value` and `range.value` are stripped before sending, along with binding and runtime keys (`parameterIndex`, `channel`, `samples`, file paths), value changes must go through `sendControlData()` (or `sendChannelData()`). Stripping happens twice, `sendWidgetUpdate()` sanitizes the packet via `CabbageUtils.sanitizeForEditor()`, and the backend strips the same keys again before merging, so the guarantee holds even for hand-built packets. Note stored widgets may already show a backend-stamped top-level `value`: that is live runtime state, and a packet's `value` never overwrites it
+- Fire-and-forget: the backend applies the patch without echoing it back, so apply the change locally in the UI as well; packets with an unknown id fail silently, so double-check the spelling. The silence is deliberate: re-broadcasting full widget packets, which can carry large `samples` arrays, risks echo loops that flood the strings-only message queue, so property updates are applied without notifying other views
+
+**Example:**
+```js
+// Move a widget and hide another, from a custom frontend
+Cabbage.sendWidgetUpdate({ id: "mainGain", bounds: { left: 40, top: 20 } }, null);
+Cabbage.sendWidgetUpdate({ id: "debugPanel", visible: 0 }, null);
+```
 
 ---
 
@@ -257,23 +279,6 @@ Send a custom command to the backend for specialized operations.
 ```js
 Cabbage.sendCustomCommand('cabbageIsReadyToLoad', null);
 ```
-
----
-
-### Internal Functions
-
-:::caution
-These functions are used internally and are not for general use.
-:::
-
-#### `Cabbage.sendWidgetUpdate(widget, vscode)`
-
-Update widget state in the backend (used by property panel).
-
-**Parameters:**
-- `widget` (Object): Widget configuration object
-- `vscode` (Object|null): VS Code API instance
-
 
 ---
 

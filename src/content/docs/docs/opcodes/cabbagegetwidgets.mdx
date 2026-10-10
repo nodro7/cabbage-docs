@@ -3,6 +3,8 @@ title: "cabbageGetWidgets"
 description: "Returns the IDs of all widgets currently loaded in the instrument."
 ---
 
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
 Returns a string array containing the IDs of all widgets currently loaded in the instrument. This opcode works at i-time only. Each entry in the returned array corresponds to a widget's top-level `id` field, or falls back to `channels[0].id` if no top-level `id` is present. This opcodes runs at i-time only. 
 
 ## Syntax
@@ -16,38 +18,9 @@ SWidgetIds[] = cabbageGetWidgets()
 
 ## Example
 
-```csound
-<Cabbage>[
-    {"type":"form","caption":"Simple Instrument","size":{"width":600,"height":300},"pluginId":"GWdt"},
-    {"type":"rotarySlider","channel":"gain","bounds":{"left":50,"top":50,"width":100,"height":100},"range":{"min":0,"max":1,"value":0.5},"text":"Gain"},
-    {"type":"button","channel":"trigger","bounds":{"left":200,"top":80,"width":80,"height":40},"text":{"on":"On","off":"Off"}}
-]
-</Cabbage>
-<CsoundSynthesizer>
-<CsOptions>
--dm0 -n
-</CsOptions>
-<CsInstruments>
-ksmps = 32
-nchnls = 2
-0dbfs = 1
+<ExampleCode name="cabbageGetWidgets" />
 
-instr 1
-    ; Retrieve all widget IDs
-    SWidgets[] = cabbageGetWidgets()
-    i = 0
-    while i < lenarray(SWidgets) do
-        prints("Widget ID: %s\n", SWidgets[i])
-        i += 1
-    od
-endin
-
-</CsInstruments>
-<CsScore>
-i1 0 1
-</CsScore>
-</CsoundSynthesizer>
-```
+[Download cabbageGetWidgets.csd](/examples/cabbageGetWidgets.csd)
 
 ## Notes
 

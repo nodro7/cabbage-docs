@@ -54,6 +54,14 @@ import ExampleCode from "../../../../components/docs/ExampleCode.astro";
 ### ZIndex
 <ZIndex />
 
+## Csound Usage
+
+The `numberSlider` returns its current value as a continuous k-rate signal. Read it with `cabbageGetValue`, smoothing the result with `tonek` when driving audio-rate parameters:
+
+```csound
+harm1:a = oscili(1, tonek(cabbageGetValue:k("harmonic1"), 10), wave)
+```
+
 ## Example
 
 <ExampleCode name="numberSlider" />

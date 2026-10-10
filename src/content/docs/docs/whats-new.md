@@ -78,3 +78,12 @@ Although keeping mutable artifacts outside of the plugin bundle represents a dep
 * No notarization is required for non-executable assets
 * Faster iteration, especially during development
 * A cleaner separation between code and data
+
+## 7. New trigger structs and ARA support
+
+- Cabbage now provides built-in trigger struct `CabbageNumTrig` and `CabbageStrTrig`. These return numeric or string values together with a 0/1 edge-trigger that fires for a single k-cycle on value change.
+
+- ARA (Audio Random Access) is now fully supported. This gives a plugin direct, offline access to a host’s audio material without having to process it in real time.
+
+- Widgets now support arbitrary numbers of channels.
+

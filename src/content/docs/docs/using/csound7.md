@@ -1,6 +1,8 @@
 ---
 title: "Csound 7"
 description: "The Csound 7 features that matter most in Cabbage 3: explicit types, structs, better UDOs, oversampling and opcode arrays."
+sidebar:
+  order: 1
 ---
 
 Cabbage 3 is built on Csound 7, the latest major release of the Csound audio programming language. The improvements it brings make it a much stronger foundation for building audio plugins and instruments. This page highlights the Csound 7 features most relevant to Cabbage users.
@@ -35,22 +37,46 @@ endin
 
 ```
 
-For Cabbage users building complex instruments structs provide a clean way to organise state that previously required verbose naming conventions or unwieldy arrays. The following is an example of a struct that can be used to represent the two outputs of a Cabbage button:
+For Cabbage users building complex instruments structs provide a clean way to organise state that previously required verbose naming conventions or unwieldy arrays. Most often the struct you will reach for is one of the two built-in trigger types described below.
+
+### Built-in Trigger Structs
+
+Many Cabbage get opcodes return a value plus a trigger that fires for one k-cycle whenever that value changes. Cabbage registers two struct types so both outputs can live in a single variable:
+
+| Struct type | Members | Use with |
+|-------------|---------|----------|
+| `CabbageNumTrig` | `val:k`, `trig:k` | numeric channels |
+| `CabbageStrTrig` | `val:S`, `trig:k` | string channels and string properties |
+
+The following opcode forms accept them:
+
+- [`cabbageGetValue`](/docs/opcodes/cabbagegetvalue/) — both types
+- [`cabbageGet`](/docs/opcodes/cabbageget/) — `CabbageStrTrig`
+- [`cabbageJsonGet`](/docs/opcodes/cabbagejsonget/) — `CabbageStrTrig`
+- [`cabbageAraGetUpdateEvent`](/docs/opcodes/cabbagearagetupdateevent/) — `CabbageStrTrig`
 
 ```csound
-struct CabbageButton trig:k, val:k
-
 instr Effect
+  ; two output variables ...
+  kGain, kTrig cabbageGetValue "gain"
+  ; ... or one struct variable
+  gainRes:CabbageNumTrig cabbageGetValue "gain"
 
-  mute:CabbageButton init 0, 0
-  compress:CabbageButton
+  if gainRes.trig == 1 then
+    printf "gain changed to %f\n", 1, gainRes.val
+  endif
 
-  mute.val, mute.trig = cabbageGetValue("muteWidget")
-  compress.val, compress.trig = cabbageGetValue("compressWidget")
-  (...)
-
+  statusRes:CabbageStrTrig cabbageGet "status", "text"
+  if statusRes.trig == 1 then
+    printf "status is now %s\n", 1, statusRes.val
+  endif
 endin
 ```
+
+Two things to keep in mind:
+
+- **Never declare these types yourself.** Cabbage registers `CabbageNumTrig` and `CabbageStrTrig` before the orchestra compiles; a local `struct CabbageNumTrig ...` line will collide with the built-in registration.
+- **They require a Csound 7 build with struct opcode output support** (Csound PR #3356). On older builds Cabbage detects the missing API, skips the struct overloads, and prints a notice to the console — the legacy two-output forms above keep working unchanged, so code can use either style safely.
 
 ## Improved User-Defined Opcodes (UDOs) with Pass-by-Reference
 
