@@ -1,0 +1,30 @@
+---
+title: "cabbageGetWidget"
+description: "Returns the full JSON object of a single widget as a string."
+---
+
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
+Returns the compact JSON object of the widget with the given channel ID. Accepts a top-level `id` or any `channels[].id`, including widgets nested inside `children[]`. Returns an empty string (and prints a console message) when no widget matches. This opcode runs at i-time only.
+
+## Syntax
+```csound
+json:S = cabbageGetWidget(SChannel)
+```
+
+## Initialization
+
+- `json:S` – the widget's full JSON object in compact form, suitable for parsing with `cabbageJsonGet` or re-publishing with `cabbageSet`.
+- `SChannel` – the channel ID of the widget to fetch.
+
+## Example
+
+<ExampleCode name="cabbageGetWidget" />
+
+[Download cabbageGetWidget.csd](/examples/cabbageGetWidget.csd)
+
+## Notes
+
+- This opcode is i-time only; call it from an instrument that runs at initialisation, or from an always-on instrument (`i1 0 z`).
+- For large widgets (e.g. `genTable` with embedded sample data) the returned string can be very long; prefer `cabbageGet SChannel, SIdentifier` when only one property is needed.
+- Use `cabbageGetWidgetIds` to discover the available channel IDs, e.g. to loop over a group of related widgets.

@@ -1,0 +1,33 @@
+---
+title: "cabbageGetWidgetIds"
+description: "Returns the channel IDs of all widgets, optionally filtered by a property match."
+---
+
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
+Returns a string array containing the channel IDs of all widgets currently loaded in the instrument. Each entry is the widget's top-level `id` field, falling back to `channels[0].id` when no top-level `id` exists. Nested `children[]` widgets are flattened into the same list, so every addressable channel appears exactly once. This opcode runs at i-time only.
+
+## Syntax
+```csound
+widgetIds:S[] = cabbageGetWidgetIds()
+widgetIds:S[] = cabbageGetWidgetIds(SFilterPath, SFilterValue)
+```
+
+## Initialization
+
+- `widgetIds:S[]` – a string array of widget channel IDs.
+- `SFilterPath` – a dot-notation property path using the same convention as `cabbageSet`/`cabbageGet`, e.g. `"type"`, `"id"`, `"channels.0.id"`, `"style.off.backgroundColor"`. Only widgets where this path exists are considered.
+- `SFilterValue` – a case-sensitive glob pattern matched against the value at `SFilterPath` (`*` matches any sequence, `?` matches one character, `\` escapes the next character). A pattern without wildcards is an exact match. Strings compare by their text; numbers, booleans and other values compare by their JSON representation.
+
+## Example
+
+<ExampleCode name="cabbageGetWidgetIds" />
+
+[Download cabbageGetWidgetIds.csd](/examples/cabbageGetWidgetIds.csd)
+
+## Notes
+
+- This opcode is i-time only; call it from an instrument that runs at initialisation, or from an always-on instrument (`i1 0 z`).
+- The form widget is included in the returned array (it carries the default `MainForm` id).
+- Widgets with neither a top-level `id` nor a `channels[0].id` are skipped.
+- Use `cabbageGetWidget` to fetch a listed widget's full JSON object.

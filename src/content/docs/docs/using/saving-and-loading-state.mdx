@@ -88,14 +88,14 @@ Most widgets need only their current value saved and restored, which is what the
 }
 ```
 
-Then build a filtered channel list using `cabbageGetWidgets` and `cabbageHasKey`:
+Then build a filtered channel list using `cabbageGetWidgetIds` and `cabbageHasKey`:
 
 ```csound
 instr SaveSelectedState
     filename:S = sprintf("%s/savedState.json", chnget:S("CSD_PATH"))
     fullSaveIndex:i init 0
     fullSaveChannels:S[] init 10
-    channels:S[] = cabbageGetWidgets()
+    channels:S[] = cabbageGetWidgetIds()
     prints("Number of widgets found: %d\n", lenarray(channels))
 
 
@@ -367,7 +367,7 @@ instr SaveSelectedState
     filename:S = sprintf("%s/savedState.json", chnget:S("CSD_PATH"))
     fullSaveIndex:i init 0
     fullSaveChannels:S[] init 10
-    channels:S[] = cabbageGetWidgets()
+    channels:S[] = cabbageGetWidgetIds()
     prints("Number of widgets found: %d\n", lenarray(channels))
 
 
