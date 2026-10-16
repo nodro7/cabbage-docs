@@ -68,14 +68,14 @@ instr 1
     name:S       = cabbageAraGet("audioSource.name", idx)
     sampleRate:i = cabbageAraGet("audioSource.sampleRate", idx)
     channels:i   = cabbageAraGet("audioSource.channels", idx)
-    updateCounter:k = cabbageAraGetUpdate()
+    trig:k = cabbageAraGetUpdate()
 
-    ; Detect new ARA lifecycle events
-    if changed(updateCounter) == 1 then
+    ; Detect new ARA lifecycle events (already a 1-k-cycle trigger, no changed() needed)
+    if trig == 1 then
         ; Query region properties (crop position within source file)
         regionStart:i = cabbageAraGet("audioSource.region.startInSamples", idx)
         regionDuration:i = cabbageAraGet("audioSource.region.durationInSamples", idx)
-        printf("Asset: %s [SR: %d, Chans: %d]\n", updateCounter, name, sampleRate, channels)
+        printf("Asset: %s [SR: %d, Chans: %d]\n", trig, name, sampleRate, channels)
     endif
 
     ; Read raw audio samples at audio-rate position
@@ -87,12 +87,12 @@ endin
 
 ## Detecting updates
 
-`cabbageAraGetUpdate` returns a k-rate counter that increments whenever the ARA model data changes. Use it as a trigger to re-read source metadata. This fires whenever changes are made to the session — timeline edits, new clips added, clips resized, tracks hidden, etc.
+`cabbageAraGetUpdate` returns a k-rate trigger that fires `1` for a single k-cycle whenever the ARA model data changes. Use it directly as a trigger to re-read source metadata (no `changed()` needed — wrapping it in `changed()` would double-fire on both edges). This fires whenever changes are made to the session — timeline edits, new clips added, clips resized, tracks hidden, etc.
 
 ```csound
 instr 1
     updated:k = cabbageAraGetUpdate()
-    if changed:k(updated) == 1 then
+    if updated == 1 then
         event "i", "ReadAraData", 0, 3600
     endif
 endin
