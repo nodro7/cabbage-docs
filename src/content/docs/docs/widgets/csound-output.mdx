@@ -1,0 +1,68 @@
+---
+title: "Csound Output"
+description: "Properties and a complete example for csoundOutput, a read-only console that displays Csound messages inside the instrument."
+---
+
+import Bounds from "../../../../components/properties/bounds.astro";
+import Id from "../../../../components/properties/id.astro";
+import Label from "../../../../components/properties/label.astro";
+import Visible from "../../../../components/properties/visible.astro";
+import ZIndex from "../../../../components/properties/zindex.astro";
+import StyleCsoundOutput from "../../../../components/properties/csoundOutput.style.astro";
+import WidgetExample from "../../../../components/docs/WidgetExample.astro";
+import ExampleCode from "../../../../components/docs/ExampleCode.astro";
+
+
+`csoundOutput` creates a read-only text area that displays Csound's console messages inside the instrument. It is most useful when developing plugins, where the Csound console is not readily available: anything written with `printf`, `prints`, or similar opcodes is appended to the widget as it is produced.
+
+<WidgetExample name="csoundOutput" />
+
+:::note
+Only the first `csoundOutput` widget in an interface receives the console text, so use one output widget per instrument.
+:::
+
+## Properties
+
+### Bounds
+<Bounds />
+
+### Id
+<Id />
+
+### Label
+<Label />
+
+:::note
+For `csoundOutput`, `label.text` sets the text shown when the widget is first created. Csound messages are appended below it.
+:::
+
+### Visible
+<Visible />
+
+### ZIndex
+<ZIndex />
+
+### Style
+<StyleCsoundOutput />
+
+## Csound Usage
+
+Console messages are collected by the Cabbage backend and appended to the output widget. Any of Csound's printing opcodes will appear there:
+
+```csound
+printf("Frequency: %.2f Hz\n", 1, frequency)
+prints("Instrument started\n")
+```
+
+To print only when something happens, gate the message with a channel trigger:
+
+```csound
+trigger:CabbageNumTrig = cabbageGetValue("printMessage")
+printf("Button pressed at %.2f seconds\n", trigger.trig, timeinsts())
+```
+
+The widget is display-only and does not send values to Csound. Messages accumulate while the instrument is running.
+
+## Example
+
+<ExampleCode name="csoundOutput" />

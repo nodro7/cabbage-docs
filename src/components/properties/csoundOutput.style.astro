@@ -1,0 +1,20 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<ul>
+<li>The widget is read-only. Users can select and scroll the text but cannot edit it.</li>
+<li><code>fontSize</code> is set in pixels.</li>
+<li><code>textAlign</code> accepts <code>left</code>, <code>center</code>, or <code>right</code>.</li>
+<li>Colors accept named CSS colors, hex (e.g., #RRGGBB or #RRGGBBAA), or rgb/rgba strings.</li>
+</ul>`;
+---
+<div class="property-section">
+  <Code code={`"style": {
+  "opacity": 1,
+  "backgroundColor": "#1e1e1e",
+  "fontFamily": "courier new, monospace",
+  "fontSize": 13,
+  "fontColor": "#dddddd",
+  "textAlign": "left"
+},`} lang="json" />
+  <Fragment set:html={description} />
+</div>

@@ -18,7 +18,7 @@ Media files can be selected from the property panel or added manually to a widge
 - Use only the filename and extension. Cabbage will automatically search the media folder from the root directory.
 - When using the UI editor, widgets that support image files (e.g., image, rotarySlider) will automatically display a list of available images from the media folder in the File property of the property panel.
 
-Most widgets that support images also allow embedding SVG strings, eliminating the need for separate image files. For example:
+Inline SVG can be used instead of a separate image file on the [image](/docs/widgets/image/), [button](/docs/widgets/button/), and [file button](/docs/widgets/file-button/) widgets (and on `infoButton`, which has no manual page). Set the widget's `svg` object:
 
 ```json
     "svg"       : {
@@ -26,6 +26,10 @@ Most widgets that support images also allow embedding SVG strings, eliminating t
         "padding": {"left": 3, "right": 6, "top": 6, "bottom": 6}
     },
 ```
+
+:::note
+The `svg` object embeds markup directly in the CSD. It is different from the image widget's `file` property, which references an SVG file from the `media` folder.
+:::
 
 ## Accessing audio files
 
