@@ -58,9 +58,7 @@ To print only when something happens, gate the message with a channel trigger:
 
 ```csound
 trigger:CabbageNumTrig = cabbageGetValue("printMessage")
-if trigger.trig == 1 then
-    printf("Button pressed at %.2f seconds\n", timeinsts())
-endif
+printf("Button pressed at %.2f seconds\n", trigger.trig, timeinsts())
 ```
 
 The widget is display-only and does not send values to Csound. Messages accumulate while the instrument is running.
