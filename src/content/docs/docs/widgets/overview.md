@@ -282,6 +282,7 @@ Each widget in Cabbage is documented with its properties and available channels.
 - [Button](/docs/widgets/button/)
 - [Checkbox](/docs/widgets/checkbox/)
 - [ComboBox](/docs/widgets/combobox/)
+- [Csound Output](/docs/widgets/csound-output/)
 - [File Button](/docs/widgets/file-button/)
 - [Form](/docs/widgets/form/)
 - [GenTable](/docs/widgets/gentable/)

@@ -10,6 +10,7 @@ import Channel from "../../../../components/properties/channel.astro";
 import Id from "../../../../components/properties/id.astro";
 import ToggleLabel from "../../../../components/properties/toggleLabel.astro";
 import Persistence from "../../../../components/properties/persistence.astro";
+import Svg from "../../../../components/properties/svg.astro";
 import Visible from "../../../../components/properties/visible.astro";
 import ZIndex from "../../../../components/properties/zindex.astro";
 import StyleFileButton from "../../../../components/properties/filebutton.style.astro";
@@ -94,6 +95,11 @@ When `true`, the file browser will open at the location of the last selected fil
 
 ### Persistence
 <Persistence />
+
+### SVG
+<Svg />
+
+`fileButton` uses the same button rendering, so SVG markup is drawn as an overlay on top of the button.
 
 ### Visible
 <Visible />

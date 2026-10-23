@@ -1,0 +1,16 @@
+---
+import { Code } from '@astrojs/starlight/components';
+const description = `<p>Draws inline SVG markup inside a widget. This is an alternative to loading an image file, and is supported by <code>image</code>, <code>button</code>, <code>fileButton</code>, and <code>infoButton</code>.</p>
+<ul>
+<li><strong><code>markup</code></strong>: a complete SVG string (<code>&lt;svg&gt;...&lt;/svg&gt;</code>), scaled to the widget's bounds. Leave it empty to use the widget's normal rendering.</li>
+<li><strong><code>padding</code></strong>: pixel insets applied around the drawing, so it does not touch the widget edges.</li>
+</ul>
+<p>For <code>image</code>, SVG markup takes precedence over the <code>file</code> property. For the button widgets, the SVG is drawn as a non-interactive overlay on top of the button background and label.</p>`;
+---
+<div class="property-section">
+  <Code code={`"svg": {
+  "markup": "<svg viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='#0295cf'/></svg>",
+  "padding": {"top": 4, "right": 4, "bottom": 4, "left": 4}
+}`} lang="json" />
+  <Fragment set:html={description} />
+</div>
