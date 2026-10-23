@@ -50,7 +50,7 @@ For `csoundOutput`, `label.text` sets the text shown when the widget is first cr
 Console messages are collected by the Cabbage backend and appended to the output widget. Any of Csound's printing opcodes will appear there:
 
 ```csound
-printf("Frequency: %.2f Hz\n", frequency)
+printf("Frequency: %.2f Hz\n", 1, frequency)
 prints("Instrument started\n")
 ```
 
