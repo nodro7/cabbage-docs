@@ -45,9 +45,7 @@ nchnls = 2
 
 instr 1
     trigger:CabbageNumTrig = cabbageGetValue("printMessage")
-    if trigger.trig == 1 then
-        printf("Button pressed at %.2f seconds\n", 1, timeinsts())
-    endif
+    printf("Button pressed at %.2f seconds\n", trigger.trig, timeinsts())
 endin
 
 
