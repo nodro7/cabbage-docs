@@ -9,7 +9,7 @@
 import fallback from '../data/release-fallback.json';
 import { site } from '../data/site';
 
-export type Os = 'macos' | 'windows' | 'linux';
+export type Os = 'macos' | 'windows' | 'windows-arm' | 'linux';
 
 export type ReleaseAsset = {
 	url: string;
@@ -32,9 +32,19 @@ export type Release = {
 
 const API_URL = 'https://api.github.com/repos/rorywalsh/vscabbage/releases?per_page=10';
 
-// Release assets are named vscabbage-<version>-<os>.vsix, with windows,
-// macos or linux as the system.
-const ASSET_PATTERN = /-(windows|macos|linux)\.vsix$/i;
+// Release assets are named vscabbage-<version>-<suffix>.vsix. The x64
+// Windows package is suffixed "windows-x64", and a separate "windows-arm"
+// package exists for Windows on ARM devices. Older releases named the x64
+// file plainly "windows"; accept all three so history keeps resolving.
+const ASSET_PATTERN = /-(macos|linux|windows-x64|windows-arm|windows)\.vsix$/i;
+
+const ASSET_OS: Record<string, Os> = {
+	macos: 'macos',
+	'windows-x64': 'windows',
+	'windows-arm': 'windows-arm',
+	windows: 'windows',
+	linux: 'linux',
+};
 
 type GitHubAsset = { name: string; size: number; browser_download_url: string };
 type GitHubRelease = {
@@ -47,11 +57,12 @@ type GitHubRelease = {
 };
 
 function assetsByOs(release: GitHubRelease): Record<Os, ReleaseAsset | null> {
-	const assets: Record<Os, ReleaseAsset | null> = { macos: null, windows: null, linux: null };
+	const assets: Record<Os, ReleaseAsset | null> = { macos: null, windows: null, 'windows-arm': null, linux: null };
 	for (const asset of release.assets) {
 		const match = ASSET_PATTERN.exec(asset.name);
 		if (!match) continue;
-		const os = match[1].toLowerCase() as Os;
+		const os = ASSET_OS[match[1].toLowerCase()];
+		if (!os) continue;
 		assets[os] ??= { url: asset.browser_download_url, name: asset.name, size: asset.size };
 	}
 	return assets;

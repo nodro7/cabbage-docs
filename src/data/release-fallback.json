@@ -13,6 +13,7 @@
       "name": "vscabbage-1.0.209-alpha-windows.vsix",
       "size": 21500000
     },
+    "windows-arm": null,
     "linux": {
       "url": "https://github.com/rorywalsh/vscabbage/releases/download/1.0.209-alpha/vscabbage-1.0.209-alpha-linux.vsix",
       "name": "vscabbage-1.0.209-alpha-linux.vsix",
