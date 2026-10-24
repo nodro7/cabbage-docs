@@ -18,6 +18,10 @@ import { formatDate, formatSize, getRelease } from '../lib/release';
 const release = await getRelease();
 const releaseDate = formatDate(release.date);
 const viaMarketplace = install.marketplaceUrl !== '';
+// The Windows section shows a second download for Windows on ARM devices,
+// but only when the current release actually ships the file. Older
+// releases and fallback builds have no ARM package, so nothing shows.
+const armAsset = release.assets['windows-arm'] ?? null;
 ---
 
 <SiteLayout
@@ -136,6 +140,16 @@ const viaMarketplace = install.marketplaceUrl !== '';
                             </span>
                           )}
                         </div>
+                        {system.id === 'windows' && armAsset && (
+                          <div class="install-download">
+                            <Button href={armAsset.url} variant="quiet">
+                              Download for Windows (ARM64)
+                            </Button>
+                            <span class="install-download__file">
+                              {armAsset.name}, {formatSize(armAsset.size)}
+                            </span>
+                          </div>
+                        )}
                         <p>
                           In VS Code, open the command palette ({system.paletteKey}), run Extensions: Install from VSIX
                           and choose the file you downloaded.
